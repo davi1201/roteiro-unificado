@@ -12,11 +12,17 @@ import { TorreDecisaoSection } from './sections/TorreDecisaoSection'
 import { TorreSiengeSection } from './sections/TorreSiengeSection'
 import { TorreAcessoSection } from './sections/TorreAcessoSection'
 import { TorreClassificacaoSection } from './sections/TorreClassificacaoSection'
+import { HabVendaSection } from './sections/HabVendaSection'
+import { HabRepositoriosSection } from './sections/HabRepositoriosSection'
+import { HabResponsaveisSection } from './sections/HabResponsaveisSection'
+import { HabClassificacaoSection } from './sections/HabClassificacaoSection'
+import { NdaSection } from './sections/NdaSection'
+import { ReadinessClassification } from './ReadinessClassification'
 
 /**
  * Renderiza o Section component correto para a aba ativa.
- * As 5 abas Torre 360 são cobertas por cases explícitos (Phase 6).
- * O default cobre as 5 abas Habilitações/NDA — serão implementadas na Phase 7.
+ * Todas as 10 abas têm cases explícitos após Phase 7. O `default` é fallback
+ * defensivo para o tipo enum exhaustivo (não deve ser acionado em runtime).
  */
 function renderSection(activeTab: TabKey, tenantId: string) {
   switch (activeTab) {
@@ -30,12 +36,18 @@ function renderSection(activeTab: TabKey, tenantId: string) {
       return <TorreAcessoSection tenantId={tenantId} />
     case TabKey.TorreClassificacao:
       return <TorreClassificacaoSection tenantId={tenantId} />
+    case TabKey.HabVenda:
+      return <HabVendaSection tenantId={tenantId} />
+    case TabKey.HabRepositorios:
+      return <HabRepositoriosSection tenantId={tenantId} />
+    case TabKey.HabResponsaveis:
+      return <HabResponsaveisSection tenantId={tenantId} />
+    case TabKey.HabClassificacao:
+      return <HabClassificacaoSection tenantId={tenantId} />
+    case TabKey.Nda:
+      return <NdaSection tenantId={tenantId} />
     default:
-      return (
-        <p className="mt-2 text-sm text-gray-500">
-          Esta seção ainda não possui campos. Em breve os campos estarão disponíveis aqui.
-        </p>
-      )
+      return <p className="mt-2 text-sm text-gray-500">Aba desconhecida.</p>
   }
 }
 
@@ -45,8 +57,7 @@ function renderSection(activeTab: TabKey, tenantId: string) {
  * Integra: sidebar bg-primary + TabNavigation (stepper) + ProgressBar (faixa sticky)
  * + botão Sair + hash sync com URL + cross-tenant guard.
  *
- * As 5 abas Torre 360 renderizam seus Section components via switch(activeTab).
- * As 5 abas Habilitações/NDA exibem placeholder até a Phase 7.
+ * Todas as 10 abas renderizam seus Section components via switch(activeTab) — Phase 7 completa.
  */
 export function FormLayout() {
   const { orgId: routeOrgId } = useParams<{ orgId: string }>()
@@ -121,6 +132,7 @@ export function FormLayout() {
         </aside>
         <main className="flex-1 p-4 md:p-6">
           <h1 className="text-xl font-semibold text-gray-900">{activeTabConfig.label}</h1>
+          <ReadinessClassification tenantId={tenantId} />
           {renderSection(store.activeTab, tenantId)}
         </main>
       </div>
