@@ -54,11 +54,11 @@ Fonte: padrão 8-point scale; card usa `p-6` (24px) conforme implementação exi
 |--------------|---------|-------------------|-------------|-------------------------------------------|
 | Display      | 24px    | 700 (bold)        | 1.2         | Nome do app "Roteiro Unificado" no card   |
 | Heading      | 14px    | 400 (regular)     | 1.4         | Subtítulo "Piloto Sinduscon" no card      |
-| Label        | 14px    | 500 (medium)      | 1.4         | Labels de campo (email, senha)            |
+| Label        | 14px    | 400 (regular)     | 1.4         | Labels de campo (email, senha)            |
 | Body         | 14px    | 400 (regular)     | 1.5         | Texto geral, mensagens de erro inline     |
 | Small        | 12px    | 400 (regular)     | 1.4         | Mensagem de erro inline abaixo do input   |
 
-Pesos usados nesta fase: **400** (regular) e **700** (bold) — máximo 2 pesos conforme padrão.
+Pesos usados nesta fase: **400** (regular) e **700** (bold) — máximo 2 pesos conforme padrão. Inputs são distinguidos pela borda do componente `Input`, não pelo peso do label.
 Font: Inter via `--font-sans` do `@theme {}` em `index.css`.
 
 Fonte: padrões definidos na Phase 1; tamanho de erro (`text-xs` = 12px) já implementado em `Input.tsx` linha 24.
