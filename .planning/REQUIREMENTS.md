@@ -12,8 +12,8 @@
 - [x] **AUTH-01**: Usuário pode fazer login com email e senha via Supabase Auth
 - [x] **AUTH-02**: Sessão persiste após refresh do browser (`createBrowserClient`)
 - [ ] **AUTH-03**: Usuário pode recuperar senha via link por email
-- [ ] **AUTH-04**: Ao fazer login, usuário é redirecionado para sua empresa (org) automaticamente
-- [ ] **AUTH-05**: Admin interno (SuaEquipe.IA) pode visualizar todas as empresas; construtora vê apenas a sua
+- [x] **AUTH-04**: Ao fazer login, usuário é redirecionado para sua empresa (org) automaticamente
+- [x] **AUTH-05**: Admin interno (SuaEquipe.IA) pode visualizar todas as empresas; construtora vê apenas a sua
 
 ### Multi-tenant / Organizações (ORG)
 
