@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roteiro Unificado Completo | Torre 360 + Habilitações + NDA | Piloto Sinduscon</title>
+  <style>
+    :root{
+      --blue:#123B66;
+      --blue2:#1F5F99;
+      --orange:#F28C28;
+      --ink:#172033;
+      --muted:#667085;
+      --line:#D9E2EC;
+      --soft:#F4F7FA;
+      --soft2:#FFF7ED;
+      --green:#178C63;
+      --red:#B42318;
+      --yellow:#B7791F;
+      --white:#fff;
+      --shadow: 0 16px 40px rgba(18,59,102,.12);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color:var(--ink);
+      background:linear-gradient(135deg,#eef5fb 0%,#ffffff 42%,#fff8ef 100%);
+      line-height:1.42;
+    }
+    .app{max-width:1180px;margin:0 auto;padding:24px 18px 56px;}
+    .hero{
+      background:
+        radial-gradient(circle at 90% 10%, rgba(242,140,40,.22), transparent 28%),
+        radial-gradient(circle at 10% 15%, rgba(31,95,153,.22), transparent 30%),
+        linear-gradient(135deg,var(--blue),#0E2A47 68%,#092035);
+      color:#fff;border-radius:28px;padding:26px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+    }
+    .hero:after{content:"";position:absolute;width:300px;height:300px;right:-130px;bottom:-150px;background:rgba(255,255,255,.08);border-radius:50%;}
+    .brandrow{display:flex;justify-content:space-between;gap:22px;position:relative;z-index:1;}
+    .brandtag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.88;margin-bottom:8px;font-weight:800;}
+    h1{margin:0;font-size:clamp(26px,4vw,42px);line-height:1.06;letter-spacing:-.03em;}
+    .subtitle{max-width:850px;margin:14px 0 0;font-size:16px;opacity:.9;}
+    .pillbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;position:relative;z-index:1;}
+    .pill{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.11);padding:8px 11px;border-radius:999px;font-size:12px;font-weight:700;}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1;}
+    button{font-family:inherit;cursor:pointer;border:0;font-weight:800;}
+    .btn-light{background:#fff;color:var(--blue);padding:11px 14px;border-radius:12px;}
+    .btn-ghost{background:rgba(255,255,255,.12);color:#fff;padding:11px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.24);}
+    .btn-orange{background:var(--orange);color:#1c1409;padding:11px 14px;border-radius:12px;}
+    .notice{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 28px rgba(18,59,102,.07);padding:16px;}
+    .notice div{border-left:4px solid var(--orange);padding-left:13px;}
+    .notice strong{display:block;font-size:14px;margin-bottom:4px;color:var(--blue);}
+    .notice p{margin:0;color:var(--muted);font-size:13px;}
+    .tabs{position:sticky;top:0;z-index:5;display:flex;gap:8px;flex-wrap:wrap;background:rgba(244,247,250,.92);backdrop-filter:blur(10px);padding:10px;margin:0 -4px 14px;border-radius:18px;border:1px solid rgba(217,226,236,.7);}
+    .tab{background:#fff;color:var(--blue);border:1px solid var(--line);padding:10px 13px;border-radius:12px;font-size:13px;box-shadow:0 3px 8px rgba(18,59,102,.04);}
+    .tab.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+    .panel{display:none;background:#fff;border:1px solid var(--line);border-radius:24px;padding:22px;box-shadow:var(--shadow);margin-bottom:16px;}
+    .panel.active,.print-all .panel{display:block;}
+    h2{margin:0 0 8px;font-size:25px;letter-spacing:-.02em;color:var(--blue);}
+    h3{margin:0 0 12px;font-size:17px;color:#22324a;}
+    .lead{margin:0 0 18px;color:var(--muted);max-width:940px;}
+    .section{border:1px solid var(--line);background:#fff;border-radius:20px;padding:16px;margin:14px 0;}
+    .section.soft{background:var(--soft);}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+    .field{display:flex;flex-direction:column;gap:6px;}
+    .field.full{grid-column:1/-1}.field.half{grid-column:span 2}.field.three{grid-column:span 3}
+    label{font-size:12px;font-weight:800;color:#344054;}
+    input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 11px;font:inherit;color:var(--ink);background:#fff;outline:none;}
+    textarea{min-height:76px;resize:vertical;}
+    input:focus,select:focus,textarea:focus{border-color:var(--blue2);box-shadow:0 0 0 3px rgba(31,95,153,.12);}
+    .checkgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+    .check{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;padding:10px;background:#fff;font-weight:700;font-size:13px;color:#344054;}
+    .check input{width:auto;margin-top:2px;}
+    .tablewrap{overflow:auto;border-radius:16px;border:1px solid var(--line);}
+    table{width:100%;border-collapse:collapse;min-width:900px;background:#fff;}
+    th{background:var(--blue);color:#fff;text-align:left;font-size:12px;padding:10px;white-space:nowrap;}
+    td{border-top:1px solid var(--line);padding:9px;vertical-align:top;font-size:12px;}
+    td.domain{font-weight:800;color:var(--blue);min-width:190px;}
+    td select{padding:8px;border-radius:10px;font-size:12px;}
+    td textarea{min-height:50px;border-radius:10px;font-size:12px;}
+    .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+    .score{border:1px solid var(--line);border-radius:16px;background:#fff;padding:12px;min-height:112px;}
+    .score b{display:inline-block;background:var(--soft2);color:#9a4f04;border:1px solid #ffd4a2;border-radius:999px;padding:4px 8px;margin-bottom:8px;}
+    .score span{display:block;font-size:12px;color:var(--muted);}
+    .info-card{background:linear-gradient(135deg,#f8fbff,#fff7ed);border:1px solid var(--line);border-radius:18px;padding:15px;color:#344054;}
+    .note-card{background:#fff7ed;border:1px solid #fed7aa;border-radius:18px;padding:15px;margin-top:14px;color:#5c360a;}
+    .compact-list{margin:0;padding-left:20px;color:#344054;font-size:13px;}
+    .compact-list li{margin:5px 0;}
+    .footer-note{margin-top:16px;text-align:center;color:var(--muted);font-size:12px;}
+    @media(max-width:900px){.grid{grid-template-columns:1fr 1fr}.field.half,.field.three{grid-column:1/-1}.notice{grid-template-columns:1fr}.cards,.checkgrid{grid-template-columns:1fr 1fr}.brandrow{flex-direction:column}.tabs{position:static;}}
+    @media(max-width:560px){.grid,.cards,.checkgrid{grid-template-columns:1fr}.app{padding:14px 10px 40px}.panel{padding:16px}.hero{padding:20px}}
+    @media print{
+      body{background:#fff;color:#111;}
+      .app{max-width:100%;padding:0;}
+      .hero,.tabs,.actions,.footer-note{display:none!important;}
+      .notice{box-shadow:none;border-color:#999;grid-template-columns:1fr 1fr;padding:10px;margin:0 0 10px;}
+      .panel{display:block!important;box-shadow:none;border:0;border-radius:0;padding:0;margin:0 0 16px;page-break-inside:auto;}
+      .section{break-inside:avoid;border-color:#aaa;padding:10px;margin:8px 0;}
+      h2{font-size:18px;margin-top:10px;} h3{font-size:14px;margin-bottom:6px}.lead{font-size:11px;margin-bottom:8px;}
+      input,select,textarea{border:1px solid #888;padding:5px;border-radius:4px;font-size:10px;}
+      textarea{min-height:42px;}
+      label,td,th,.check,.compact-list{font-size:10px;}
+      .grid{gap:6px}.checkgrid{gap:5px}.check{padding:5px;border-radius:5px}
+      table{min-width:0;font-size:9px;} th,td{padding:4px;} td textarea{min-height:32px;}
+      .cards{grid-template-columns:repeat(5,1fr);gap:4px}.score{padding:6px;min-height:70px;border-radius:6px}.score b{font-size:9px;padding:2px 4px}.score span{font-size:9px;}
+    }
+  
+    .section.blue{background:linear-gradient(135deg,#f8fbff,#ffffff);border-color:#cfe0ef;}
+    .section.warn{background:#fff7ed;border-color:#fed7aa;}
+    .clause p{margin:0;color:#344054;font-size:13px;}
+    .nda-title{background:var(--soft2);border:1px solid #fed7aa;border-radius:16px;padding:12px;margin-bottom:14px;color:#5c360a;}
+    .signature{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px;}
+    .sigbox{border-top:1px solid #344054;padding-top:10px;min-height:70px;text-align:center;color:#344054;}
+    .product-label{display:inline-block;border-radius:999px;background:var(--soft2);border:1px solid #fed7aa;color:#8a4b08;padding:5px 9px;font-weight:900;font-size:12px;margin-bottom:8px;}
+    .product-label.blue{background:#eef6ff;border-color:#cfe0ef;color:var(--blue);}
+    .minihelp{font-size:12px;color:var(--muted);margin-top:4px;}
+    @media print{.nda-title{padding:8px}.clause p{font-size:10px}.signature{gap:10px}.sigbox{min-height:50px;font-size:10px}.product-label{font-size:9px;padding:2px 5px}}
+</style>
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="hero">
+      <div class="brandrow">
+        <div>
+          <div class="brandtag">SuaEquipe.IA + Sinduscon | Piloto em 5 empresas</div>
+          <h1>Roteiro Unificado de Prontidão</h1>
+          <p class="subtitle">Formulário executivo para a primeira conversa com cada construtora, mantendo os blocos completos de Torre 360 e Habilitações, com cabeçalho comum e NDA mútuo para proteção das informações estratégicas das partes.</p>
+        </div>
+        <div style="min-width:220px;text-align:right;font-weight:900;opacity:.95">SE+ Torre 360<br><span style="font-size:12px;font-weight:650">+ Habilitações</span></div>
+      </div>
+      <div class="pillbar">
+        <span class="pill">Cabeçalho comum</span>
+        <span class="pill">Torre 360 completa</span>
+        <span class="pill">Habilitações completa</span>
+        <span class="pill">NDA mútuo</span>
+      </div>
+      <div class="actions">
+        <button class="btn-light" onclick="window.print()">Imprimir / salvar PDF</button>
+        <button class="btn-ghost" onclick="expandAll()">Mostrar todas</button>
+        <button class="btn-ghost" onclick="collapseToFirst()">Voltar para abas</button>
+        <button class="btn-orange" onclick="clearForm()">Limpar formulário</button>
+      </div>
+    </header>
+
+    <section class="notice">
+      <div>
+        <strong>Objetivo da reunião</strong>
+        <p>Medir prontidão gerencial, técnica, operacional e documental para colocar os produtos em produção com segurança.</p>
+      </div>
+      <div>
+        <strong>Regra de condução</strong>
+        <p>Não pré-definir recorte antes de entender a realidade. A classificação final deve nascer dos dados, responsabilidades, repositórios e acessos encontrados.</p>
+      </div>
+    </section>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="inicio">Identificação</button>
+      <button class="tab" data-tab="t_decisao">Torre | Decisão</button>
+      <button class="tab" data-tab="t_sienge">Torre | Sienge</button>
+      <button class="tab" data-tab="t_acesso">Torre | Acesso</button>
+      <button class="tab" data-tab="t_fechamento">Torre | Classificação</button>
+      <button class="tab" data-tab="h_venda">Hab. | Venda</button>
+      <button class="tab" data-tab="h_repositorios">Hab. | Repositórios</button>
+      <button class="tab" data-tab="h_responsabilidades">Hab. | Responsáveis</button>
+      <button class="tab" data-tab="h_fechamento">Hab. | Classificação</button>
+      <button class="tab" data-tab="nda">NDA</button>
+    </nav>
+
+    <main>
+      
+      <section id="inicio" class="panel active">
+        <h2>Identificação comum da reunião</h2>
+        <p class="lead">Cabeçalho único para os dois roteiros. Use esta aba para registrar quem está na conversa, qual empresa será avaliada e quais áreas estarão envolvidas na prontidão para produção da Torre 360 e das Habilitações.</p>
+        <div class="section">
+          <h3>Empresa, participantes e papéis</h3>
+          <div class="grid">
+            <div class="field half"><label>Empresa / grupo</label><input placeholder="Nome da construtora ou grupo" /></div>
+            <div class="field"><label>CNPJ principal</label><input placeholder="00.000.000/0000-00" /></div>
+            <div class="field"><label>Data da reunião</label><input type="date" /></div>
+            <div class="field half"><label>Participantes e papéis</label><textarea placeholder="Diretoria, financeiro, engenharia, TI/Sienge, comercial, documentação, jurídico, controladoria..."></textarea></div>
+            <div class="field"><label>Sponsor do piloto</label><input placeholder="Nome e cargo" /></div>
+            <div class="field"><label>Responsável técnico/Sienge</label><input placeholder="Nome e contato" /></div>
+            <div class="field"><label>Responsável por habilitações/documentos</label><input placeholder="Nome e contato" /></div>
+            <div class="field"><label>Quem conduz as oportunidades comerciais?</label><input placeholder="Diretoria, comercial, engenharia, administrativo..." /></div>
+            <div class="field"><label>Nº de CNPJs/SPEs no escopo</label><input placeholder="Quantidade e observações" /></div>
+            <div class="field"><label>Nº de obras/empreendimentos</label><input placeholder="Quantidade, status e observações" /></div>
+            <div class="field half"><label>Principal prioridade para Torre 360</label><textarea placeholder="Ex.: caixa, margem por obra, orçado x realizado, avanço físico, vendas/estoque, inadimplência, compras críticas..."></textarea></div>
+            <div class="field half"><label>Principal prioridade para Habilitações</label><textarea placeholder="Ex.: financiamento, venda, documentação comercial, regularidade de obra, homologação, licitação, fiscalização..."></textarea></div>
+          </div>
+        </div>
+        <div class="section soft">
+          <h3>Critério da primeira conversa</h3>
+          <p class="minihelp">Capturar apenas o que muda planejamento, contrato, escopo, preço, cronograma, risco de implantação ou priorização do piloto. A conversa não substitui auditoria documental nem desenho técnico detalhado de integração.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="t_decisao">
+<h2>1. Como a empresa decide hoje</h2>
+<p class="lead">Bloco gerencial. Serve para entender como a informação chega à diretoria, se existe BI e quais números são confiáveis ou contestados.</p>
+<div class="section">
+<h3>Ritual e fontes de decisão</h3>
+<div class="grid">
+<div class="field"><label>Existe reunião de gestão?</label><select><option>Selecionar</option><option>Semanal</option><option>Quinzenal</option><option>Mensal</option><option>Eventual</option><option>Não estruturada</option></select></div>
+<div class="field"><label>Como a informação chega?</label><select><option>Selecionar</option><option>BI / dashboard</option><option>Excel / planilhas</option><option>Relatórios Sienge</option><option>PDF / apresentação</option><option>E-mail / WhatsApp</option><option>Misto</option></select></div>
+<div class="field"><label>Existe BI hoje?</label><select><option>Selecionar</option><option>Sim, Power BI</option><option>Sim, outra ferramenta</option><option>Em implantação</option><option>Não</option></select></div>
+<div class="field"><label>Quem prepara a informação?</label><input placeholder="Controladoria, financeiro, engenharia, TI..."/></div>
+<div class="field half"><label>Relatórios/dashboards usados pela diretoria</label><textarea placeholder="Liste os principais materiais usados para decidir hoje."></textarea></div>
+<div class="field half"><label>Números questionados ou divergentes</label><textarea placeholder="Ex.: caixa projetado, custo de obra, avanço físico, vendas, estoque, inadimplência..."></textarea></div>
+</div>
+</div>
+<div class="section">
+<h3>Decisões que a Torre deve melhorar primeiro</h3>
+<div class="checkgrid">
+<label class="check"><input type="checkbox"/> Caixa realizado/projetado</label>
+<label class="check"><input type="checkbox"/> Contas a pagar/receber</label>
+<label class="check"><input type="checkbox"/> Inadimplência</label>
+<label class="check"><input type="checkbox"/> Margem por obra</label>
+<label class="check"><input type="checkbox"/> Orçado x realizado</label>
+<label class="check"><input type="checkbox"/> Avanço físico/prazo</label>
+<label class="check"><input type="checkbox"/> Compras críticas</label>
+<label class="check"><input type="checkbox"/> Vendas/estoque</label>
+<label class="check"><input type="checkbox"/> Pós-obra/qualidade</label>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="field"><label>Nível gerencial</label><select><option>Selecionar</option><option>G1 — Decisão informal</option><option>G2 — Relatórios manuais</option><option>G3 — BI parcial</option><option>G4 — Gestão orientada por dados</option><option>G5 — Gestão avançada</option></select></div>
+<div class="field three"><label>Observações gerenciais essenciais</label><textarea placeholder="Registre dores de decisão, maturidade, divergências e oportunidades para a Torre 360."></textarea></div>
+</div>
+</div>
+</section>
+      <section class="panel" id="t_sienge">
+<h2>2. Sienge: módulos, uso real e controles paralelos</h2>
+<p class="lead">A pergunta não é apenas se a empresa tem Sienge. É se cada domínio está em uso real, com dado confiável, ou se a decisão depende de Excel, BI, CRM ou controle paralelo.</p>
+<div class="section">
+<h3>Matriz enxuta dos domínios críticos</h3>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Domínio</th>
+<th>Contratado no Sienge?</th>
+<th>Uso real</th>
+<th>Confiança do dado</th>
+<th>Controle paralelo?</th>
+<th>Observações que mudam escopo</th>
+</tr>
+</thead>
+<tbody id="moduleRowsT"></tbody>
+</table>
+</div>
+</div>
+<div class="section soft">
+<h3>Pontos críticos de leitura</h3>
+<ul class="compact-list">
+<li><strong>Financeiro bom sem centro de custo confiável</strong> limita margem por obra.</li>
+<li><strong>Orçamento sem atualização do realizado</strong> enfraquece orçado x realizado.</li>
+<li><strong>Avanço físico fora do sistema</strong> exige carga governada ou fase de ativação.</li>
+<li><strong>Comercial em CRM/Excel</strong> pode exigir integração ou planilha oficial.</li>
+<li><strong>BI existente</strong> precisa ser avaliado como fonte, não aceito automaticamente como verdade.</li>
+</ul>
+</div>
+</section>
+      <section class="panel" id="t_acesso">
+<h2>3. Questões técnicas de acesso aos dados</h2>
+<p class="lead">Bloco técnico em nível macro. Aprofundamento de endpoints, regras e layouts fica para a próxima etapa.</p>
+<div class="section">
+<h3>Ambiente e acessos</h3>
+<div class="grid">
+<div class="field"><label>Ambiente Sienge</label><select><option>Selecionar</option><option>Nuvem/Data Center</option><option>Local</option><option>Híbrido</option><option>Confirmar</option></select></div>
+<div class="field"><label>Subdomínio/tenant conhecido?</label><select><option>Selecionar</option><option>Sim</option><option>Não</option><option>Confirmar</option></select></div>
+<div class="field"><label>Usuário técnico somente leitura?</label><select><option>Selecionar</option><option>Possível</option><option>Não possível</option><option>Confirmar</option></select></div>
+<div class="field"><label>Ambiente de homologação?</label><select><option>Selecionar</option><option>Sim</option><option>Não</option><option>Confirmar</option></select></div>
+<div class="field"><label>API REST</label><select><option>Selecionar</option><option>Disponível</option><option>Não disponível</option><option>Confirmar</option><option>Parcial</option></select></div>
+<div class="field"><label>Bulk Data</label><select><option>Selecionar</option><option>Disponível</option><option>Não disponível</option><option>Confirmar</option><option>Parcial</option></select></div>
+<div class="field"><label>Pacote/limite de API conhecido?</label><select><option>Selecionar</option><option>Sim</option><option>Não</option><option>Confirmar com Sienge/TI</option></select></div>
+<div class="field"><label>Webhooks relevantes agora?</label><select><option>Selecionar</option><option>Sim</option><option>Não</option><option>Confirmar</option><option>Não aplicável na fase 1</option></select></div>
+<div class="field full"><label>Outras fontes oficiais ou relevantes</label><textarea placeholder="BI atual, Power BI dataset, data warehouse, planilhas oficiais, CRM, app de obra, sistema contábil, relatórios exportados..."></textarea></div>
+<div class="field full"><label>Restrições de segurança/confidencialidade</label><textarea placeholder="Permissões, aprovação de acesso, NDA, dados sensíveis de negócio, limitação por CNPJ/obra/módulo..."></textarea></div>
+</div>
+</div>
+<div class="section">
+<h3>Se todos os dados estiverem no Sienge</h3>
+<div class="info-card">
+<p><strong>Cenário ideal não elimina validação.</strong> Mesmo com Sienge maduro, a Torre 360 ainda precisa confirmar uso real dos módulos, cadastros estruturais, centros de custo, qualidade dos lançamentos, API/Bulk, limites de consumo e regras dos indicadores.</p>
+</div>
+<div class="checkgrid" style="margin-top:12px">
+<label class="check"><input type="checkbox"/> Módulos realmente alimentados</label>
+<label class="check"><input type="checkbox"/> Empresas, obras e centros corretos</label>
+<label class="check"><input type="checkbox"/> Dados com histórico mínimo</label>
+<label class="check"><input type="checkbox"/> API/Bulk com acesso autorizado</label>
+<label class="check"><input type="checkbox"/> Limites compatíveis com o volume</label>
+<label class="check"><input type="checkbox"/> Regras de indicadores validadas</label>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="field full"><label>Observação técnica essencial</label><textarea placeholder="Registre aqui apenas o que muda viabilidade técnica, prazo, preço ou risco."></textarea></div>
+</div>
+</div>
+</section>
+      <section class="panel" id="t_fechamento">
+<h2>4. Classificação final e plano macro</h2>
+<p class="lead">A reunião deve terminar com uma classificação objetiva. Sem isso, vira conversa; com isso, vira insumo para contrato, escopo, preço e cronograma.</p>
+<div class="section">
+<h3>Classificação da empresa</h3>
+<div class="cards">
+<div class="score"><b>T360-A</b><span>Pronta para integração. Dados e acessos maduros.</span></div>
+<div class="score"><b>T360-B</b><span>Integração híbrida. Sienge bom, mas há BI/planilhas relevantes.</span></div>
+<div class="score"><b>T360-C</b><span>Boa oportunidade, mas exige ativação de dados.</span></div>
+<div class="score"><b>T360-D</b><span>Risco alto: dados frágeis, divergências ou responsáveis difusos.</span></div>
+<div class="score"><b>T360-E</b><span>Não recomendada para piloto agora.</span></div>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="field"><label>Classificação final</label><select><option>Selecionar</option><option>T360-A — Pronta para integração</option><option>T360-B — Integração híbrida</option><option>T360-C — Exige ativação de dados</option><option>T360-D — Risco alto</option><option>T360-E — Não recomendada agora</option></select></div>
+<div class="field"><label>Abordagem recomendada</label><select><option>Selecionar</option><option>Integração Sienge/API/Bulk</option><option>Híbrida: Sienge + BI/planilhas</option><option>Ativação de dados primeiro</option><option>Reconciliação com BI atual</option><option>Projeto preparatório</option></select></div>
+<div class="field half"><label>Justificativa curta</label><textarea placeholder="Por que essa classificação foi escolhida?"></textarea></div>
+</div>
+</div>
+<div class="section">
+<h3>Plano macro e riscos</h3>
+<div class="grid">
+<div class="field half"><label>Fase 1 sugerida</label><textarea placeholder="Ex.: financeiro + obra; painel executivo inicial; leitura IA; pauta de decisão; limites e premissas da fase."></textarea></div>
+<div class="field half"><label>Fase 2 sugerida</label><textarea placeholder="Ex.: comercial, suprimentos, pós-obra, cenários, alertas avançados, ampliação de obras/CNPJs."></textarea></div>
+<div class="field half"><label>Fora do escopo inicial</label><textarea placeholder="Ex.: escrita no Sienge, saneamento histórico completo, todos os módulos, integração não autorizada."></textarea></div>
+<div class="field half"><label>Riscos para contrato, preço e cronograma</label><textarea placeholder="Ex.: API incerta, planilhas críticas, BI divergente, centro de custo inconsistente, avanço físico fora do sistema."></textarea></div>
+</div>
+</div>
+<div class="section">
+<h3>Evidências essenciais a solicitar</h3>
+<div class="checkgrid">
+<label class="check"><input type="checkbox"/> Lista de módulos Sienge contratados</label>
+<label class="check"><input type="checkbox"/> Confirmação API REST/Bulk</label>
+<label class="check"><input type="checkbox"/> Relatórios usados pela diretoria</label>
+<label class="check"><input type="checkbox"/> BI atual: prints, links ou descrição</label>
+<label class="check"><input type="checkbox"/> Planilhas críticas</label>
+<label class="check"><input type="checkbox"/> Lista de CNPJs e obras ativas</label>
+<label class="check"><input type="checkbox"/> Exemplo de fluxo de caixa</label>
+<label class="check"><input type="checkbox"/> Exemplo de orçamento x realizado</label>
+<label class="check"><input type="checkbox"/> Responsáveis por área</label>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="field full"><label>Próximos passos</label><textarea placeholder="Quem envia o quê, até quando, e qual será a próxima conversa técnica."></textarea></div>
+</div>
+</div>
+<div class="note-card">
+<strong>Crítica de estratégia:</strong> para o piloto funcionar como produto, todas as 5 empresas devem passar pelo mesmo roteiro. A variação deve estar nas respostas e na classificação, não no método. Isso permite comparar maturidade, definir preço, controlar expectativa e evitar cinco escopos artesanais.
+        </div>
+</section>
+      <section class="panel" id="h_venda">
+<h2>1. Como a empresa vende e onde a habilitação entra</h2>
+<p class="lead">Bloco comercial. Serve para entender em quais cenários a empresa precisa provar regularidade, capacidade técnica, documentação, certidões, licenças, seguros, garantias ou requisitos de clientes.</p>
+<div class="section">
+<h3>Canais e situações comerciais</h3>
+<div class="grid">
+<div class="field"><label>Principal forma de venda</label><select><option>Selecionar</option><option>Venda própria/incorporação</option><option>Contratos privados</option><option>Licitações</option><option>Obras para terceiros</option><option>Financiamento habitacional</option><option>Misto</option></select></div>
+<div class="field"><label>Quem pede documentos?</label><select><option>Selecionar</option><option>Bancos</option><option>Clientes privados</option><option>Órgãos públicos</option><option>Seguradoras</option><option>Cartórios</option><option>Investidores</option><option>Misto</option></select></div>
+<div class="field"><label>Prazo típico para reunir documentos</label><select><option>Selecionar</option><option>Mesmo dia</option><option>1 a 3 dias</option><option>Até 1 semana</option><option>Mais de 1 semana</option><option>Não há padrão</option></select></div>
+<div class="field"><label>Já perdeu oportunidade por documentação?</label><select><option>Selecionar</option><option>Sim</option><option>Não</option><option>Quase perdeu</option><option>Não sabe</option></select></div>
+<div class="field half"><label>Principais exigências recorrentes</label><textarea placeholder="Certidões, balanço, acervo técnico, CREA/CAU, alvarás, licenças, seguros, garantias, documentos da obra, documentos da SPE, contratos, declarações..."></textarea></div>
+<div class="field half"><label>Onde costuma travar?</label><textarea placeholder="Documento vencido, não localizado, depende de terceiro, dúvida sobre aplicabilidade, demora do contador, jurídico, engenharia, banco, cartório..."></textarea></div>
+</div>
+</div>
+<div class="section">
+<h3>Matriz de cenários de habilitação</h3>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Cenário</th>
+<th>Acontece hoje?</th>
+<th>Importância</th>
+<th>Quem conduz</th>
+<th>Principal dificuldade</th>
+<th>Observações para escopo</th>
+</tr>
+</thead>
+<tbody id="scenarioRowsH"></tbody>
+</table>
+</div>
+</div>
+</section>
+      <section class="panel" id="h_repositorios">
+<h2>2. Habilitações, repositórios e evidências</h2>
+<p class="lead">Aqui queremos saber onde está a documentação real da empresa, se existe controle de validade e se as evidências estão prontas para virar uma matriz operacional no SE+ Habilitações.</p>
+<div class="section">
+<h3>Onde os documentos vivem hoje</h3>
+<div class="checkgrid">
+<label class="check"><input type="checkbox"/> Google Drive</label>
+<label class="check"><input type="checkbox"/> OneDrive / SharePoint</label>
+<label class="check"><input type="checkbox"/> Dropbox</label>
+<label class="check"><input type="checkbox"/> Servidor local</label>
+<label class="check"><input type="checkbox"/> Sienge / ERP</label>
+<label class="check"><input type="checkbox"/> Sistema jurídico</label>
+<label class="check"><input type="checkbox"/> Contador</label>
+<label class="check"><input type="checkbox"/> Escritório jurídico</label>
+<label class="check"><input type="checkbox"/> E-mail / WhatsApp</label>
+<label class="check"><input type="checkbox"/> Pastas físicas</label>
+<label class="check"><input type="checkbox"/> Terceiros / fornecedores</label>
+<label class="check"><input type="checkbox"/> Não há repositório padrão</label>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="field"><label>Existe padrão de pastas?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field"><label>Existe padrão de nomes?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field"><label>Controlam validade?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field"><label>Existe trilha de versão?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field full"><label>Observações sobre repositórios</label><textarea placeholder="Onde está o material mais confiável? Quem acessa? Existe duplicidade? Há documentos em poder de terceiros?"></textarea></div>
+</div>
+</div>
+<div class="section">
+<h3>Matriz enxuta de habilitações e documentos críticos</h3>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Domínio de habilitação</th>
+<th>Existe controle?</th>
+<th>Repositório principal</th>
+<th>Responsável interno</th>
+<th>Terceiros envolvidos</th>
+<th>Observações que mudam escopo</th>
+</tr>
+</thead>
+<tbody id="documentRowsH"></tbody>
+</table>
+</div>
+</div>
+<div class="section soft">
+<h3>Bloco técnico: se todos os documentos já estivessem organizados</h3>
+<p class="lead" style="margin-bottom:10px">No cenário ideal, o SE+ Habilitações começa com matriz, responsáveis, validade e evidências já carregáveis. Mesmo assim, a primeira conversa precisa confirmar:</p>
+<ul class="compact-list">
+<li><strong>Documento localizado não significa documento válido.</strong> Pode estar vencido, incompleto ou não atender à exigência específica.</li>
+<li><strong>Repositório organizado não significa responsabilidade definida.</strong> Alguém precisa responder por renovar, validar e enviar.</li>
+<li><strong>Certidão da empresa não resolve tudo.</strong> Algumas exigências são por obra, SPE, terreno, profissional, fornecedor, contrato ou cliente.</li>
+<li><strong>Terceiro crítico vira risco de prazo.</strong> Contador, jurídico, SST, engenheiro, fornecedor e cartório precisam entrar no mapa de dependências.</li>
+<li><strong>A plataforma não deve prometer regularidade automática.</strong> Ela organiza, controla, alerta, gera kit e evidencia lacunas.</li>
+</ul>
+</div>
+</section>
+      <section class="panel" id="h_responsabilidades">
+<h2>3. Responsabilidades, rotina e dificuldades</h2>
+<p class="lead">Este bloco mostra se a empresa tem dono para o processo. Habilitação sem responsável vira pasta bonita sem operação.</p>
+<div class="section">
+<h3>Mapa rápido de responsabilidades</h3>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Atividade</th>
+<th>Quem faz hoje?</th>
+<th>Existe substituto?</th>
+<th>Terceiro depende?</th>
+<th>Maior dificuldade</th>
+<th>Observações</th>
+</tr>
+</thead>
+<tbody id="responsibilityRowsH"></tbody>
+</table>
+</div>
+</div>
+<div class="section">
+<h3>Dificuldades operacionais recorrentes</h3>
+<div class="checkgrid">
+<label class="check"><input type="checkbox"/> Documento vencido sem alerta</label>
+<label class="check"><input type="checkbox"/> Documento não localizado</label>
+<label class="check"><input type="checkbox"/> Dependência do contador</label>
+<label class="check"><input type="checkbox"/> Dependência do jurídico</label>
+<label class="check"><input type="checkbox"/> Dependência da engenharia</label>
+<label class="check"><input type="checkbox"/> Dependência de fornecedores</label>
+<label class="check"><input type="checkbox"/> Dúvida sobre aplicabilidade</label>
+<label class="check"><input type="checkbox"/> Falta de padrão de envio</label>
+<label class="check"><input type="checkbox"/> Retrabalho para montar kit</label>
+<label class="check"><input type="checkbox"/> Documentos em WhatsApp/e-mail</label>
+<label class="check"><input type="checkbox"/> Falta de histórico</label>
+<label class="check"><input type="checkbox"/> Ninguém é dono do processo</label>
+</div>
+<div class="grid" style="margin-top:12px">
+<div class="field"><label>Tempo médio para montar um kit</label><select><option>Selecionar</option><option>Mesmo dia</option><option>1 a 3 dias</option><option>Até 1 semana</option><option>Mais de 1 semana</option><option>Não medem</option></select></div>
+<div class="field"><label>Existe checklist padrão?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field"><label>Existe rotina de renovação?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field"><label>Existe validação antes do envio?</label><select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option></select></div>
+<div class="field full"><label>Observações sobre rotina e dificuldades</label><textarea placeholder="Registre gargalos humanos, dependências, resistência, riscos de prazo, pontos de controle e oportunidades de implantação."></textarea></div>
+</div>
+</div>
+</section>
+      <section class="panel" id="h_fechamento">
+<h2>4. Classificação final e plano macro</h2>
+<p class="lead">A reunião precisa terminar com uma classificação. Sem isso, a conversa vira anotação e não vira contrato, escopo, preço nem cronograma.</p>
+<div class="section">
+<h3>Classificação de maturidade Habilitações</h3>
+<div class="cards">
+<div class="score"><b>HAB-A</b><span><strong>Pronta para operação.</strong> Documentos organizados, responsáveis definidos, validade controlada e cenários comerciais claros.</span></div>
+<div class="score"><b>HAB-B</b><span><strong>Organizada com lacunas.</strong> Há repositório e responsáveis, mas alguns documentos, terceiros ou validades precisam de ajuste.</span></div>
+<div class="score"><b>HAB-C</b><span><strong>Controle parcial.</strong> Há documentos, mas dispersos; depende de pessoas-chave, planilhas, contador, jurídico ou engenharia.</span></div>
+<div class="score"><b>HAB-D</b><span><strong>Risco alto.</strong> Sem rotina clara, documentos dispersos, prazos críticos e risco real de perder oportunidade.</span></div>
+<div class="score"><b>HAB-E</b><span><strong>Não recomendada sem ativação.</strong> Falta sponsor, responsável, repositório mínimo ou disposição para organizar dados.</span></div>
+</div>
+</div>
+<div class="section">
+<h3>Síntese para planejamento</h3>
+<div class="grid">
+<div class="field"><label>Classificação final</label><select><option>Selecionar</option><option>HAB-A — Pronta para operação</option><option>HAB-B — Organizada com lacunas</option><option>HAB-C — Controle parcial</option><option>HAB-D — Risco alto</option><option>HAB-E — Não recomendada sem ativação</option></select></div>
+<div class="field"><label>Abordagem recomendada</label><select><option>Selecionar</option><option>Implantar direto</option><option>Implantar com carga inicial assistida</option><option>Ativar repositório e responsáveis primeiro</option><option>Começar por dossiê específico</option><option>Fazer fase preparatória antes do produto</option></select></div>
+<div class="field"><label>Escopo inicial sugerido</label><select><option>Selecionar</option><option>Empresa/CNPJ</option><option>Obra/empreendimento</option><option>Financiamento</option><option>Licitação</option><option>Contrato privado/homologação</option><option>Fiscalização/auditoria</option><option>Misto reduzido</option></select></div>
+<div class="field"><label>Complexidade/preço</label><select><option>Selecionar</option><option>Baixa</option><option>Média</option><option>Alta</option><option>Crítica</option></select></div>
+<div class="field half"><label>Fase 1 sugerida</label><textarea placeholder="Ex.: matriz de aplicabilidade + repositório mínimo + kit de habilitação para financiamento/licitação/contrato."></textarea></div>
+<div class="field half"><label>Fase 2 sugerida</label><textarea placeholder="Ex.: ampliar para fornecedores, obras, terceiros, alertas de vencimento, dossiês recorrentes e indicadores executivos."></textarea></div>
+<div class="field half"><label>Riscos principais para contrato</label><textarea placeholder="Ex.: documentos em terceiros, ausência de responsável, repositório disperso, validade não controlada, exigências variáveis, jurídico/contador fora do fluxo."></textarea></div>
+<div class="field half"><label>Evidências essenciais a solicitar</label><textarea placeholder="Ex.: exemplo de checklist, certidões, árvore de pastas, documentos usados em financiamento/licitação, lista de responsáveis, amostra de kit enviado."></textarea></div>
+<div class="field full"><label>Observações finais para proposta, escopo, preço e cronograma</label><textarea placeholder="Registre o que precisa entrar como premissa, fora do escopo, dependência do cliente, riscos e próximos passos."></textarea></div>
+</div>
+</div>
+<div class="section soft">
+<h3>Análise crítica da coleta no piloto</h3>
+<ul class="compact-list">
+<li><strong>Não transformar a primeira reunião em auditoria documental.</strong> O objetivo é classificar prontidão e definir escopo inicial.</li>
+<li><strong>Não conversar apenas com quem arquiva documentos.</strong> Quem vende precisa explicar onde a habilitação bloqueia receita.</li>
+<li><strong>Não aceitar “tem Drive” como maturidade.</strong> Repositório sem validade, responsável e regra de envio não sustenta operação.</li>
+<li><strong>Não começar amplo demais.</strong> O piloto deve escolher uma empresa, uma obra ou um cenário de venda prioritário.</li>
+<li><strong>Padronizar a coleta nas 5 empresas.</strong> A comparação é o que vai mostrar se o produto escala ou vira consultoria artesanal.</li>
+</ul>
+</div>
+</section>
+      <section class="panel" id="nda">
+<h2>NDA mútuo — minuta profissional equilibrada</h2>
+<p class="lead">Minuta para proteger as duas partes durante a reunião, diagnóstico, piloto e negociação. Recomenda-se validação jurídica antes da assinatura formal.</p>
+<div class="section">
+<div class="nda-title">ACORDO MÚTUO DE CONFIDENCIALIDADE — DIAGNÓSTICO TÉCNICO-COMERCIAL E PILOTO</div>
+<div class="grid">
+<div class="field half"><label>Parte A</label><input placeholder="Construtora / Grupo"/></div>
+<div class="field"><label>CNPJ</label><input/></div>
+<div class="field"><label>Representante</label><input/></div>
+<div class="field half"><label>Parte B</label><input placeholder="SuaEquipe.IA / DPO Serviços / outra razão social"/></div>
+<div class="field"><label>CNPJ</label><input/></div>
+<div class="field"><label>Representante</label><input/></div>
+<div class="field"><label>Data</label><input type="date"/></div>
+<div class="field"><label>Vigência da obrigação</label><select><option>5 anos</option><option>3 anos</option><option>Enquanto a informação permanecer confidencial</option><option>Outro</option></select></div>
+<div class="field half"><label>Foro</label><input placeholder="Ex.: Maringá/PR ou outro"/></div>
+</div>
+</div>
+<div class="section clause">
+<h3>1. Objeto</h3>
+<p>As partes reconhecem que, para avaliar a viabilidade técnica, comercial, operacional e estratégica dos produtos Torre 360 e Habilitações no contexto do piloto Sinduscon, poderão compartilhar informações confidenciais, estratégicas, técnicas, comerciais, financeiras, operacionais, documentais, de sistemas, processos, clientes, fornecedores, obras, indicadores, repositórios, métodos, modelos, arquiteturas, prompts, agentes, templates, propostas, preços, cronogramas, dados e materiais de negócio.</p>
+</div>
+<div class="section clause">
+<h3>2. Confidencialidade mútua</h3>
+<p>O dever de confidencialidade é recíproco. A construtora protege metodologias, soluções, arquitetura, agentes, critérios técnicos, modelos comerciais e materiais da SuaEquipe.IA. A SuaEquipe.IA protege dados, documentos, indicadores, sistemas, processos, oportunidades comerciais, estratégias, obras, clientes, fornecedores e informações internas da construtora.</p>
+</div>
+<div class="section clause">
+<h3>3. Uso permitido</h3>
+<p>As informações confidenciais só poderão ser utilizadas para diagnóstico, desenho de escopo, proposta, contrato, planejamento técnico, execução do piloto e avaliação de continuidade. É vedado usar as informações para finalidade concorrencial, divulgação externa, venda a terceiros, engenharia reversa, cópia de metodologia ou exploração comercial não autorizada.</p>
+</div>
+<div class="section clause">
+<h3>4. Informações não confidenciais</h3>
+<p>Não serão consideradas confidenciais as informações que: sejam públicas sem violação deste acordo; já eram conhecidas legitimamente pela parte receptora; sejam recebidas de terceiro autorizado; sejam desenvolvidas de forma independente; ou precisem ser reveladas por obrigação legal, regulatória ou ordem de autoridade competente, com comunicação prévia à outra parte sempre que possível.</p>
+</div>
+<div class="section clause">
+<h3>5. Proteção, acesso e compartilhamento interno</h3>
+<p>Cada parte deverá adotar cuidados razoáveis e compatíveis com a natureza das informações, limitando o acesso a sócios, colaboradores, consultores, fornecedores ou parceiros que precisem conhecer os dados para a finalidade do piloto e que estejam sujeitos a deveres de confidencialidade equivalentes.</p>
+</div>
+<div class="section clause">
+<h3>6. Dados pessoais, LGPD e dados estratégicos</h3>
+<p>Quando houver dados pessoais, as partes deverão observar a legislação aplicável de proteção de dados, compartilhar apenas o necessário, preferencialmente com anonimização ou minimização, e definir em contrato específico os papéis, finalidades, bases legais, medidas de segurança, retenção e descarte. Informações empresariais estratégicas, ainda que não sejam dados pessoais, também deverão ser protegidas como confidenciais.</p>
+</div>
+<div class="section clause">
+<h3>7. Propriedade intelectual e inexistência de licença</h3>
+<p>O compartilhamento de informações não transfere propriedade intelectual, know-how, marcas, software, documentos, templates, bases, métodos, códigos, agentes, prompts, materiais ou direitos comerciais. Qualquer uso, reprodução, adaptação, distribuição ou exploração depende de autorização expressa e contrato próprio.</p>
+</div>
+<div class="section clause">
+<h3>8. Devolução, eliminação e registros mínimos</h3>
+<p>Mediante solicitação, a parte receptora deverá devolver ou eliminar materiais confidenciais recebidos, salvo registros mínimos necessários para comprovar tratativas, cumprir obrigações legais, exercer direitos ou manter histórico de auditoria, sempre preservado o dever de confidencialidade.</p>
+</div>
+<div class="section clause">
+<h3>9. Incidentes, divulgação indevida e responsabilização</h3>
+<p>Em caso de acesso, uso ou divulgação indevida, a parte que identificar o evento deverá comunicar a outra parte em prazo razoável, cooperar para mitigação dos danos e responder por perdas comprovadas decorrentes de violação deste acordo, sem prejuízo de medidas judiciais ou extrajudiciais cabíveis.</p>
+</div>
+<div class="section clause">
+<h3>10. Independência das partes</h3>
+<p>Este acordo não obriga a contratação, exclusividade, sociedade, parceria formal, mandato ou continuidade do piloto. Qualquer contratação, escopo, preço, cronograma, nível de serviço, acesso a sistemas ou tratamento de dados deverá ser formalizado em instrumento próprio.</p>
+</div>
+<div class="section clause">
+<h3>11. Assinaturas</h3>
+<div class="signature">
+<div class="sigbox">Parte A<br/>Nome / cargo / CPF</div>
+<div class="sigbox">Parte B<br/>Nome / cargo / CPF</div>
+</div>
+</div>
+</section>
+    </main>
+
+    <div class="footer-note">Arquivo HTML autônomo. Para preservar as respostas, use “Imprimir / salvar PDF” ao final da reunião. A minuta de NDA deve ser validada juridicamente antes da assinatura formal.</div>
+  </div>
+
+  <script>
+    const moduleRowsT = document.getElementById('moduleRowsT');
+    const modulesT = [
+      'Cadastros: empresas, obras, empreendimentos e centros de custo',
+      'Financeiro: contas a pagar, receber, caixa e bancos',
+      'Inadimplência e carteira de recebíveis',
+      'Orçamento de obra e orçado x realizado',
+      'Planejamento, cronograma e avanço físico',
+      'Medições e contratos de empreiteiros',
+      'Compras, suprimentos e custo comprometido',
+      'Comercial: vendas, reservas e contratos',
+      'Unidades, estoque imobiliário e tabela de preços',
+      'Contabilidade/fiscal e visão societária',
+      'Pós-obra, assistência técnica e qualidade',
+      'BI, planilhas de diretoria e controles paralelos'
+    ];
+    function sel(options){ return `<select>${options.map(o=>`<option>${o}</option>`).join('')}</select>`; }
+    if(moduleRowsT){
+      modulesT.forEach(m=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML = `
+          <td class="domain">${m}</td>
+          <td>${sel(['Selecionar','Sim','Não','Não sabe','Não aplicável'])}</td>
+          <td>${sel(['Selecionar','Total','Parcial','Baixo','Não usa'])}</td>
+          <td>${sel(['Selecionar','Alta','Média','Baixa','Não confiável'])}</td>
+          <td>${sel(['Selecionar','Não','Sim, Excel','Sim, BI','Sim, outro sistema','Sim, informal'])}</td>
+          <td><textarea placeholder="Registrar só o que muda escopo, risco, preço ou cronograma."></textarea></td>`;
+        moduleRowsT.appendChild(tr);
+      });
+    }
+
+    const selectYesNo = '<select><option>Selecionar</option><option>Sim</option><option>Parcial</option><option>Não</option><option>Não sabe</option></select>';
+    const selectImportance = '<select><option>Selecionar</option><option>Alta</option><option>Média</option><option>Baixa</option><option>Eventual</option></select>';
+    const scenarioData = [
+      'Venda própria de unidades / incorporação',
+      'Contratos privados com clientes ou investidores',
+      'Financiamento habitacional',
+      'Financiamento para investimento / obra',
+      'Licitações públicas',
+      'Homologação como fornecedor',
+      'Programas, convênios ou parcerias institucionais',
+      'Seguros, garantias e cauções',
+      'Fiscalizações, auditorias ou exigências de órgãos',
+      'Abertura ou regularização de obra/empreendimento'
+    ];
+    const documentData = [
+      'Empresa / CNPJ / societário',
+      'Fiscal e tributário',
+      'Trabalhista e previdenciário',
+      'Contábil e econômico-financeiro',
+      'Obras, alvarás e licenças',
+      'Responsáveis técnicos, CREA/CAU e acervos',
+      'Contratos, procurações e declarações',
+      'Financiamentos, bancos e garantias',
+      'Seguros, cauções e apólices',
+      'Fornecedores, terceiros e subcontratados',
+      'SST, saúde e segurança do trabalho',
+      'Ambiental, cartorial e imobiliário',
+      'Certificações, qualidade e compliance',
+      'Kits para clientes, bancos ou editais'
+    ];
+    const responsibilities = [
+      'Solicitar documentos para oportunidade comercial',
+      'Localizar documentos internos',
+      'Solicitar documentos ao contador/jurídico/terceiros',
+      'Validar validade e completude',
+      'Renovar certidões e documentos vencidos',
+      'Montar kit/dossiê de habilitação',
+      'Aprovar envio ao cliente/banco/órgão',
+      'Registrar histórico do que foi enviado',
+      'Acompanhar pendências e prazos',
+      'Atualizar repositório após a entrega'
+    ];
+    function makeTextarea(ph='') { return `<textarea placeholder="${ph}"></textarea>`; }
+    function populateScenarioRows(){
+      const tbody = document.getElementById('scenarioRowsH');
+      if(!tbody) return;
+      scenarioData.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="domain">${item}</td>
+          <td>${selectYesNo}</td>
+          <td>${selectImportance}</td>
+          <td>${makeTextarea('Área/pessoa')}</td>
+          <td>${makeTextarea('Gargalo')}</td>
+          <td>${makeTextarea('Escopo')}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function populateDocumentRows(){
+      const tbody = document.getElementById('documentRowsH');
+      if(!tbody) return;
+      documentData.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="domain">${item}</td>
+          <td>${selectYesNo}</td>
+          <td>${makeTextarea('Drive, Sienge, contador...')}</td>
+          <td>${makeTextarea('Área/pessoa')}</td>
+          <td>${makeTextarea('Contador, jurídico, SST...')}</td>
+          <td>${makeTextarea('Lacunas, risco ou prioridade')}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    function populateResponsibilityRows(){
+      const tbody = document.getElementById('responsibilityRowsH');
+      if(!tbody) return;
+      responsibilities.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="domain">${item}</td>
+          <td>${makeTextarea('Pessoa/área')}</td>
+          <td>${selectYesNo}</td>
+          <td>${selectYesNo}</td>
+          <td>${makeTextarea('Dificuldade')}</td>
+          <td>${makeTextarea('Observação')}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    populateScenarioRows();
+    populateDocumentRows();
+    populateResponsibilityRows();
+
+    const tabs=[...document.querySelectorAll('.tab')];
+    const panels=[...document.querySelectorAll('.panel')];
+    tabs.forEach(btn=>btn.addEventListener('click',()=>{
+      const id=btn.dataset.tab;
+      document.body.classList.remove('print-all');
+      tabs.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }));
+    function expandAll(){document.body.classList.add('print-all');tabs.forEach(b=>b.classList.remove('active'));}
+    function collapseToFirst(){document.body.classList.remove('print-all');panels.forEach(p=>p.classList.remove('active'));tabs.forEach(b=>b.classList.remove('active'));document.getElementById('inicio').classList.add('active');document.querySelector('[data-tab="inicio"]').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+    function clearForm(){
+      if(!confirm('Limpar todos os campos preenchidos?')) return;
+      document.querySelectorAll('input, textarea').forEach(el=>{ if(el.type==='checkbox'||el.type==='radio') el.checked=false; else el.value=''; });
+      document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+    }
+  </script>
+</body>
+</html>
