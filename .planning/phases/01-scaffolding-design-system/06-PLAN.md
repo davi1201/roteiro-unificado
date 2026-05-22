@@ -3,7 +3,7 @@ id: '01-06'
 title: 'Criar sistema de Toast com Sonner'
 phase: 1
 wave: 3
-status: pending
+status: done
 type: implementation
 depends_on: ['01-01', '01-04']
 must_haves:
