@@ -158,7 +158,7 @@ Plans:
 **Requirements:** FORM-01, FORM-04, UX-03
 **Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 4)_
 
-**Plans:** 2/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 1** *(paralelo — sem dependências entre si)*
@@ -168,11 +168,11 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 — depende de TabKey, TAB_CONFIG e ProgressBadge)*
 
-- [ ] 05-03-PLAN.md — Criar useFormSection hook + TabNavigation (stepper desktop / pills mobile com guard anti-loop de hash) + ProgressBar (faixa sticky h-1 no topo com aria-valuenow)
+- [x] 05-03-PLAN.md — Criar useFormSection hook + TabNavigation (stepper desktop / pills mobile com guard anti-loop de hash) + ProgressBar (faixa sticky h-1 no topo com aria-valuenow)
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] 05-04-PLAN.md — Criar FormLayout (sidebar bg-primary + TabNavigation + botão Sair + hash sync useEffect + cross-tenant guard) e religar router.tsx substituindo placeholder de /form/:orgId; checkpoint humano final de verificação visual no browser
+- [x] 05-04-PLAN.md — Criar FormLayout (sidebar bg-primary + TabNavigation + botão Sair + hash sync useEffect + cross-tenant guard) e religar router.tsx substituindo placeholder de /form/:orgId; checkpoint humano final de verificação visual no browser
 
 **Wave structure:**
 

@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 5 UI-SPEC approved
-last_updated: "2026-05-22T19:59:01Z"
+status: verifying
+stopped_at: Completed 05-04-PLAN.md — FormLayout + router wiring, checkpoint humano aprovado, Phase 5 completa
+last_updated: "2026-05-22T20:10:42.982Z"
 last_activity: 2026-05-22
 progress:
   total_phases: 12
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 25
-  completed_plans: 24
-  percent: 35
+  completed_plans: 25
+  percent: 42
 ---
 
 # Project State
@@ -27,10 +27,10 @@ See: .planning/PROJECT.md (updated 2026-05-22)
 
 Phase: 05 (shell-do-formul-rio-navega-o-por-abas) — EXECUTING
 Plan: 4 of 4
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-05-22
 
-Progress: [█████████░] 92%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [█████████░] 92%
 _Updated após cada plano concluído_
 | Phase 03-authentication-roteamento-por-role P05 | 181 | 2 tasks | 3 files |
 | Phase 03-authentication-roteamento-por-role P06 | ~480 | 2 tasks | 3 files |
+| Phase 05 P04 | 20 | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -80,6 +81,7 @@ Recent decisions affecting current work:
 - Phase 3 (03-06): Toaster permanece fora de AuthProvider como irmao — componente global nao depende de auth context
 - Phase 3 (03-06): navigate com replace:true em todos os redirects de auth — /login nao fica no historico do browser
 - Phase 5 (05-03): window.history.replaceState usado em vez de window.location.hash = tab — react-hooks/immutability proíbe atribuição direta a globals em handlers React (eslint-plugin-react-hooks v7)
+- [Phase ?]: Phase 5 (05-04): FormLayout usa useParams().orgId como tenantId com cross-tenant guard antes de chamar useFormStore
 
 ### Pending Todos
 
@@ -97,5 +99,5 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-22T19:59:01Z
-Stopped at: Phase 05 Plan 03 complete — useFormSection + TabNavigation + ProgressBar criados
+Last session: 2026-05-22T20:10:42.971Z
+Stopped at: Completed 05-04-PLAN.md — FormLayout + router wiring, checkpoint humano aprovado, Phase 5 completa
