@@ -26,8 +26,10 @@ export const ndaSchema = z.object({
   cargo: z.string().optional(),
   cpf: z.string().optional(),
 
-  // Data de aceite — auto-preenchida ao montar o formulário
-  dataAceite: z.string().default(() => new Date().toLocaleDateString('pt-BR')),
+  // Data de aceite — auto-preenchida ao montar o formulário; optional no schema
+  // pois zodResolver usa z.input type onde .default() tornaria o campo opcional,
+  // causando mismatch com useForm<NdaData>. O componente define o valor em defaultValues.
+  dataAceite: z.string().optional(),
 
   // Campo OBRIGATÓRIO — único campo obrigatório de toda a Phase 7
   // z.literal(true) aceita apenas o valor exato true; false/undefined falham com mensagem definida
