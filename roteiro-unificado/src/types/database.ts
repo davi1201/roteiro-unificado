@@ -1,34 +1,117 @@
 /**
  * Tipos gerados para o schema do Supabase.
  *
- * Este arquivo será expandido na Fase 2 quando as tabelas forem criadas.
- * Para regenerar após mudanças no schema:
- *   npx supabase gen types typescript --project-id <id> > src/types/database.ts
+ * Hand-written for Phase 2. To regenerate automatically when CLI is configured:
+ *   npx supabase gen types typescript --project-id <project-id> > src/types/database.ts
  *
- * Tabelas planejadas (Fase 2):
- *   - companies          → dados das construtoras (tenants)
- *   - assessments        → avaliações de prontidão
- *   - assessment_answers → respostas individuais por pergunta
- *   - users              → perfis de usuários (via Supabase Auth)
+ * Tabelas criadas na Fase 2:
+ *   - orgs        → organizações (tenants: construtoras + time interno)
+ *   - org_members → membros de cada org com role (admin | company)
+ *   - assessments → avaliações de prontidão com snapshot JSONB
  */
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export interface Database {
   public: {
     Tables: {
-      // Tabelas serão adicionadas na Fase 2
-      [_ in never]: never
+      orgs: {
+        Row: {
+          id: string
+          name: string
+          cnpj: string | null
+          active: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          cnpj?: string | null
+          active?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          cnpj?: string | null
+          active?: boolean
+          created_at?: string
+        }
+      }
+      org_members: {
+        Row: {
+          id: string
+          org_id: string
+          user_id: string
+          role: Database['public']['Enums']['member_role']
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          user_id: string
+          role?: Database['public']['Enums']['member_role']
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          user_id?: string
+          role?: Database['public']['Enums']['member_role']
+          created_at?: string
+        }
+      }
+      assessments: {
+        Row: {
+          id: string
+          org_id: string
+          status: Database['public']['Enums']['assessment_status']
+          version: number
+          form_data: Json
+          readiness_level_mgmt: string | null
+          readiness_level_tech: string | null
+          created_at: string
+          submitted_at: string | null
+        }
+        Insert: {
+          id?: string
+          org_id: string
+          status?: Database['public']['Enums']['assessment_status']
+          version?: number
+          form_data?: Json
+          readiness_level_mgmt?: string | null
+          readiness_level_tech?: string | null
+          created_at?: string
+          submitted_at?: string | null
+        }
+        Update: {
+          id?: string
+          org_id?: string
+          status?: Database['public']['Enums']['assessment_status']
+          version?: number
+          form_data?: Json
+          readiness_level_mgmt?: string | null
+          readiness_level_tech?: string | null
+          created_at?: string
+          submitted_at?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
+      is_org_member: {
+        Args: { p_org_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      // Enums serão adicionados conforme necessário
-      // grade: 'G1' | 'G2' | 'G3' | 'G4' | 'G5'
-      [_ in never]: never
+      member_role: 'admin' | 'company'
+      assessment_status: 'draft' | 'submitted'
     }
     CompositeTypes: {
       [_ in never]: never
@@ -36,7 +119,7 @@ export interface Database {
   }
 }
 
-// Tipos utilitários para uso na aplicação
+// Utility types (keep existing — do not modify)
 export type Tables<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T] extends { Row: infer R } ? R : never
 
