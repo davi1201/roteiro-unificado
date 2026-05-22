@@ -403,6 +403,8 @@ CREATE POLICY "assessments_update_admin"
 
 ### Pattern 5: Seed SQL with Auth Users
 
+> **NOTE (updated by plan revision 2026-05-22):** The `public.orgs` table includes an `active BOOLEAN NOT NULL DEFAULT TRUE` column added in Plan 02-01 (Claude's discretion — avoids a separate migration in Phase 4). The INSERT below includes `active = TRUE` explicitly. Older versions of this pattern omitted the `active` column — always use the version below.
+
 ```sql
 -- supabase/seed.sql
 -- Source: laros.io/seeding-users-in-supabase-with-a-sql-seed-script (verified technique)
@@ -476,10 +478,10 @@ BEGIN
     NOW(), NOW(), NOW()
   );
 
-  -- Create orgs
-  INSERT INTO public.orgs (id, name, cnpj) VALUES
-    (v_org_suaequipe, 'SuaEquipe.IA (Admin)', NULL),
-    (v_org_empresa1,  'Construtora Teste 1', '12.345.678/0001-99');
+  -- Create orgs (active = TRUE explicit — column added in Plan 02-01)
+  INSERT INTO public.orgs (id, name, cnpj, active) VALUES
+    (v_org_suaequipe, 'SuaEquipe.IA (Admin)', NULL, TRUE),
+    (v_org_empresa1,  'Construtora Teste 1', '12.345.678/0001-99', TRUE);
 
   -- Create memberships
   INSERT INTO public.org_members (org_id, user_id, role) VALUES
@@ -498,6 +500,7 @@ END $$;
 - `instance_id = '00000000-0000-0000-0000-000000000000'` is the standard value for Supabase-hosted projects. [VERIFIED: multiple community sources]
 - Seed runs after migrations on `supabase db reset`; also runnable with `supabase db push --include-seed`. [VERIFIED: Supabase seeding docs]
 - This seed approach works on the **remote** Supabase project via Dashboard SQL Editor. For `supabase db reset` (local), Docker is required.
+- The `public.orgs` INSERT includes `active = TRUE` explicitly — the `active` column was added by Plan 02-01 (not present in the original research draft).
 
 ### Pattern 6: TypeScript Types — Hand-Written Format
 
@@ -796,22 +799,25 @@ const { data: assessments, error } = await supabase
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Which Supabase project ref to use for `supabase link`?**
    - What we know: Project exists (credentials referenced in `.env.local`); `VITE_SUPABASE_URL` is set
    - What's unclear: Whether `.env.local` exists with real values or is still a placeholder
    - Recommendation: Have user retrieve Project Reference ID from Supabase Dashboard → Project Settings → General
+   - **RESOLVED:** User provides the Project Reference ID at Plan 03 execution time via `supabase link --project-ref <PROJECT_REF>`. Fallback path (Dashboard SQL Editor) requires no ref at all.
 
 2. **Should `supabase/` live at repo root or inside `roteiro-unificado/`?**
    - What we know: Supabase CLI `supabase init` creates `supabase/` in the current directory; the git repo root is one level above `roteiro-unificado/`
    - What's unclear: User's preference for project organization
    - Recommendation: Place `supabase/` at repo root (sibling to `roteiro-unificado/`) so it's not inside the Vite build scope; add `supabase/` to `roteiro-unificado/.gitignore` exclusions if needed (it won't be, since it's outside the app dir)
+   - **RESOLVED:** `supabase/` lives at repo root — per Plan 02-01 action (step 2: `supabase init` run from repo root, sibling to `roteiro-unificado/`). All plan `files_modified` paths confirm this layout.
 
 3. **Should there be an `active` column on `orgs` for Phase 4 soft-delete?**
    - What we know: Phase 4 plan mentions "campo `active` em `orgs`" for archiving
    - What's unclear: Should Phase 2 add this column now (simpler migration) or Phase 4 adds it later (separation of concerns)?
    - Recommendation: Add `active BOOLEAN NOT NULL DEFAULT TRUE` in Phase 2 schema — it's a zero-cost addition now vs a separate migration later
+   - **RESOLVED:** `active BOOLEAN NOT NULL DEFAULT TRUE` added to `public.orgs` in Plan 02-01 action (step 4) — per Claude's discretion to avoid an extra migration in Phase 4. Pattern 5 (seed SQL) updated to include `active = TRUE` explicitly in the public.orgs INSERT.
 
 ---
 
