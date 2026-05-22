@@ -3,7 +3,7 @@ id: "01-05"
 title: "Criar biblioteca de componentes UI base"
 phase: 1
 wave: 4
-status: pending
+status: done
 type: implementation
 depends_on: ["01-02", "01-06"]
 must_haves:
