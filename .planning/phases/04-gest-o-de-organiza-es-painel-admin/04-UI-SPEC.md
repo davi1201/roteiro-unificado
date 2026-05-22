@@ -56,12 +56,14 @@ Escala de 8 pontos, múltiplos de 4. Usando classes Tailwind v4 nativas.
 Sistema tipográfico extraído de `src/index.css` (`--font-sans: 'Inter'`) e dos padrões já estabelecidos
 em `Login.tsx` e nos componentes UI.
 
+**Pesos declarados (máximo 2):** 400 (regular) e 600 (semibold).
+
 | Role | Size | Weight | Line Height | Tailwind classes | Usage nesta fase |
 |------|------|--------|-------------|-----------------|-----------------|
 | Body | 14px | 400 (regular) | 1.5 | `text-sm font-normal` | Células da tabela, labels de formulário, texto do tooltip |
 | Label | 14px | 600 (semibold) | 1.4 | `text-sm font-semibold` | Cabeçalhos de coluna da tabela, labels de campo obrigatório |
-| Heading | 20px | 700 (bold) | 1.2 | `text-xl font-bold` | Título da página (ex: "Organizações"), título do modal, nome da org no detalhe |
-| Display | 24px | 700 (bold) | 1.2 | `text-2xl font-bold` | Não usado nesta fase (reservado para Dashboard de Prontidão) |
+| Heading | 20px | 600 (semibold) | 1.2 | `text-xl font-semibold` | Título da página (ex: "Organizações"), título do modal, nome da org no detalhe |
+| Display | 24px | 600 (semibold) | 1.2 | `text-2xl font-semibold` | Não usado nesta fase (reservado para Dashboard de Prontidão) |
 
 **Nota:** Inter carrega via fallback `system-ui` até o piloto ter CDN configurado. Não adicionar `@font-face`
 nesta fase — seguir o padrão já estabelecido.
@@ -105,7 +107,7 @@ Todos os outros botões de ação usam `variant="primary"` (azul `#123B66`) ou `
 
 | Componente | Arquivo | Uso nesta fase |
 |-----------|---------|----------------|
-| `Button` | `button.tsx` | "Nova Organização" (`variant="primary"`, classe accent override), "Salvar", "Arquivar" (`variant="danger"`), "Cancelar" (`variant="secondary"`), "Sair" (`variant="ghost"`) |
+| `Button` | `button.tsx` | "Nova Organização" (`variant="primary"`, classe accent override), "Salvar", "Arquivar" (`variant="danger"`), "Descartar" (`variant="secondary"`), "Encerrar sessão" (`variant="ghost"`) |
 | `Input` | `input.tsx` | Campos: Nome da org, CNPJ, Email do membro, Senha temporária |
 | `Card` / `CardHeader` / `CardContent` | `card.tsx` | Wrapper da área de conteúdo principal (tabela + formulário de detalhe) |
 | `Spinner` | `spinner.tsx` | Loading inline no botão de submit do modal, loading da tabela |
@@ -136,7 +138,7 @@ grep "@radix-ui/react-dialog" roteiro-unificado/package.json
   </DialogTrigger>
   <DialogOverlay />       {/* bg-black/50, fixed inset-0, z-40 */}
   <DialogPanel>           {/* bg-white, rounded-lg, shadow-xl, z-50, max-w-md, w-full, p-6 */}
-    <DialogTitle />       {/* text-xl font-bold text-gray-900 */}
+    <DialogTitle />       {/* text-xl font-semibold text-gray-900 */}
     <DialogDescription /> {/* text-sm text-gray-500, mt-1 */}
     {/* conteúdo */}
     <DialogFooter />      {/* flex justify-end gap-3, mt-6 */}
@@ -233,9 +235,11 @@ grep "@radix-ui/react-dialog" roteiro-unificado/package.json
 
 ### Listagem de Organizações — `/admin/dashboard`
 
+**Ponto focal:** botão "Nova Organização" (accent) no canto superior direito — âncora visual principal da listagem.
+
 ```
 Page header row:
-  [h1: "Organizações"]                    [Button: "Nova Organização"]
+  [h1: "Organizações"]                    [Button: "Nova Organização"]  ← focal point (accent)
 
 Table card (Card wrapper, rounded-lg, shadow-sm):
   Table header row (bg-gray-50, text-sm font-semibold text-gray-600):
@@ -274,7 +278,7 @@ Page header:
   [h1: nome da org]       [Badge status]       [Button: "Arquivar" danger]
 
 Members card:
-  CardHeader: "Membros" (h2 text-xl font-bold) + count badge
+  CardHeader: "Membros" (h2 text-xl font-semibold) + count badge
   Table: Email | Role | Adicionado em | Ações
   Footer: [Button secondary "Convidar Membro"]
 
@@ -316,9 +320,9 @@ Add member form (inline below table or in separate Dialog):
 1. Click "Arquivar" → Dialog de confirmação abre
 2. Título: "Arquivar organização"
 3. Corpo: texto de confirmação (ver Copywriting Contract)
-4. Footer: [Cancelar (secondary)] [Arquivar (danger, isLoading)]
+4. Footer: [Manter organização (secondary)] [Arquivar (danger, isLoading)]
 5. **Confirmar:** botão "Arquivar" ativa isLoading → UPDATE `active = false` → toast success → query invalida → org some da listagem
-6. **Cancelar / Escape / click overlay:** Dialog fecha, nenhuma ação realizada
+6. **Manter organização / Escape / click overlay:** Dialog fecha, nenhuma ação realizada
 
 ### Clique em linha da tabela
 
@@ -359,11 +363,12 @@ Add member form (inline below table or in separate Dialog):
 |---------|------|-----------------|
 | CTA primário da listagem | "Nova Organização" | `primary` com classe `bg-accent` |
 | Submit do modal de criação | Default: "Criar Organização" / Loading: "Criando..." | `primary` |
-| Cancelar (modal e dialog) | "Cancelar" | `secondary` |
+| Dispensar modal de criação | "Descartar" | `secondary` |
 | Botão de arquivamento | "Arquivar" | `danger` |
 | Confirmar arquivamento (dialog) | "Sim, arquivar" | `danger` |
+| Dispensar dialog de arquivamento | "Manter organização" | `secondary` |
 | Adicionar membro | "Adicionar Membro" | `primary` |
-| Logout no header | "Sair" | `ghost` |
+| Logout no header | "Encerrar sessão" | `ghost` |
 
 ### Estados vazios
 
@@ -382,7 +387,7 @@ Add member form (inline below table or in separate Dialog):
 - **Título:** "Arquivar organização"
 - **Corpo:** "Tem certeza que deseja arquivar **{nome da org}**? A organização e seus dados serão mantidos, mas ela não aparecerá mais na listagem ativa."
 - **Botão confirmar:** "Sim, arquivar"
-- **Botão cancelar:** "Cancelar"
+- **Botão dispensar:** "Manter organização"
 
 ### Labels de formulário (modal de criação de org)
 
@@ -410,7 +415,7 @@ nesta fase. Placeholder explica o formato esperado.
 ### Header admin
 
 - Texto de boas-vindas: "Olá, {nome do admin}" ou simplesmente o email do admin (de `useAuth().user.email`)
-- Botão logout: "Sair"
+- Botão logout: "Encerrar sessão"
 
 ### Estados de loading
 
@@ -495,3 +500,8 @@ DOM nativa com `role="dialog"` + focus trap manual (mais simples para o piloto).
 | `useToast` para feedback | CONTEXT.md Reusable Assets |
 | Rotas `/admin/dashboard` e `/admin/orgs/:orgId` já existem | `src/router.tsx` |
 | shadcn não inicializado | Scan do codebase — `components.json` ausente |
+| Typography: 2 pesos (400 + 600), sem 700 | Correção BLOCK 2 — checker revision 2026-05-22 |
+| "Descartar" no modal de criação | Correção BLOCK 1 — checker revision 2026-05-22 |
+| "Manter organização" no dialog de arquivamento | Correção BLOCK 1 — checker revision 2026-05-22 |
+| "Encerrar sessão" no header | Melhoria FLAG 1 — checker revision 2026-05-22 |
+| Ponto focal declarado na listagem | Melhoria FLAG 2 — checker revision 2026-05-22 |
