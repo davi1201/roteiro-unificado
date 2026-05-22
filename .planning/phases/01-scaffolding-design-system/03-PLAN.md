@@ -3,7 +3,7 @@ id: '01-03'
 title: 'Configurar cliente Supabase'
 phase: 1
 wave: 1
-status: pending
+status: done
 type: setup
 depends_on: ['01-01']
 must_haves:
