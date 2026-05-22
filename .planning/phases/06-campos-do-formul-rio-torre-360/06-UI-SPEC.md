@@ -1,7 +1,8 @@
 ---
 phase: 6
 slug: campos-do-formul-rio-torre-360
-status: draft
+status: approved
+reviewed_at: 2026-05-22
 shadcn_initialized: false
 preset: none
 created: 2026-05-22
@@ -76,9 +77,10 @@ Restrição: não introduzir novos tamanhos de fonte. Somente `text-xs`, `text-s
 | Destructive | `--color-g1` | Vermelho semântico | Bordas de campo com erro, texto de mensagem de erro |
 
 **Accent reservado exclusivamente para:**
-1. Estado selecionado de RadioGroupField — ring e background: `ring-2 ring-primary bg-primary/10 text-primary font-medium` (nota: accent no texto de opções selecionadas em situações de destaque especial)
-2. Ícone de "check" no ProgressBadge quando completeness === 1 (herdado de Phase 5)
-3. CTA primário de submit/avanço (futuro — esta fase não tem submit; adiado para Phase 8)
+1. Ícone de "check" no ProgressBadge quando completeness === 1 (herdado de Phase 5)
+2. CTA primário de submit/avanço (futuro — esta fase não tem submit; adiado para Phase 8)
+
+Nota: RadioGroupField estado selecionado usa **primary** (`ring-primary bg-primary/10 text-primary`), não accent. Accent não aparece em campos de formulário nesta fase.
 
 **Cor primária (`bg-primary`, `text-primary`) usada para:**
 - Estado selecionado de RadioGroupField (ring + tint)
@@ -225,6 +227,8 @@ Fonte: CONTEXT.md §deferred (sem CTA de submit nesta fase), ROADMAP.md §Phase 
 
 ## Layout da Seção dentro da `<main>`
 
+**Ponto focal:** O primeiro grupo de campos abaixo do `<h1>` da aba é o âncora visual primário. O `<h1>` em `text-xl font-semibold` e o container `max-w-2xl` centram o olhar do usuário; o executor não deve adicionar elementos de destaque visual acima ou ao lado do heading da aba.
+
 ```
 <main className="flex-1 p-4 md:p-6">
   <h1 className="text-xl font-semibold text-gray-900">{tab.label}</h1>
@@ -268,11 +272,11 @@ Breakpoint de tablet (FORM-05, UX-02): layout de campo permanece em coluna únic
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: FLAG → RESOLVED (focal point declarado explicitamente)
+- [x] Dimension 3 Color: FLAG → RESOLVED (parenthetical accent/primary removido; RadioGroupField usa primary)
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved — 2026-05-22
