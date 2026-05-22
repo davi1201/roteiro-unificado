@@ -76,11 +76,14 @@ export function TorreAcessoSection({ tenantId }: TorreAcessoSectionProps) {
     mode: 'onBlur',
   })
 
-  // D-02: sync RHF → Zustand (store excluído das deps para evitar loop — T-06-05-01)
-  const values = watch()
+  // D-02: sync RHF → Zustand via subscription (evita loop infinito — watch() retorna
+  // novo objeto a cada render, o que causaria deps instáveis no useEffect)
   useEffect(() => {
-    store.updateSection(TabKey.TorreAcesso, values as Record<string, unknown>)
-  }, [values]) // eslint-disable-line react-hooks/exhaustive-deps
+    const subscription = watch((values) => {
+      store.updateSection(TabKey.TorreAcesso, values as Record<string, unknown>)
+    })
+    return () => subscription.unsubscribe()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <form className="max-w-2xl" noValidate>
