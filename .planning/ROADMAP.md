@@ -158,7 +158,7 @@ Plans:
 **Requirements:** FORM-01, FORM-04, UX-03
 **Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 4)_
 
-**Plans:** 4/4 plans complete
+**Plans:** 4/4 plans executed — COMPLETA ✅
 
 Plans:
 **Wave 1** *(paralelo — sem dependências entre si)*
@@ -197,23 +197,38 @@ Plans:
 **Requirements:** FORM-05, FORM-06
 **Depends on:** Phase 5
 
-#### Plans
+**Plans:** 7 plans
 
-1. **Criar biblioteca de componentes de campo** — `RadioGroupField`, `CheckboxGroupField`, `SelectField`, `TextareaField`, `ConditionalField` (wrapper que exibe/oculta filhos baseado em condição); todos integrados com React Hook Form via `Controller` e estilizados com Tailwind v4
-2. **Implementar aba Identificação** — campos: Razão Social, CNPJ, cidade/estado, nome do responsável, cargo, email, telefone, número de obras ativas, faturamento estimado; todos com validação Zod
-3. **Implementar aba Torre Decisão** — campos fiéis ao HTML: nível de maturidade em decisão baseada em dados, uso de BI, qual BI (condicional: mostra campo "qual?" se resposta for "sim"), frequência de reuniões operacionais, envolvimento do diretor; RadioGroups e Selects
-4. **Implementar aba Torre Sienge** — campos: módulos Sienge contratados (CheckboxGroup multi-seleção), módulos ativos em uso, nível de uso por módulo (RadioGroup), integração com outros sistemas (condicional: mostra campo "quais?" se "sim")
-5. **Implementar aba Torre Acesso** — campos: quantidade de usuários cadastrados vs. ativos, perfis de usuário configurados, treinamentos realizados, barreiras de adoção (CheckboxGroup), responsável pelo Sienge
-6. **Implementar aba Torre Classificação** — campos: auto-avaliação das torres (dropdowns G1–G5 por dimensão); resumo visual das seleções acima; campos de observação livres por dimensão
-7. **Conectar Zod schemas a React Hook Form por aba** — schemas Zod exportados de `src/schemas/`; `useForm<FormData>` com `zodResolver`; erros inline exibidos abaixo de cada campo
+Plans:
+**Wave 1** *(blocker — biblioteca de field components)*
+
+- [ ] 06-01-PLAN.md — Criar biblioteca de field components (SelectField, TextareaField, RadioGroupField, CheckboxGroupField, ConditionalField) como wrappers de Controller em src/components/ui/ + atualizar barrel index.ts
+
+**Wave 2** *(paralelo — 5 Section components + 5 schemas Zod, todos dependem de 06-01)*
+
+- [ ] 06-02-PLAN.md — Aba Identificação: schema Zod (12 campos, 2 obrigatórios com regex CNPJ) + IdentificacaoSection com máscara de CNPJ
+- [ ] 06-03-PLAN.md — Aba Torre Decisão: schema Zod + TorreDecisaoSection com ConditionalField (campo "Qual BI?" condicional ao select "Existe BI hoje?")
+- [ ] 06-04-PLAN.md — Aba Torre Sienge: schema Zod aninhado (12 módulos × 5 colunas via moduleSchema reutilizado) + TorreSiengeSection com cards responsivos por módulo
+- [ ] 06-05-PLAN.md — Aba Torre Acesso: schema Zod (8 selects + 3 textareas + checkbox group de 6 opções) + TorreAcessoSection
+- [ ] 06-06-PLAN.md — Aba Torre Classificação: schema Zod (T360-A..E + abordagem + 5 textareas de plano + checkbox group de 9 evidências) + TorreClassificacaoSection
+
+**Wave 3** *(wiring final — depende das 5 Sections + atualização de useFormSection)*
+
+- [ ] 06-07-PLAN.md — Ampliar useFormSection (control? opcional, completeness real via useFormState) + ligar FormLayout switch(activeTab) com os 5 Section components + checkpoint humano de verificação visual no browser
+
+**Wave structure:**
+
+- Wave 1: 06-01 (biblioteca de field components — blocker para todas as Sections)
+- Wave 2: 06-02..06-06 (5 Sections + 5 schemas em paralelo — todos dependem de Wave 1, sem overlap de arquivos)
+- Wave 3: 06-07 (integração final — modifica useFormSection.ts e FormLayout.tsx, requer todas as Sections prontas)
 
 **UAT:**
 
 - [ ] Aba Torre Decisão: ao selecionar "Sim, utiliza BI" o campo "Qual BI?" aparece; ao selecionar "Não" o campo desaparece
-- [ ] Aba Torre Sienge: checkboxes de módulos Sienge permitem multi-seleção; "selecionar todos" funciona
-- [ ] Campos obrigatórios exibem mensagem de erro ao tentar avançar sem preencher
+- [ ] Aba Torre Sienge: cards de 12 módulos × 5 campos cada renderizam com options do HTML original
+- [ ] Campos obrigatórios (Empresa, CNPJ) exibem mensagem de erro inline ao perder foco em branco/inválido
 - [ ] Todos os campos do HTML de referência existem nas abas correspondentes (verificar manualmente contra `roteiro_unificado_completo_torre360_habilitacoes_nda_piloto_sinduscon_v2.html`)
-- [ ] Campos RadioGroup mostram seleção visual clara (cor primary ao selecionar)
+- [ ] Campos RadioGroup mostram seleção visual clara (ring-2 ring-primary bg-primary/10 ao selecionar)
 - [ ] Layout de campo é responsivo em 768px (tablet)
 
 ---
