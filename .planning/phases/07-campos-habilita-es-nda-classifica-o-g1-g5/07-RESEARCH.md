@@ -694,17 +694,19 @@ E o `ReadinessClassification` fica no `<main>`, entre o `<h1>` e o `renderSectio
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Campo "Terceiros envolvidos" na Matriz de Documentos**
    - O que sabemos: O HTML original inclui coluna "Terceiros envolvidos" na tabela de documentos (linha 419 do HTML). A decisão D-08/D-09 não menciona essa coluna explicitamente.
    - O que não está claro: Deve ser incluída na versão React? D-09 define 4 campos por domínio — "Existe controle?", "Repositório principal", "Responsável interno", "Observações". "Terceiros envolvidos" seria o 5º campo.
    - Recomendação: Incluir como `TextareaField` para manter FORM-02 (100% dos campos). Se o planner tiver contexto contrário, omitir.
+   - **RESOLVED:** campo `terceirosEnvolvidos` incluído como `TextareaField` em `hab-repositorios.ts` e `HabRepositoriosSection.tsx` (per FORM-02 — manter paridade total com o HTML de referência).
 
 2. **Campos NDA — Parte B (SuaEquipe.IA)**
    - O que sabemos: O HTML original tem campos para representante e CNPJ da Parte B (SuaEquipe.IA). D-05 define apenas campos do representante da construtora.
    - O que não está claro: Os campos da Parte B (SuaEquipe.IA) devem aparecer no formulário ou estão excluídos por decisão?
    - Recomendação: Excluir Parte B — são dados do prestador de serviço, não da construtora. D-05 é claro em focar nos campos de aceite.
+   - **RESOLVED:** campos da Parte B excluídos per D-05 — aba NDA foca apenas no aceite do representante da construtora (Parte A). Dados da SuaEquipe.IA não fazem parte do formulário do piloto.
 
 ---
 

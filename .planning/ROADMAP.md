@@ -235,19 +235,33 @@ Plans:
 
 ### Phase 7: Campos — Habilitações, NDA & Classificação G1-G5
 
-**Goal:** As 5 abas de Habilitações e NDA implementadas com todos os campos, validação Zod completa e engine de classificação automática G1-G5 gerencial + níveis técnicos.
+**Goal:** As 5 abas restantes (Hab. Venda, Hab. Repositórios, Hab. Responsáveis, Hab. Classificação e NDA) implementadas com todos os campos do HTML de referência, validação Zod (incluindo aceite obrigatório do NDA via `z.literal(true)`) e engine pura `calculateReadiness` que exibe badge G1-G5 + HAB-A..E + indicador NDA aceito em tempo real (sem score automático — valores vêm de selects diretos preenchidos pelo consultor).
 **Requirements:** FORM-02, FORM-03, FORM-07, UX-02
 **Depends on:** Phase 6
 
-#### Plans
+**Plans:** 6 plans
 
-1. **Implementar abas Hab. Venda e Hab. Repositórios** — campos fiéis ao HTML: processos de venda cadastrados no Sienge, uso de CRM, documentação de repositórios técnicos, status de aprovações e licenças; RadioGroups, Selects, campos condicionais
-2. **Implementar abas Hab. Responsáveis e Hab. Classificação** — campos: responsáveis técnicos mapeados, formação, certificações; auto-avaliação de habilitações por dimensão (dropdowns G1–G5); campo de observação livre
-3. **Implementar aba NDA** — campos: nome do representante legal, CPF, cargo, declaração de aceite (checkbox obrigatório), data de aceite (auto-preenchida com data atual), campo de observações adicionais
-4. **Implementar engine de classificação G1-G5** — função pura `calculateReadiness(formData): ReadinessResult` em `src/lib/readiness.ts`; lógica de scoring por dimensão Torre + Habilitações + NDA; output: `{ gerencial: 'G1'|'G2'|...|'G5', tecnico: string, operacional: string }`; cálculo reativo via `useMemo` no store
-5. **Criar componente `ReadinessClassification`** — exibe resultado G1-G5 com descrição textual, badge colorido e breakdown por dimensão; renderizado na última aba e como preview flutuante
-6. **Verificar cobertura total de campos do HTML de referência** — percorrer `roteiro_unificado_completo_torre360_habilitacoes_nda_piloto_sinduscon_v2.html` campo a campo; confirmar 100% de prontidão (FORM-02); ajustar campos faltantes
-7. **Auditoria de responsividade** — testar formulário completo em 1280px (desktop), 1024px, 768px (tablet); corrigir quebras de layout; garantir que em tablet o formulário é totalmente operacional (UX-02)
+Plans:
+**Wave 1** *(paralelo — sem dependências entre si, sem overlap de arquivos)*
+
+- [ ] 07-01-PLAN.md — Fundação: InputField (wrapper RHF), barrel export, constante NDA_TEXT em src/constants/, função pura calculateReadiness em src/lib/readiness.ts
+- [ ] 07-02-PLAN.md — 5 schemas Zod (hab-venda, hab-repositorios, hab-responsaveis com matriz aninhada; hab-classificacao flat; nda com z.literal(true))
+
+**Wave 2** *(paralelo — 3 planos de Sections, todos consomem schemas + InputField + readiness da Wave 1)*
+
+- [ ] 07-03-PLAN.md — HabVendaSection (6 flat + 10 cenários × 5 colunas) + HabRepositoriosSection (CheckboxGroupField + 4 selects + 1 textarea + 14 domínios × 5 colunas)
+- [ ] 07-04-PLAN.md — HabResponsaveisSection (CheckboxGroupField + 4 selects + textarea + 10 atividades × 5 colunas) + HabClassificacaoSection (4 selects + 5 textareas, classificacaoFinal hab-a..hab-e)
+- [ ] 07-05-PLAN.md — NdaSection (texto scrollable + 4 InputFields + Controller boolean para aceitaTermos + textarea) + ReadinessClassification (useMemo + Badge G1-G5 + spans HAB-X + indicador NDA)
+
+**Wave 3** *(wiring final + checkpoint humano — depende das 3 Sections da Wave 2)*
+
+- [ ] 07-06-PLAN.md — Wiring FormLayout (6 imports + 5 cases novos no switch + ReadinessClassification entre h1 e renderSection) + checkpoint visual de 11 passos cobrindo as 5 abas novas, engine em tempo real, erro NDA, responsividade 768px
+
+**Wave structure:**
+
+- Wave 1: 07-01 (UI wrapper + constants + lib) + 07-02 (schemas Zod) — paralelos, sem overlap
+- Wave 2: 07-03 (HabVenda + HabRepositorios) + 07-04 (HabResponsaveis + HabClassificacao) + 07-05 (Nda + ReadinessClassification) — paralelos, sem overlap entre Section files
+- Wave 3: 07-06 (FormLayout wiring + checkpoint humano blocking)
 
 **UAT:**
 
