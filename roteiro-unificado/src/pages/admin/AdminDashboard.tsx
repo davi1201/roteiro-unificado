@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { Button } from '@/components/ui'
 import { useOrgs } from '@/features/admin/useOrgs'
 import { OrgTable } from '@/components/admin/OrgTable'
+import { CreateOrgModal } from '@/components/admin/CreateOrgModal'
 import { useToast } from '@/hooks/useToast'
 
 const PAGE_SIZE = 10
@@ -9,6 +10,7 @@ const PAGE_SIZE = 10
 export function AdminDashboard() {
   const { data: orgs = [], isLoading, isError, error } = useOrgs()
   const [page, setPage] = useState(1)
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const toast = useToast()
 
   useEffect(() => {
@@ -24,10 +26,7 @@ export function AdminDashboard() {
     [orgs, page]
   )
 
-  const handleNewOrg = () => {
-    // será implementado no Plan 03 — abrir modal
-    toast.info('Funcionalidade disponível em breve')
-  }
+  const handleNewOrg = () => setIsCreateModalOpen(true)
 
   const handleArchive = (_orgId: string, _orgName: string) => {
     // será implementado no Plan 05 — abrir confirm dialog
@@ -72,6 +71,7 @@ export function AdminDashboard() {
           </Button>
         </div>
       )}
+      <CreateOrgModal open={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
     </div>
   )
 }
