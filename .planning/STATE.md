@@ -4,6 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: 03-01 completo — AuthProvider, useAuth e deps de auth instalados
 stopped_at: Completed 03-01-PLAN.md — AuthProvider e useAuth criados
+<<<<<<< HEAD
 last_updated: "2026-05-22T16:54:57.938Z"
 last_activity: "2026-05-22 — 03-01 executado: AuthProvider + useAuth + deps instalados"
 progress:
@@ -90,5 +91,6 @@ None yet.
 
 ## Session Continuity
 
+<<<<<<< HEAD
 Last session: 2026-05-22T16:54:57.927Z
 Stopped at: Completed 03-01-PLAN.md — AuthProvider e useAuth criados
