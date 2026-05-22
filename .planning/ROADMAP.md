@@ -84,6 +84,7 @@
 **Plans:** 6/6 plans executed — COMPLETA
 
 Plans:
+
 - [x] 03-01-PLAN.md — Instalar dependências (react-router-dom, RHF, Zod) + AuthProvider + useAuth()
 - [x] 03-02-PLAN.md — Hook useUser() + atualizar formStore com persist key namespaceada por tenantId
 - [x] 03-03-PLAN.md — Página de Login com layout UI-SPEC, validação Zod/RHF, auth flicker
@@ -108,13 +109,32 @@ Plans:
 **Requirements:** ORG-03
 **Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 5)_
 
-#### Plans
+**Plans:** 5 plans
 
-1. **Criar layout do painel admin** — sidebar com navegação (Organizações, Dashboard, Exportações); header com nome do usuário admin e botão de logout; área de conteúdo responsiva
-2. **Criar página de listagem de organizações** — tabela com colunas: nome, CNPJ, nº de membros, data de criação, status; paginação simples; botão "Nova Organização"
-3. **Criar modal/página de criação de organização** — formulário com React Hook Form + Zod: `nome`, `cnpj`; validação de CNPJ (formato); INSERT em `orgs`; feedback de sucesso com toast
-4. **Criar página de detalhe da organização** — lista de membros (`org_members`) com role; botão "Convidar Usuário"; formulário de adição manual: email + criação via `supabase.auth.admin.createUser()` + INSERT em `org_members`
-5. **Implementar desativação de organização** — campo `active` em `orgs`; botão "Arquivar" com dialog de confirmação; org arquivada some da listagem principal mas mantém dados
+Plans:
+**Wave 1**
+
+- [ ] 04-01-PLAN.md — Criar shell do painel admin (Dialog primitive + AdminLayout + AdminSidebar + AdminHeader; substituir placeholders das rotas admin no router.tsx)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 04-02-PLAN.md — Criar página de listagem de organizações (hook useOrgs com member_count agregado + OrgTable apresentacional + paginação client-side)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 04-03-PLAN.md — Criar modal de criação de organização (schema Zod + CreateOrgModal com React Hook Form + INSERT orgs + invalidateQueries)
+- [ ] 04-04-PLAN.md — Criar página de detalhe da organização e Edge Function create-user (service_role isolado em Deno; AddMemberModal com fluxo Edge Function → INSERT org_members)
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
+- [ ] 04-05-PLAN.md — Implementar desativação de organização (useArchiveOrg + ArchiveOrgDialog; wiring em AdminDashboard e OrgDetail)
+
+**Wave structure:**
+
+- Wave 1: 04-01 (foundation: layout shell + Dialog primitive + router)
+- Wave 2: 04-02 (listagem depende do layout)
+- Wave 3: 04-03, 04-04 (criação + detalhe — paralelos, sem overlap de arquivos)
+- Wave 4: 04-05 (arquivamento — modifica AdminDashboard e OrgDetail, requer 04-03 e 04-04 finalizados)
 
 **UAT:**
 
