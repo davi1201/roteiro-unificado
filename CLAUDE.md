@@ -7,6 +7,10 @@ Aplicação web multi-tenant para conduzir e registrar avaliações de prontidã
 
 **Core Value:** Qualquer construtora do piloto consegue preencher, salvar e retomar sua avaliação de prontidão — e o time da SuaEquipe.IA visualiza o status de todas as empresas em um único lugar.
 
+### Language
+
+- **Documentação**: sempre em pt-br — CONTEXT.md, RESEARCH.md, PLAN.md, SUMMARY.md, VERIFICATION.md e qualquer artefato de planejamento devem ser escritos em português brasileiro. Código, commits e nomes de arquivo permanecem em inglês.
+
 ### Constraints
 
 - **Stack (frontend)**: React + Vite + Tailwind v4 — decisão do usuário, não negociável
