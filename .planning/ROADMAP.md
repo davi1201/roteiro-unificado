@@ -158,12 +158,12 @@ Plans:
 **Requirements:** FORM-01, FORM-04, UX-03
 **Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 4)_
 
-**Plans:** 1/4 plans executed
+**Plans:** 2/4 plans executed
 
 Plans:
 **Wave 1** *(paralelo — sem dependências entre si)*
 
-- [ ] 05-01-PLAN.md — Expandir formStore (TabKey enum, activeTab, visitedTabs, sectionData + 4 actions, storage split localStorage/sessionStorage) e criar tabConfig.ts (TAB_CONFIG com 10 itens)
+- [x] 05-01-PLAN.md — Expandir formStore (TabKey enum, activeTab, visitedTabs, sectionData + 4 actions, storage split localStorage/sessionStorage) e criar tabConfig.ts (TAB_CONFIG com 10 itens)
 - [x] 05-02-PLAN.md — Criar ProgressBadge.tsx (componente puro presentacional com 3 estados SVG inline: círculo vazio / clock / check)
 
 **Wave 2** *(blocked on Wave 1 — depende de TabKey, TAB_CONFIG e ProgressBadge)*

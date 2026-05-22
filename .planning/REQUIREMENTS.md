@@ -24,10 +24,10 @@
 
 ### Formulário de Avaliação (FORM)
 
-- [ ] **FORM-01**: Formulário estruturado em abas: Identificação, Torre 360 (Decisão, Sienge, Acesso, Classificação), Habilitações (Venda, Repositórios, Responsáveis, Classificação), NDA
+- [x] **FORM-01**: Formulário estruturado em abas: Identificação, Torre 360 (Decisão, Sienge, Acesso, Classificação), Habilitações (Venda, Repositórios, Responsáveis, Classificação), NDA
 - [ ] **FORM-02**: Todos os campos do HTML atual são preservados na versão React (nenhuma seção omitida)
 - [ ] **FORM-03**: Validação de campos obrigatórios via Zod + React Hook Form antes de avançar de aba
-- [ ] **FORM-04**: Usuário pode navegar entre abas livremente (dados da aba anterior são preservados)
+- [x] **FORM-04**: Usuário pode navegar entre abas livremente (dados da aba anterior são preservados)
 - [ ] **FORM-05**: Seleções tipo dropdown, radio, checkbox e textarea são fiéis ao documento original
 - [ ] **FORM-06**: Campos condicionais exibem/ocultam conforme seleção anterior (ex: "Possui BI?" → mostrar qual)
 - [ ] **FORM-07**: Classificação de prontidão (G1–G5 gerencial; níveis técnicos) é calculada automaticamente com base nas respostas
