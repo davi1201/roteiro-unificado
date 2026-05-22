@@ -7,6 +7,37 @@ import { TabNavigation } from './TabNavigation'
 import { ProgressBar } from './ProgressBar'
 import { Button, Spinner } from '@/components/ui'
 import { useToast } from '@/hooks/useToast'
+import { IdentificacaoSection } from './sections/IdentificacaoSection'
+import { TorreDecisaoSection } from './sections/TorreDecisaoSection'
+import { TorreSiengeSection } from './sections/TorreSiengeSection'
+import { TorreAcessoSection } from './sections/TorreAcessoSection'
+import { TorreClassificacaoSection } from './sections/TorreClassificacaoSection'
+
+/**
+ * Renderiza o Section component correto para a aba ativa.
+ * As 5 abas Torre 360 são cobertas por cases explícitos (Phase 6).
+ * O default cobre as 5 abas Habilitações/NDA — serão implementadas na Phase 7.
+ */
+function renderSection(activeTab: TabKey, tenantId: string) {
+  switch (activeTab) {
+    case TabKey.Identificacao:
+      return <IdentificacaoSection tenantId={tenantId} />
+    case TabKey.TorreDecisao:
+      return <TorreDecisaoSection tenantId={tenantId} />
+    case TabKey.TorreSienge:
+      return <TorreSiengeSection tenantId={tenantId} />
+    case TabKey.TorreAcesso:
+      return <TorreAcessoSection tenantId={tenantId} />
+    case TabKey.TorreClassificacao:
+      return <TorreClassificacaoSection tenantId={tenantId} />
+    default:
+      return (
+        <p className="mt-2 text-sm text-gray-500">
+          Esta seção ainda não possui campos. Em breve os campos estarão disponíveis aqui.
+        </p>
+      )
+  }
+}
 
 /**
  * Shell principal do formulário de avaliação.
@@ -14,7 +45,8 @@ import { useToast } from '@/hooks/useToast'
  * Integra: sidebar bg-primary + TabNavigation (stepper) + ProgressBar (faixa sticky)
  * + botão Sair + hash sync com URL + cross-tenant guard.
  *
- * Phase 6+ substitui o placeholder textual da <main> por campos reais de cada aba.
+ * As 5 abas Torre 360 renderizam seus Section components via switch(activeTab).
+ * As 5 abas Habilitações/NDA exibem placeholder até a Phase 7.
  */
 export function FormLayout() {
   const { orgId: routeOrgId } = useParams<{ orgId: string }>()
@@ -89,9 +121,7 @@ export function FormLayout() {
         </aside>
         <main className="flex-1 p-4 md:p-6">
           <h1 className="text-xl font-semibold text-gray-900">{activeTabConfig.label}</h1>
-          <p className="mt-2 text-sm text-gray-500">
-            Esta seção ainda não possui campos. Em breve os campos estarão disponíveis aqui.
-          </p>
+          {renderSection(store.activeTab, tenantId)}
         </main>
       </div>
     </div>
