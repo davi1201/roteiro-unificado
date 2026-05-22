@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 6 UI-SPEC approved
-last_updated: "2026-05-22T21:09:45.965Z"
-last_activity: 2026-05-22 -- Phase 06 planning complete
+last_updated: "2026-05-22T21:50:36.033Z"
+last_activity: 2026-05-22
 progress:
   total_phases: 12
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 32
-  completed_plans: 25
-  percent: 42
+  completed_plans: 32
+  percent: 50
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-22)
 
 **Core value:** Qualquer construtora do piloto consegue preencher, salvar e retomar sua avaliação de prontidão — e o time da SuaEquipe.IA visualiza o status de todas as empresas em um único lugar.
-**Current focus:** Phase 05 — shell-do-formul-rio-navega-o-por-abas
+**Current focus:** Phase 06 — campos-do-formul-rio-torre-360
 
 ## Current Position
 
-Phase: 05 (shell-do-formul-rio-navega-o-por-abas) — EXECUTING
-Plan: 4 of 4
+Phase: 06 (campos-do-formul-rio-torre-360) — EXECUTING
+Plan: 2 of 7
 Status: Ready to execute
-Last activity: 2026-05-22 -- Phase 06 planning complete
+Last activity: 2026-05-22
 
 Progress: [██████████] 100%
 
@@ -56,6 +56,7 @@ _Updated após cada plano concluído_
 | Phase 03-authentication-roteamento-por-role P05 | 181 | 2 tasks | 3 files |
 | Phase 03-authentication-roteamento-por-role P06 | ~480 | 2 tasks | 3 files |
 | Phase 05 P04 | 20 | 3 tasks | 2 files |
+| Phase 06 P07 | 120 | 3 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,8 @@ Recent decisions affecting current work:
 - Phase 3 (03-06): navigate com replace:true em todos os redirects de auth — /login nao fica no historico do browser
 - Phase 5 (05-03): window.history.replaceState usado em vez de window.location.hash = tab — react-hooks/immutability proíbe atribuição direta a globals em handlers React (eslint-plugin-react-hooks v7)
 - [Phase ?]: Phase 5 (05-04): FormLayout usa useParams().orgId como tenantId com cross-tenant guard antes de chamar useFormStore
+- [Phase ?]: Wiring final Phase 6 com fix de render loop
+- [Phase ?]: Fix stale .js files + watch subscription pattern
 
 ### Pending Todos
 
@@ -99,5 +102,5 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-22T20:30:18.654Z
+Last session: 2026-05-22T21:50:11.328Z
 Stopped at: Phase 6 UI-SPEC approved

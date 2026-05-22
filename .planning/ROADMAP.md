@@ -197,24 +197,24 @@ Plans:
 **Requirements:** FORM-05, FORM-06
 **Depends on:** Phase 5
 
-**Plans:** 7 plans
+**Plans:** 7/7 plans complete
 
 Plans:
 **Wave 1** *(blocker — biblioteca de field components)*
 
-- [ ] 06-01-PLAN.md — Criar biblioteca de field components (SelectField, TextareaField, RadioGroupField, CheckboxGroupField, ConditionalField) como wrappers de Controller em src/components/ui/ + atualizar barrel index.ts
+- [x] 06-01-PLAN.md — Criar biblioteca de field components (SelectField, TextareaField, RadioGroupField, CheckboxGroupField, ConditionalField) como wrappers de Controller em src/components/ui/ + atualizar barrel index.ts
 
 **Wave 2** *(paralelo — 5 Section components + 5 schemas Zod, todos dependem de 06-01)*
 
-- [ ] 06-02-PLAN.md — Aba Identificação: schema Zod (12 campos, 2 obrigatórios com regex CNPJ) + IdentificacaoSection com máscara de CNPJ
-- [ ] 06-03-PLAN.md — Aba Torre Decisão: schema Zod + TorreDecisaoSection com ConditionalField (campo "Qual BI?" condicional ao select "Existe BI hoje?")
-- [ ] 06-04-PLAN.md — Aba Torre Sienge: schema Zod aninhado (12 módulos × 5 colunas via moduleSchema reutilizado) + TorreSiengeSection com cards responsivos por módulo
-- [ ] 06-05-PLAN.md — Aba Torre Acesso: schema Zod (8 selects + 3 textareas + checkbox group de 6 opções) + TorreAcessoSection
-- [ ] 06-06-PLAN.md — Aba Torre Classificação: schema Zod (T360-A..E + abordagem + 5 textareas de plano + checkbox group de 9 evidências) + TorreClassificacaoSection
+- [x] 06-02-PLAN.md — Aba Identificação: schema Zod (12 campos, 2 obrigatórios com regex CNPJ) + IdentificacaoSection com máscara de CNPJ
+- [x] 06-03-PLAN.md — Aba Torre Decisão: schema Zod + TorreDecisaoSection com ConditionalField (campo "Qual BI?" condicional ao select "Existe BI hoje?")
+- [x] 06-04-PLAN.md — Aba Torre Sienge: schema Zod aninhado (12 módulos × 5 colunas via moduleSchema reutilizado) + TorreSiengeSection com cards responsivos por módulo
+- [x] 06-05-PLAN.md — Aba Torre Acesso: schema Zod (8 selects + 3 textareas + checkbox group de 6 opções) + TorreAcessoSection
+- [x] 06-06-PLAN.md — Aba Torre Classificação: schema Zod (T360-A..E + abordagem + 5 textareas de plano + checkbox group de 9 evidências) + TorreClassificacaoSection
 
 **Wave 3** *(wiring final — depende das 5 Sections + atualização de useFormSection)*
 
-- [ ] 06-07-PLAN.md — Ampliar useFormSection (control? opcional, completeness real via useFormState) + ligar FormLayout switch(activeTab) com os 5 Section components + checkpoint humano de verificação visual no browser
+- [x] 06-07-PLAN.md — Ampliar useFormSection (control? opcional, completeness real via useFormState) + ligar FormLayout switch(activeTab) com os 5 Section components + checkpoint humano de verificação visual no browser
 
 **Wave structure:**
 
