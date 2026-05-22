@@ -22,15 +22,25 @@
 
 #### Plans
 
+**Wave 1** _(paralelo — sem dependências externas)_
+
 1. **Inicializar projeto Vite + React + TypeScript** — `npm create vite@latest` com template React-TS; configurar paths de alias `@/` no `tsconfig.json` e `vite.config.ts`
-2. **Configurar Tailwind v4** — instalar `@tailwindcss/vite`; substituir `tailwind.config.js` por `@import "tailwindcss"` + bloco `@theme {}` no CSS principal; definir tokens de cor `--color-primary: #123B66`, `--color-accent: #F28C28` e escala completa
-3. **Configurar Supabase client** — instalar `@supabase/supabase-js`; criar `src/lib/supabase.ts` com `createBrowserClient`; configurar variáveis `.env.local` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`)
-4. **Configurar TanStack Query v5 e Zustand** — instalar e criar `QueryClientProvider` no root; instalar Zustand; criar store esqueleto para estado global do formulário
-5. **Criar componentes UI base** — `Button` (variantes: primary, secondary, ghost), `Input`, `Textarea`, `Select`, `Card`, `Badge` (G1–G5), `Spinner`, `Skeleton` — todos consumindo tokens Tailwind v4
-6. **Criar sistema de Toast** — implementar `ToastProvider` com `react-hot-toast` ou similar; configurar posicionamento e duração padrão
-7. **Configurar ESLint + Prettier + Husky** — configurar `eslint-config-react-app`, `.prettierrc` com `tailwindcss` plugin para ordenação de classes; hook `pre-commit` rodando lint e type-check
+2. **Configurar Supabase client** — instalar `@supabase/supabase-js`; criar `src/lib/supabase.ts` com `createClient`; configurar variáveis `.env.local` (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`)
+3. **Configurar ESLint + Prettier + Husky** — configurar ESLint 10 flat config, `.prettierrc` com `prettier-plugin-tailwindcss`; hook `pre-commit` rodando lint e type-check
+
+**Wave 2** _(paralelo — dependem da Wave 1)_ 2. **Configurar Tailwind v4** — instalar `@tailwindcss/vite`; substituir `tailwind.config.js` por `@import "tailwindcss"` + bloco `@theme {}` no CSS principal; definir tokens de cor `--color-primary: #123B66`, `--color-accent: #F28C28` e escala completa 4. **Configurar TanStack Query v5 e Zustand** — instalar e criar `QueryClientProvider` no root; instalar Zustand; criar store esqueleto para estado global do formulário
+
+**Wave 3** _(depende de Wave 2)_ 6. **Criar sistema de Toast (Sonner)** — instalar `sonner`; adicionar `<Toaster>` no root; criar hook `useToast` com wrappers para success/error/loading/promise
+
+**Wave 4** _(depende de Waves 2 + 3)_ 5. **Criar componentes UI base** — `Button` (variantes: primary, secondary, ghost), `Input`, `Textarea`, `Select`, `Card`, `Badge` (G1–G5), `Spinner`, `Skeleton` — todos consumindo tokens Tailwind v4; página DesignSystem para verificação visual
+
+**Cross-cutting constraints:**
+
+- Todos os tokens de cor devem ser definidos via `@theme {}` em CSS — nunca hardcodar hex nos componentes
+- Alias `@/` deve ser configurado no `tsconfig.json` E no `vite.config.ts`
 
 **UAT:**
+
 - [ ] `npm run dev` abre app no browser sem erros de console
 - [ ] Página inicial renderiza com fundo azul `#123B66` e botão laranja `#F28C28`
 - [ ] Classes Tailwind v4 (ex: `bg-primary`) aplicam cores corretas via `@theme {}`
@@ -44,7 +54,7 @@
 
 **Goal:** Banco de dados Supabase com todas as tabelas necessárias, enums, foreign keys e políticas RLS que garantem isolamento total entre organizações.
 **Requirements:** ORG-01, ORG-02, ORG-04
-**Depends on:** Phase 1 *(pode ser executada em paralelo com Phase 3)*
+**Depends on:** Phase 1 _(pode ser executada em paralelo com Phase 3)_
 
 #### Plans
 
@@ -55,6 +65,7 @@
 5. **Criar migration de seed** — inserir org de teste `org_test`, usuário admin `admin@suaequipe.ia`, usuário de construtora `empresa1@teste.com`; script de seed executável via Supabase CLI
 
 **UAT:**
+
 - [ ] Usuário `empresa1` autenticado consegue fazer SELECT apenas em assessments da sua org
 - [ ] Tentativa de SELECT em assessment de outra org retorna 0 linhas (RLS ativo)
 - [ ] Usuário `admin` consegue SELECT em todas as orgs e assessments
@@ -68,7 +79,7 @@
 
 **Goal:** Login, persistência de sessão e recuperação de senha funcionando via Supabase Auth; usuário é redirecionado automaticamente para seu espaço após login.
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05
-**Depends on:** Phase 1 *(pode ser executada em paralelo com Phase 2)*
+**Depends on:** Phase 1 _(pode ser executada em paralelo com Phase 2)_
 
 #### Plans
 
@@ -80,6 +91,7 @@
 6. **Criar hook `useUser()`** — abstração sobre AuthContext que expõe `profile`, `role`, `orgId`, `isAdmin`; usado por todos os componentes que precisam de contexto de usuário
 
 **UAT:**
+
 - [ ] Admin faz login e é redirecionado para `/admin/dashboard`
 - [ ] Construtora faz login e é redirecionada para `/form/:orgId` da sua org
 - [ ] Sessão persiste após F5 — usuário continua logado sem re-login
@@ -93,7 +105,7 @@
 
 **Goal:** Admin interno consegue criar, listar e gerenciar organizações e seus usuários pelo painel; construtoras são criadas com acesso imediato após cadastro.
 **Requirements:** ORG-03
-**Depends on:** Phases 2 + 3 *(pode ser executada em paralelo com Phase 5)*
+**Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 5)_
 
 #### Plans
 
@@ -104,6 +116,7 @@
 5. **Implementar desativação de organização** — campo `active` em `orgs`; botão "Arquivar" com dialog de confirmação; org arquivada some da listagem principal mas mantém dados
 
 **UAT:**
+
 - [ ] Admin cria nova org "Construtora XYZ" com CNPJ válido — org aparece na lista
 - [ ] Admin adiciona usuário `maria@xyz.com` à org XYZ com role `company`
 - [ ] Usuário `maria@xyz.com` faz login e é redirecionada para `/form/:orgId` da org XYZ
@@ -122,7 +135,7 @@
 
 **Goal:** Estrutura do formulário com 10 abas navegáveis livremente, indicador de progresso por aba e estado cross-step gerenciado pelo Zustand.
 **Requirements:** FORM-01, FORM-04, UX-03
-**Depends on:** Phases 2 + 3 *(pode ser executada em paralelo com Phase 4)*
+**Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 4)_
 
 #### Plans
 
@@ -134,6 +147,7 @@
 6. **Criar rotas do formulário** — `/form/:orgId` renderiza `FormLayout`; navegação entre abas atualiza URL hash (`#identificacao`, `#torre-decisao`, etc.) para deep-link e browser back button funcionar
 
 **UAT:**
+
 - [ ] Construtora logada acessa `/form/:orgId` e vê formulário com 10 abas na sidebar
 - [ ] Clique em qualquer aba muda o conteúdo principal sem recarregar a página
 - [ ] Digitar em campo de uma aba, ir para outra aba e voltar — dados estão preservados
@@ -160,6 +174,7 @@
 7. **Conectar Zod schemas a React Hook Form por aba** — schemas Zod exportados de `src/schemas/`; `useForm<FormData>` com `zodResolver`; erros inline exibidos abaixo de cada campo
 
 **UAT:**
+
 - [ ] Aba Torre Decisão: ao selecionar "Sim, utiliza BI" o campo "Qual BI?" aparece; ao selecionar "Não" o campo desaparece
 - [ ] Aba Torre Sienge: checkboxes de módulos Sienge permitem multi-seleção; "selecionar todos" funciona
 - [ ] Campos obrigatórios exibem mensagem de erro ao tentar avançar sem preencher
@@ -186,6 +201,7 @@
 7. **Auditoria de responsividade** — testar formulário completo em 1280px (desktop), 1024px, 768px (tablet); corrigir quebras de layout; garantir que em tablet o formulário é totalmente operacional (UX-02)
 
 **UAT:**
+
 - [ ] Aba NDA: o checkbox "Li e aceito os termos" é obrigatório — não é possível submeter sem marcá-lo
 - [ ] Classificação G1-G5 atualiza em tempo real conforme usuário muda seleções nas abas de classificação
 - [ ] Badge de classificação gerencial exibe cor correta (ex: G1 = vermelho, G5 = verde)
@@ -211,6 +227,7 @@
 6. **Implementar skeleton loading** — estados de loading com `Skeleton` nos cards do formulário, histórico e dashboard enquanto TanStack Query busca dados; sem flash de conteúdo vazio (UX-05)
 
 **UAT:**
+
 - [ ] Preencher campo e aguardar 1.5s — toast "Salvo automaticamente" aparece
 - [ ] Fechar browser e reabrir `/form/:orgId` — rascunho está preservado com todos os campos
 - [ ] Clicar "Enviar Avaliação" → confirmar no dialog → status muda para "enviado" e form fica read-only
@@ -243,6 +260,7 @@
 6. **Implementar view de detalhe de empresa (admin)** — `/admin/orgs/:orgId`; combina dashboard da empresa + histórico de versões + link de exportação; admin pode ver tudo que a empresa vê
 
 **UAT:**
+
 - [ ] Admin acessa `/admin/dashboard` e vê cards de todas as orgs com G1-G5
 - [ ] Filtrar por "G2" mostra apenas empresas com classificação G2
 - [ ] Buscar "Construtora XYZ" filtra e exibe o card correto
@@ -256,7 +274,7 @@
 
 **Goal:** Botão "Exportar PDF" gera relatório com identidade visual azul/laranja para qualquer versão do histórico, sem impacto no First Load do app.
 **Requirements:** EXPORT-01, EXPORT-02, EXPORT-04, EXPORT-05
-**Depends on:** Phase 9 *(pode ser executada em paralelo com Phase 11)*
+**Depends on:** Phase 9 _(pode ser executada em paralelo com Phase 11)_
 
 #### Plans
 
@@ -268,6 +286,7 @@
 6. **Testar e ajustar layout PDF** — gerar PDF com dados de seed completos; verificar paginação (sem conteúdo cortado), fontes embutidas, cores corretas; ajustar margens e quebras de página
 
 **UAT:**
+
 - [ ] First Load do app não inclui `@react-pdf/renderer` no bundle inicial (verificar no Network tab)
 - [ ] Ao clicar "Exportar PDF", spinner aparece durante geração e PDF faz download
 - [ ] PDF gerado exibe capa com nome da empresa, data e versão
@@ -281,7 +300,7 @@
 
 **Goal:** Botão "Exportar Excel" gera planilha `.xlsx` com todos os campos e respostas, disponível para qualquer versão, lazy-loaded.
 **Requirements:** EXPORT-03, EXPORT-05
-**Depends on:** Phase 9 *(pode ser executada em paralelo com Phase 10)*
+**Depends on:** Phase 9 _(pode ser executada em paralelo com Phase 10)_
 
 #### Plans
 
@@ -292,6 +311,7 @@
 5. **Testar exportação com dados completos** — gerar Excel com seed de dados preenchidos; verificar: colunas alinhadas, acentos corretos (UTF-8), classificação G1-G5 no sheet Resumo, sem colunas truncadas
 
 **UAT:**
+
 - [ ] `xlsx` não está no bundle principal (verificar Network tab — carrega apenas ao clicar "Exportar Excel")
 - [ ] Excel baixado abre sem erros no LibreOffice Calc e Microsoft Excel
 - [ ] Sheet "Resumo" contém empresa, data, versão e classificação G1-G5
@@ -304,7 +324,7 @@
 ### Phase 12: Polimento UX, Performance & Deploy
 
 **Goal:** App auditado visualmente, bundle otimizado, variáveis de ambiente de produção configuradas, deploy realizado e smoke tests passando em produção.
-**Requirements:** *(UX transversal — verificação final de UX-01 a UX-06 como sistema completo)*
+**Requirements:** _(UX transversal — verificação final de UX-01 a UX-06 como sistema completo)_
 **Depends on:** Phases 10 + 11
 
 #### Plans
@@ -317,6 +337,7 @@
 6. **Smoke tests pós-deploy** — testar em produção: login admin → criar org → login construtora → preencher formulário → autosave → submeter → ver histórico → exportar PDF → exportar Excel; registrar resultado de cada passo
 
 **UAT:**
+
 - [ ] Em produção (`https://[app].vercel.app`): login funciona para admin e construtora
 - [ ] Formulário completo pode ser preenchido e submetido em produção
 - [ ] PDF e Excel gerados em produção são idênticos ao comportamento em desenvolvimento
@@ -328,21 +349,21 @@
 
 ## Resumo de Cobertura
 
-| Requisito | Fase |
-|-----------|------|
-| UX-01, UX-06 | Phase 1 — Scaffolding & Design System |
-| ORG-01, ORG-02, ORG-04 | Phase 2 — Database Schema & RLS |
+| Requisito                                   | Fase                                  |
+| ------------------------------------------- | ------------------------------------- |
+| UX-01, UX-06                                | Phase 1 — Scaffolding & Design System |
+| ORG-01, ORG-02, ORG-04                      | Phase 2 — Database Schema & RLS       |
 | AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05 | Phase 3 — Authentication & Roteamento |
-| ORG-03 | Phase 4 — Gestão de Organizações |
-| FORM-01, FORM-04, UX-03 | Phase 5 — Shell do Formulário |
-| FORM-05, FORM-06 | Phase 6 — Campos Torre 360 |
-| FORM-02, FORM-03, FORM-07, UX-02 | Phase 7 — Habilitações, NDA & G1-G5 |
-| SAVE-01–SAVE-06, UX-04, UX-05 | Phase 8 — Autosave & Versionamento |
-| DASH-01–DASH-05 | Phase 9 — Dashboard de Prontidão |
-| EXPORT-01, EXPORT-02, EXPORT-04, EXPORT-05 | Phase 10 — Exportação PDF |
-| EXPORT-03, EXPORT-04* | Phase 11 — Exportação Excel |
+| ORG-03                                      | Phase 4 — Gestão de Organizações      |
+| FORM-01, FORM-04, UX-03                     | Phase 5 — Shell do Formulário         |
+| FORM-05, FORM-06                            | Phase 6 — Campos Torre 360            |
+| FORM-02, FORM-03, FORM-07, UX-02            | Phase 7 — Habilitações, NDA & G1-G5   |
+| SAVE-01–SAVE-06, UX-04, UX-05               | Phase 8 — Autosave & Versionamento    |
+| DASH-01–DASH-05                             | Phase 9 — Dashboard de Prontidão      |
+| EXPORT-01, EXPORT-02, EXPORT-04, EXPORT-05  | Phase 10 — Exportação PDF             |
+| EXPORT-03, EXPORT-04\*                      | Phase 11 — Exportação Excel           |
 
-> *EXPORT-04 (exportação de versão histórica) é implementado em ambas as fases de exportação (PDF e Excel); mapeado formalmente em Phase 10.
+> \*EXPORT-04 (exportação de versão histórica) é implementado em ambas as fases de exportação (PDF e Excel); mapeado formalmente em Phase 10.
 
 **Total v1:** 38 requisitos mapeados ✓ — 0 órfãos
 
