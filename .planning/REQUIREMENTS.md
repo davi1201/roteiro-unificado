@@ -61,7 +61,7 @@
 
 - [ ] **UX-01**: Paleta de cores: azul `#123B66` e laranja `#F28C28` como cores primárias
 - [ ] **UX-02**: Layout responsivo — funciona em desktop e tablet (formulário em campo)
-- [ ] **UX-03**: Indicador visual de aba ativa e progresso geral do formulário
+- [x] **UX-03**: Indicador visual de aba ativa e progresso geral do formulário
 - [ ] **UX-04**: Feedback visual ao salvar (toast de confirmação)
 - [ ] **UX-05**: Estados de loading/skeleton durante carregamento de dados do Supabase
 - [ ] **UX-06**: Formulário redesenhado — não é uma cópia fiel do HTML; experiência melhorada com Tailwind v4
