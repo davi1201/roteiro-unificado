@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 2 executada — aguardando verificação
-stopped_at: "Phase 2 executada — 3/3 planos completos"
-last_updated: "2026-05-22T20:00:00.000Z"
-last_activity: 2026-05-22 — Phase 2 executada (3 planos, 3 waves, banco remoto aplicado)
+status: Phase 2 completa — verificação passou
+stopped_at: "Phase 2 completa — UAT passou (6/6 testes)"
+last_updated: "2026-05-22T21:00:00.000Z"
+last_activity: 2026-05-22 — Phase 2 completa (schema + RLS + seed verificados no banco remoto)
 progress:
   total_phases: 12
   completed_phases: 1
