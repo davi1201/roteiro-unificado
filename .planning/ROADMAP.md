@@ -158,14 +158,27 @@ Plans:
 **Requirements:** FORM-01, FORM-04, UX-03
 **Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 4)_
 
-#### Plans
+**Plans:** 4 plans
 
-1. **Criar Zustand store do formulário** — `useFormStore` com estado tipado para todas as 10 seções; actions `updateSection(tab, data)`, `setActiveTab(tab)`, `resetForm()`; persistência no `sessionStorage` para sobreviver a refreshes acidentais
-2. **Criar componente `FormLayout`** — layout de duas colunas: sidebar de abas (esquerda) + área de conteúdo (direita); responsivo — sidebar vira tabs horizontais em mobile/tablet
-3. **Criar componente `TabNavigation`** — lista das 10 abas: Identificação, Torre Decisão, Torre Sienge, Torre Acesso, Torre Classificação, Hab Venda, Hab Repositórios, Hab Responsáveis, Hab Classificação, NDA; cada tab com ícone, label e indicador de status (não iniciado / em progresso / completo)
-4. **Implementar indicador de progresso por aba** — `ProgressBadge` por tab exibindo `%` de campos preenchidos da seção; barra de progresso geral no topo somando todas as seções (UX-03)
-5. **Criar hook `useFormSection(tabName)`** — abstração que retorna `{ data, updateField, errors, completeness }` para a aba solicitada; valida completude baseado em campos obrigatórios da seção
-6. **Criar rotas do formulário** — `/form/:orgId` renderiza `FormLayout`; navegação entre abas atualiza URL hash (`#identificacao`, `#torre-decisao`, etc.) para deep-link e browser back button funcionar
+Plans:
+**Wave 1** *(paralelo — sem dependências entre si)*
+
+- [ ] 05-01-PLAN.md — Expandir formStore (TabKey enum, activeTab, visitedTabs, sectionData + 4 actions, storage split localStorage/sessionStorage) e criar tabConfig.ts (TAB_CONFIG com 10 itens)
+- [ ] 05-02-PLAN.md — Criar ProgressBadge.tsx (componente puro presentacional com 3 estados SVG inline: círculo vazio / clock / check)
+
+**Wave 2** *(blocked on Wave 1 — depende de TabKey, TAB_CONFIG e ProgressBadge)*
+
+- [ ] 05-03-PLAN.md — Criar useFormSection hook + TabNavigation (stepper desktop / pills mobile com guard anti-loop de hash) + ProgressBar (faixa sticky h-1 no topo com aria-valuenow)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 05-04-PLAN.md — Criar FormLayout (sidebar bg-primary + TabNavigation + botão Sair + hash sync useEffect + cross-tenant guard) e religar router.tsx substituindo placeholder de /form/:orgId; checkpoint humano final de verificação visual no browser
+
+**Wave structure:**
+
+- Wave 1: 05-01 (store + tabConfig) + 05-02 (ProgressBadge) — paralelos, sem overlap de arquivos
+- Wave 2: 05-03 (hook + TabNavigation + ProgressBar) — consome artefatos da Wave 1
+- Wave 3: 05-04 (FormLayout + router wiring + checkpoint) — composição final
 
 **UAT:**
 
