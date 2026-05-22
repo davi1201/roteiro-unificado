@@ -493,17 +493,17 @@ export function ProgressBadge({ completeness }: ProgressBadgeProps) {
 
 ---
 
-## Perguntas em Aberto
+## Perguntas em Aberto (RESOLVED)
 
 1. **`hasHydrated()` no Zustand v5 — API exata**
    - O que sabemos: Zustand v5 expõe `persist.hasHydrated()` no `StoreApi` quando `persist` é usado
-   - O que está incerto: se `useFormStore(tenantId)` expõe diretamente esse método, ou se é necessário acessar via `createFormStore(tenantId).persist.hasHydrated()`
-   - Recomendação: usar flag local `const [hydrated, setHydrated] = useState(false)` dentro do `onRehydrateStorage` como fallback confiável; ou simplesmente exibir `Spinner` enquanto `sectionData` é `undefined` (indica que store não hidratou ainda)
+   - O que estava incerto: se `useFormStore(tenantId)` expõe diretamente esse método, ou se é necessário acessar via `createFormStore(tenantId).persist.hasHydrated()`
+   - **RESOLVED:** Não usar `hasHydrated()` — usar guard `isLoading` do `useAuth()` como indicador de estado de carregamento. Exibir `Spinner` enquanto `isLoading === true`; não depender da API `persist.hasHydrated()` que pode variar entre versões.
 
 2. **`orgId` de `useParams` vs `useAuth().orgId`**
    - O que sabemos: `router.tsx` define `/form/:orgId` com `:orgId` sendo o UUID da org; `useAuth().orgId` é o orgId do usuário autenticado
-   - O que está incerto: se admin pode acessar `/form/:orgId` de outra empresa (Phase 9 preview); nessa fase, formLayout deve usar `useParams().orgId` como `tenantId`
-   - Recomendação: usar `useParams<{ orgId: string }>().orgId` como `tenantId` — mais direto e disponível imediatamente sem aguardar auth async
+   - O que estava incerto: se admin pode acessar `/form/:orgId` de outra empresa (Phase 9 preview); nessa fase, formLayout deve usar `useParams().orgId` como `tenantId`
+   - **RESOLVED:** Usar `useParams<{ orgId: string }>().orgId` como `tenantId` — mais direto, disponível imediatamente sem aguardar auth async. Plan 04 implementa guard `routeOrgId === authOrgId` para segurança cross-tenant.
 
 ---
 
