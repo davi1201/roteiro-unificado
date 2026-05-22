@@ -3,7 +3,7 @@ id: "01-02"
 title: "Configurar Tailwind v4 com design tokens"
 phase: 1
 wave: 2
-status: pending
+status: done
 type: config
 depends_on: ["01-01"]
 must_haves:
