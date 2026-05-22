@@ -1,0 +1,1 @@
+cd roteiro-unificado && npx lint-staged
