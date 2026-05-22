@@ -82,15 +82,14 @@ export function TorreDecisaoSection({ tenantId }: TorreDecisaoSectionProps) {
     mode: 'onBlur',
   })
 
-  // D-02: sync RHF → Zustand store (padrão T-05-04-04 — store fora das deps para evitar loop)
-  const values = watch()
-  useEffect(
-    () => {
+  // D-02: sync RHF → Zustand via subscription (evita loop infinito — watch() retorna
+  // novo objeto a cada render, o que causaria deps instáveis no useEffect)
+  useEffect(() => {
+    const subscription = watch((values) => {
       store.updateSection(TabKey.TorreDecisao, values as Record<string, unknown>)
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [values]
-  )
+    })
+    return () => subscription.unsubscribe()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // FORM-06: campo condicional qualBI — aparece quando BI está ativo
   const watchedExisteBI = watch('existeBI')
