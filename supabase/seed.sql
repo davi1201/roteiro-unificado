@@ -10,7 +10,7 @@
 --   pgcrypto extension (habilitada por padrão no Supabase)
 --   Migrations 000001–000008 aplicadas (tabelas e RLS presentes)
 
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto" SCHEMA extensions;
 
 DO $$
 DECLARE
@@ -18,8 +18,8 @@ DECLARE
   v_empresa_id    UUID := gen_random_uuid();
   v_org_suaequipe UUID := gen_random_uuid();
   v_org_empresa1  UUID := gen_random_uuid();
-  v_admin_pw      TEXT := crypt('Admin@123', gen_salt('bf'));
-  v_empresa_pw    TEXT := crypt('Empresa@123', gen_salt('bf'));
+  v_admin_pw      TEXT := extensions.crypt('Admin@123', extensions.gen_salt('bf'));
+  v_empresa_pw    TEXT := extensions.crypt('Empresa@123', extensions.gen_salt('bf'));
 BEGIN
 
   -- ============================================================
