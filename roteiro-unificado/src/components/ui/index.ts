@@ -12,3 +12,12 @@ export type { Grade } from './badge'
 
 export { Spinner } from './spinner'
 export { Skeleton } from './skeleton'
+
+export {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+  DialogFooter,
+} from './dialog'
