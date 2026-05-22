@@ -58,10 +58,10 @@ Fonte: Inter (`--font-sans`). Pesos: 400 (regular) e 600 (semibold) — padrão 
 |------|------|--------|-------------|
 | Body | 14px (`text-sm`) | 400 (regular) | 1.5 |
 | Label | 14px (`text-sm`) | 600 (semibold) | 1.4 |
-| Tab label (sidebar) | 14px (`text-sm`) | 400 — ativo: 500 (`font-medium`) | 1.4 |
+| Tab label (sidebar) | 14px (`text-sm`) | 400 — ativo: 600 (semibold) | 1.4 |
 | Section heading (conteúdo) | 20px (`text-xl`) | 600 (semibold) | 1.2 |
 
-**Nota:** Nesta fase os headings de conteúdo são placeholders. "Tab label ativo" usa `font-medium` (500) conforme D-06 e padrão AdminSidebar.
+**Nota:** Nesta fase os headings de conteúdo são placeholders. "Tab label ativo" usa `font-semibold` (600) — diferenciação visual do estado ativo já é fornecida por cor (`text-white`) e fundo (`bg-primary-800`); o peso 500 (`font-medium`) foi removido para manter o contrato em 2 pesos máximos.
 
 **Fonte:** `src/components/layouts/AdminSidebar.tsx` (`text-sm`, `font-semibold`) + padrão estabelecido em Phase 1.
 
@@ -75,13 +75,12 @@ Tokens declarados em `src/index.css @theme`. Nunca usar hex diretamente nos comp
 |------|-------|----------------|-------|
 | Dominant (60%) | `bg-gray-50` / `bg-white` | #F9FAFB / #FFFFFF | Fundo da tela, área de conteúdo da aba ativa |
 | Secondary (30%) | `bg-primary` | #123B66 | Sidebar do stepper (fundo azul), igual ao AdminSidebar |
-| Accent (10%) | `text-accent` / `bg-accent` | #F28C28 | Ícone de status "em progresso" (D-11); progresso da barra no topo |
+| Accent (10%) | `text-accent` / `bg-accent` | #F28C28 | Ícone de status "em progresso" (D-11); estado hover do pill ativo no mobile |
 | Destructive | `bg-g1` | vermelho | Botão Sair — apenas se confirmação de ação destrutiva (n/a nesta fase) |
 
 **Accent reservado para:**
 1. Ícone de status "em progresso" (`completeness > 0 && < 1`) no stepper sidebar
-2. Barra de progresso geral no topo — parte preenchida (`bg-accent` ou `bg-primary` — ver abaixo)
-3. Estado hover do item ativo da aba no mobile (pill selecionado)
+2. Estado hover do item ativo da aba no mobile (pill selecionado)
 
 **Barra de progresso no topo:** `bg-primary` para a parte preenchida, `bg-gray-200` para o fundo — conforme D-05 (`bg-primary`). Fundo cinza claro é o estado inicial.
 
@@ -92,7 +91,7 @@ Tokens declarados em `src/index.css @theme`. Nunca usar hex diretamente nos comp
 
 **Item de aba ativo na sidebar:**
 - Fundo: `bg-primary-800` (azul mais escuro, padrão AdminSidebar)
-- Texto: `text-white font-medium`
+- Texto: `text-white font-semibold`
 
 **Item de aba não ativo na sidebar:**
 - Texto: `text-primary-100`
@@ -115,6 +114,8 @@ Tokens declarados em `src/index.css @theme`. Nunca usar hex diretamente nos comp
 | Tooltip de status (diferido) | DIFERIDO para Phase 6 — não implementar nesta fase |
 | Nome da empresa na sidebar | Exibir `orgId` ou nome da org obtido via `useAuth().orgId` — texto truncado com `truncate` se necessário |
 | Loading state (store rehidratando) | `Spinner` centralizado na área de conteúdo — sem texto adicional |
+
+**Nota sobre labels aprovados pelo usuário:** "Continuar" (D-06) e "Sair" (D-07) são labels de uma palavra sem substantivo — aprovados explicitamente pelo usuário em `05-CONTEXT.md`. Não alterar para formas com objeto (ex: "Continuar para próxima aba" ou "Sair da sessão").
 
 **Ações destrutivas nesta fase:** Apenas "Sair" (signOut). Sem dialog de confirmação — ação direta via `signOut()` do `useAuth()`. Não é destrutiva para dados (dados ficam em localStorage/sessionStorage).
 
@@ -186,7 +187,7 @@ Componentes reutilizados de `src/components/ui/`:
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Nota mobile:** Pills sem label completo — apenas ícone de status + abreviação se couber. `scrollIntoView()` ao trocar de aba é DIFERIDO para Phase 12.
+**Nota mobile:** Pills sem label completo — apenas ícone de status + abreviação se couber. `scrollIntoView()` ao trocar de aba é DIFERIDO para Phase 12. Cada pill clickável deve carregar `aria-label={tab.label}` (ex: `aria-label="Torre Decisão"`) para acessibilidade, já que o label completo não é exibido visualmente.
 
 **Fonte:** `05-CONTEXT.md` D-05, D-08, specifics; REQUIREMENTS.md UX-02.
 
@@ -224,7 +225,7 @@ Componentes reutilizados de `src/components/ui/`:
 | State | Classes |
 |-------|---------|
 | Não visitado (padrão) | `text-primary-100 hover:bg-primary-800 hover:text-white` |
-| Ativo | `bg-primary-800 text-white font-medium` |
+| Ativo | `bg-primary-800 text-white font-semibold` |
 | Visitado (em progresso) | `text-primary-100` + ícone `text-accent` |
 | Completo | `text-primary-100` + ícone `text-green-500` |
 
