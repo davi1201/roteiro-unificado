@@ -3,7 +3,7 @@ id: "01-07"
 title: "Configurar ESLint + Prettier + Husky"
 phase: 1
 wave: 1
-status: pending
+status: done
 type: config
 must_haves:
   - req: "UX-06"
