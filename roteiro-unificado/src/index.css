@@ -1,11 +1,61 @@
-*, *::before, *::after {
+@import 'tailwindcss';
+
+@theme {
+  /* ── Paleta Principal: Azul Corporativo ── */
+  --color-primary: oklch(0.348 0.088 252.7); /* #123B66 — cor base */
+  --color-primary-50: oklch(0.97 0.015 252.7);
+  --color-primary-100: oklch(0.93 0.03 252.7);
+  --color-primary-200: oklch(0.85 0.055 252.7);
+  --color-primary-300: oklch(0.73 0.075 252.7);
+  --color-primary-400: oklch(0.6 0.085 252.7);
+  --color-primary-500: oklch(0.49 0.09 252.7);
+  --color-primary-600: oklch(0.4 0.088 252.7);
+  --color-primary-700: oklch(0.348 0.088 252.7); /* = --color-primary */
+  --color-primary-800: oklch(0.28 0.075 252.7);
+  --color-primary-900: oklch(0.21 0.055 252.7);
+
+  /* ── Paleta Accent: Laranja de Ação ── */
+  --color-accent: oklch(0.735 0.161 58.8); /* #F28C28 — cor base */
+  --color-accent-50: oklch(0.98 0.025 58.8);
+  --color-accent-100: oklch(0.95 0.055 58.8);
+  --color-accent-200: oklch(0.89 0.1 58.8);
+  --color-accent-300: oklch(0.84 0.135 58.8);
+  --color-accent-400: oklch(0.79 0.155 58.8);
+  --color-accent-500: oklch(0.735 0.161 58.8); /* = --color-accent */
+  --color-accent-600: oklch(0.66 0.155 58.8);
+  --color-accent-700: oklch(0.57 0.14 58.8);
+  --color-accent-800: oklch(0.46 0.115 58.8);
+  --color-accent-900: oklch(0.36 0.085 58.8);
+
+  /* ── Escala de Avaliação G1-G5 ── */
+  --color-g1: oklch(0.5 0.23 22); /* Crítico   — vermelho */
+  --color-g2: oklch(0.735 0.161 58.8); /* Baixo     — laranja (= accent) */
+  --color-g3: oklch(0.795 0.185 86); /* Médio     — amarelo */
+  --color-g4: oklch(0.546 0.215 264.1); /* Bom       — azul */
+  --color-g5: oklch(0.59 0.16 150); /* Excelente — verde */
+
+  /* ── Tipografia ── */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  /* ── Raios de Borda ── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+/* Modo dark via classe .dark (não prefers-color-scheme) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Reset base */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  font-family: sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-

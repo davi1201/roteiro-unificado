@@ -1,35 +1,11 @@
 function App() {
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: '#123B66',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'sans-serif',
-      }}
-    >
-      <h1 style={{ color: '#ffffff', fontSize: '2rem', marginBottom: '1rem' }}>
-        Roteiro Unificado
-      </h1>
-      <p style={{ color: '#cbd5e1', marginBottom: '2rem' }}>
+    <div className="bg-primary flex min-h-screen flex-col items-center justify-center">
+      <h1 className="mb-4 text-3xl font-bold text-white">Roteiro Unificado</h1>
+      <p className="text-primary-200 mb-8">
         Plataforma de Avaliação de Prontidão — Piloto Sinduscon
       </p>
-      <button
-        style={{
-          background: '#F28C28',
-          color: '#ffffff',
-          border: 'none',
-          borderRadius: '0.375rem',
-          padding: '0.625rem 1.5rem',
-          fontSize: '1rem',
-          cursor: 'pointer',
-          fontWeight: 600,
-        }}
-        onClick={() => alert('App iniciado! Fase 1 — Scaffolding em progresso.')}
-      >
+      <button className="bg-accent hover:bg-accent-600 rounded-md px-6 py-2.5 font-semibold text-white transition-colors">
         Começar Avaliação
       </button>
     </div>

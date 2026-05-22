@@ -10,6 +10,12 @@ node_modules
 dist
 dist-ssr
 
+# TypeScript build artifacts (compiled JS output from tsc -b)
+*.tsbuildinfo
+*.d.ts
+src/**/*.js
+vite.config.js
+
 # Editor
 .vscode/*
 !.vscode/extensions.json
