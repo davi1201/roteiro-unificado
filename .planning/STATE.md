@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_execute
-stopped_at: Phase 3 planned — 6 plans, 4 waves
-last_updated: "2026-05-22T00:00:00.000Z"
+stopped_at: "03-01 complete — AuthProvider, useAuth, auth deps installed"
+last_updated: "2026-05-22T16:48:33.520Z"
 last_activity: 2026-05-22 — Phase 3 planejada (6 planos, 4 waves)
 progress:
   total_phases: 12
   completed_phases: 2
   total_plans: 16
-  completed_plans: 10
+  completed_plans: 11
   percent: 17
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-22)
 
 ## Current Position
 
-Phase: 3 de 12 — Authentication & Roteamento por Role — pronta para execução
-Plan: 0/6 executados
-Status: Phase 3 planejada — 6 planos em 4 waves, verificação aprovada
-Last activity: 2026-05-22 — Phase 3 planejada (6 planos, 4 waves)
+Phase: 3 de 12 — Authentication & Roteamento por Role — em execução
+Plan: 1/6 executados
+Status: 03-01 completo — AuthProvider, useAuth e deps de auth instalados
+Last activity: 2026-05-22 — 03-01 executado: AuthProvider + useAuth + deps instalados
 
-Progress: [█████████░] 86%
+Progress: [███████░░░] 69%
 
 ## Performance Metrics
 
@@ -71,6 +71,7 @@ Recent decisions affecting current work:
 - Phase 1 (01-07): Husky configurado com `cd roteiro-unificado` no pre-commit (git root ≠ app dir)
 - Phase 1 (01-03): `[_ in never]: never` adicionado em Tables/Enums para evitar no-empty-object-type ESLint error
 - ⚠️ Phase 3 pendente: localStorage key `form-progress` deve ser namespaceada por tenantId (risco de cross-tenant leakage)
+- Phase 3 (03-01): `.single<T>()` com tipo genérico explícito necessário para inferência correta do PostgREST Supabase client
 
 ### Pending Todos
 
@@ -90,4 +91,4 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-22
-Stopped at: Phase 3 planejada — pronta para execução
+Stopped at: Completed 03-01-PLAN.md — AuthProvider e useAuth criados

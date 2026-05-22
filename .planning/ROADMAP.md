@@ -81,10 +81,10 @@
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05
 **Depends on:** Phase 1 _(pode ser executada em paralelo com Phase 2)_
 
-**Plans:** 6 plans
+**Plans:** 1/6 plans executed
 
 Plans:
-- [ ] 03-01-PLAN.md — Instalar dependências (react-router-dom, RHF, Zod) + AuthProvider + useAuth()
+- [x] 03-01-PLAN.md — Instalar dependências (react-router-dom, RHF, Zod) + AuthProvider + useAuth()
 - [ ] 03-02-PLAN.md — Hook useUser() + atualizar formStore com persist key namespaceada por tenantId
 - [ ] 03-03-PLAN.md — Página de Login com layout UI-SPEC, validação Zod/RHF, auth flicker
 - [ ] 03-04-PLAN.md — Páginas ForgotPassword e ResetPassword (fluxo de recuperação de senha)
