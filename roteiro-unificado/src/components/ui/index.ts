@@ -25,3 +25,5 @@ export {
 // Field components (form Controller wrappers) — Phase 6
 export { SelectField } from './select-field'
 export { TextareaField } from './textarea-field'
+export { RadioGroupField } from './radio-group-field'
+export { CheckboxGroupField } from './checkbox-group-field'
