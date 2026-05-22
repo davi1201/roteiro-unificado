@@ -81,7 +81,7 @@
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05
 **Depends on:** Phase 1 _(pode ser executada em paralelo com Phase 2)_
 
-**Plans:** 5/6 plans executed
+**Plans:** 6/6 plans executed — COMPLETA
 
 Plans:
 - [x] 03-01-PLAN.md — Instalar dependências (react-router-dom, RHF, Zod) + AuthProvider + useAuth()
@@ -89,7 +89,7 @@ Plans:
 - [x] 03-03-PLAN.md — Página de Login com layout UI-SPEC, validação Zod/RHF, auth flicker
 - [x] 03-04-PLAN.md — Páginas ForgotPassword e ResetPassword (fluxo de recuperação de senha)
 - [x] 03-05-PLAN.md — ProtectedRoute, AdminRoute e configuração do React Router v6
-- [ ] 03-06-PLAN.md — Wiring final: App.tsx + main.tsx + roteamento pós-login por role
+- [x] 03-06-PLAN.md — Wiring final: App.tsx + main.tsx + roteamento pós-login por role
 
 **UAT:**
 
