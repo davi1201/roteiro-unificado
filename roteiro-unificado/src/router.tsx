@@ -7,6 +7,7 @@ import { AdminRoute } from '@/components/routing/AdminRoute'
 import { AdminLayout } from '@/components/layouts/AdminLayout'
 import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { OrgDetail } from '@/pages/admin/OrgDetail'
+import { FormLayout } from '@/features/form/FormLayout'
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/form/:orgId',
-        element: <div>Form Page — Phase 5</div>,
+        element: <FormLayout />,
       },
     ],
   },
