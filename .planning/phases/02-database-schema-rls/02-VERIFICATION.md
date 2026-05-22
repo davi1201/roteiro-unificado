@@ -1,30 +1,31 @@
 ---
 phase: 02-database-schema-rls
 verified: 2026-05-22T00:00:00Z
-status: human_needed
-score: 8/9 must-haves verified
+status: passed
+score: 9/9 must-haves verified
 overrides_applied: 0
 re_verification: false
 human_verification:
   - test: "Verificar isolamento RLS: empresa1 vê somente seus próprios assessments"
-    expected: "SELECT em public.assessments como empresa1 retorna 1 linha (seu draft); SELECT como admin retorna todas as linhas"
-    why_human: "RLS só pode ser testado contra o banco remoto com usuário autenticado real; grep não pode simular eval de policy em tempo de execução"
+    result: "✓ PASSED — empresa1 vê 1 org, 1 assessment; admin vê 2 orgs"
+    verified_at: "2026-05-22"
   - test: "Verificar login dos usuários de seed"
-    expected: "admin@suaequipe.ia / Admin@123 e empresa1@teste.com / Empresa@123 retornam sessão válida (não null) via Supabase Auth"
-    why_human: "Requer chamada a supabase.auth.signInWithPassword() contra projeto remoto"
+    result: "✓ PASSED — admin@suaequipe.ia e empresa1@teste.com retornam access_token válido"
+    note: "Usuários recriados via Admin Auth API (SQL-seeded users causavam schema error — pgcrypto format incompatível)"
+    verified_at: "2026-05-22"
   - test: "Confirmar dados de seed no banco remoto"
-    expected: "Table Editor mostra: orgs (2 linhas), org_members (2 linhas), assessments (1 linha draft)"
-    why_human: "Só confirmável via Supabase Dashboard ou CLI inspecionando banco remoto"
+    result: "✓ PASSED — orgs (2), org_members (2), assessments (1 draft)"
+    verified_at: "2026-05-22"
   - test: "INSERT em assessment com org_id de outra org falha via RLS"
-    expected: "INSERT retorna erro ou 0 rows afetados quando org_id não pertence ao user autenticado"
-    why_human: "Requer teste com cliente autenticado real contra banco remoto"
+    result: "✓ PASSED — INSERT cross-org retorna erro RLS (bloqueado)"
+    verified_at: "2026-05-22"
 ---
 
 # Phase 2: Database Schema & RLS — Verification Report
 
 **Phase Goal:** Banco de dados Supabase com todas as tabelas necessárias, enums, foreign keys e políticas RLS que garantem isolamento total entre organizações.
 **Verified:** 2026-05-22
-**Status:** human_needed
+**Status:** passed
 **Re-verification:** No — initial verification
 
 ---

@@ -1,14 +1,20 @@
 -- seed.sql — dados de teste para o piloto Sinduscon
--- APLICAR VIA: Dashboard SQL Editor do Supabase (não via supabase db reset — destrutivo no remote)
+-- APLICAR VIA: supabase db push --include-seed (ou Dashboard SQL Editor)
 -- Credenciais de teste: admin@suaequipe.ia / Admin@123 | empresa1@teste.com / Empresa@123
 --
--- Este script é idempotente: executar mais de uma vez causará erro de duplicação (ON CONFLICT
--- pode ser adicionado depois se necessário). Em ambiente de desenvolvimento limpo, executar
--- após aplicar todas as migrations (000001–000008).
+-- ATENÇÃO: Este script cria orgs, org_members e um assessment de rascunho.
+-- Os usuários auth.users devem ser criados SEPARADAMENTE via Admin Auth API
+-- (não via SQL) para compatibilidade com o Supabase Auth:
+--   curl -X POST {SUPABASE_URL}/auth/v1/admin/users \
+--     -H "Authorization: Bearer {SERVICE_ROLE_KEY}" \
+--     -d '{"email":"admin@suaequipe.ia","password":"Admin@123","email_confirm":true}'
+--
+-- Motivo: extensão pgcrypto gera hash $2a$ (bcrypt 2a) mas Supabase Auth espera
+-- formato interno próprio. Criação via Admin API garante compatibilidade.
 --
 -- Dependências:
---   pgcrypto extension (habilitada por padrão no Supabase)
---   Migrations 000001–000008 aplicadas (tabelas e RLS presentes)
+--   Migrations 000001–000008 aplicadas
+--   Usuários criados via Admin API com IDs conhecidos (substitua abaixo)
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto" SCHEMA extensions;
 
