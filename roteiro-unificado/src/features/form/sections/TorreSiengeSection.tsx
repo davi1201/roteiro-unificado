@@ -61,11 +61,14 @@ export function TorreSiengeSection({ tenantId }: TorreSiengeSectionProps) {
     mode: 'onBlur',
   })
 
-  // D-02: sync RHF → Zustand — store fora das deps para evitar loop infinito (T-06-04-02)
-  const values = watch()
+  // D-02: sync RHF → Zustand via subscription (evita loop infinito — watch() retorna
+  // novo objeto a cada render, o que causaria deps instáveis no useEffect)
   useEffect(() => {
-    store.updateSection(TabKey.TorreSienge, values as Record<string, unknown>)
-  }, [values]) // eslint-disable-line react-hooks/exhaustive-deps
+    const subscription = watch((values) => {
+      store.updateSection(TabKey.TorreSienge, values as Record<string, unknown>)
+    })
+    return () => subscription.unsubscribe()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const moduleErrors = (errors.modules as unknown as ModuleErrors) ?? {}
 
