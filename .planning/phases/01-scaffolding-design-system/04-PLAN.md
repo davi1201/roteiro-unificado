@@ -3,7 +3,7 @@ id: "01-04"
 title: "Configurar TanStack Query v5 e Zustand"
 phase: 1
 wave: 2
-status: pending
+status: done
 type: setup
 depends_on: ["01-01"]
 must_haves:
