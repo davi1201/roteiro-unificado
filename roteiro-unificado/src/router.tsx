@@ -4,6 +4,9 @@ import { ForgotPassword } from '@/pages/ForgotPassword'
 import { ResetPassword } from '@/pages/ResetPassword'
 import { ProtectedRoute } from '@/components/routing/ProtectedRoute'
 import { AdminRoute } from '@/components/routing/AdminRoute'
+import { AdminLayout } from '@/components/layouts/AdminLayout'
+import { AdminDashboard } from '@/pages/admin/AdminDashboard'
+import { OrgDetail } from '@/pages/admin/OrgDetail'
 
 export const router = createBrowserRouter([
   {
@@ -35,12 +38,11 @@ export const router = createBrowserRouter([
     element: <AdminRoute />,
     children: [
       {
-        path: '/admin/dashboard',
-        element: <div>Admin Dashboard — Phase 4</div>,
-      },
-      {
-        path: '/admin/orgs/:orgId',
-        element: <div>Org Detail — Phase 4</div>,
+        element: <AdminLayout />,
+        children: [
+          { path: '/admin/dashboard', element: <AdminDashboard /> },
+          { path: '/admin/orgs/:orgId', element: <OrgDetail /> },
+        ],
       },
     ],
   },
