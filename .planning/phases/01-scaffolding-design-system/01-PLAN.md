@@ -3,7 +3,7 @@ id: "01-01"
 title: "Inicializar projeto Vite + React + TypeScript"
 phase: 1
 wave: 1
-status: pending
+status: done
 type: setup
 must_haves:
   - req: "UX-01"
