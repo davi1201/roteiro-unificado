@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 5 UI-SPEC approved
-last_updated: "2026-05-22T19:53:35.133Z"
+last_updated: "2026-05-22T19:59:01Z"
 last_activity: 2026-05-22
 progress:
   total_phases: 12
   completed_phases: 4
   total_plans: 25
-  completed_plans: 23
-  percent: 33
+  completed_plans: 24
+  percent: 35
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-22)
 ## Current Position
 
 Phase: 05 (shell-do-formul-rio-navega-o-por-abas) — EXECUTING
-Plan: 3 of 4
+Plan: 4 of 4
 Status: Ready to execute
 Last activity: 2026-05-22
 
@@ -79,6 +79,7 @@ Recent decisions affecting current work:
 - Phase 3 (03-06): useEffect observando [session, role, orgId, isLoading] para redirect pos-login assincrono — resolve timing do onAuthStateChange sem setTimeout
 - Phase 3 (03-06): Toaster permanece fora de AuthProvider como irmao — componente global nao depende de auth context
 - Phase 3 (03-06): navigate com replace:true em todos os redirects de auth — /login nao fica no historico do browser
+- Phase 5 (05-03): window.history.replaceState usado em vez de window.location.hash = tab — react-hooks/immutability proíbe atribuição direta a globals em handlers React (eslint-plugin-react-hooks v7)
 
 ### Pending Todos
 
@@ -96,5 +97,5 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-22T19:53:35.121Z
-Stopped at: Phase 5 UI-SPEC approved
+Last session: 2026-05-22T19:59:01Z
+Stopped at: Phase 05 Plan 03 complete — useFormSection + TabNavigation + ProgressBar criados
