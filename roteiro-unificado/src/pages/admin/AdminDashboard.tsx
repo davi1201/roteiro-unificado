@@ -3,6 +3,7 @@ import { Button } from '@/components/ui'
 import { useOrgs } from '@/features/admin/useOrgs'
 import { OrgTable } from '@/components/admin/OrgTable'
 import { CreateOrgModal } from '@/components/admin/CreateOrgModal'
+import { ArchiveOrgDialog } from '@/components/admin/ArchiveOrgDialog'
 import { useToast } from '@/hooks/useToast'
 
 const PAGE_SIZE = 10
@@ -11,6 +12,7 @@ export function AdminDashboard() {
   const { data: orgs = [], isLoading, isError, error } = useOrgs()
   const [page, setPage] = useState(1)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [archiveTarget, setArchiveTarget] = useState<{ id: string; name: string } | null>(null)
   const toast = useToast()
 
   useEffect(() => {
@@ -28,9 +30,8 @@ export function AdminDashboard() {
 
   const handleNewOrg = () => setIsCreateModalOpen(true)
 
-  const handleArchive = (_orgId: string, _orgName: string) => {
-    // será implementado no Plan 05 — abrir confirm dialog
-    toast.info('Funcionalidade disponível em breve')
+  const handleArchive = (orgId: string, orgName: string) => {
+    setArchiveTarget({ id: orgId, name: orgName })
   }
 
   return (
@@ -72,6 +73,12 @@ export function AdminDashboard() {
         </div>
       )}
       <CreateOrgModal open={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
+      <ArchiveOrgDialog
+        open={archiveTarget !== null}
+        orgId={archiveTarget?.id ?? null}
+        orgName={archiveTarget?.name ?? null}
+        onClose={() => setArchiveTarget(null)}
+      />
     </div>
   )
 }

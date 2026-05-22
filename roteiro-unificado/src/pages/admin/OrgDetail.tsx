@@ -4,11 +4,13 @@ import { Button, Card, CardHeader, CardContent, Spinner } from '@/components/ui'
 import { useOrgDetail } from '@/features/admin/useOrgDetail'
 import { MemberTable } from '@/components/admin/MemberTable'
 import { AddMemberModal } from '@/components/admin/AddMemberModal'
+import { ArchiveOrgDialog } from '@/components/admin/ArchiveOrgDialog'
 
 export function OrgDetail() {
   const { orgId } = useParams<{ orgId: string }>()
   const { org, members, isLoading } = useOrgDetail(orgId)
   const [isAddMemberOpen, setIsAddMemberOpen] = useState(false)
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false)
 
   if (isLoading) {
     return (
@@ -57,7 +59,9 @@ export function OrgDetail() {
           <h1 className="text-xl font-semibold text-gray-900">{org.name}</h1>
           {statusBadge}
         </div>
-        {/* Botao "Arquivar" sera wired no Plan 05 */}
+        <Button variant="danger" onClick={() => setIsArchiveOpen(true)} disabled={!org.active}>
+          {org.active ? 'Arquivar' : 'Arquivada'}
+        </Button>
       </div>
 
       {/* Members card */}
@@ -83,6 +87,12 @@ export function OrgDetail() {
           onClose={() => setIsAddMemberOpen(false)}
         />
       )}
+      <ArchiveOrgDialog
+        open={isArchiveOpen}
+        orgId={org.id}
+        orgName={org.name}
+        onClose={() => setIsArchiveOpen(false)}
+      />
     </div>
   )
 }
