@@ -97,35 +97,40 @@ Deferidos para versão futura — fora do escopo do MVP.
 
 ## Out of Scope
 
-| Feature | Motivo |
-|---------|--------|
-| App mobile nativo | Web responsiva cobre o caso de uso; escala não justifica custo |
-| Módulo de assinatura do NDA | NDA é registrado no formulário; assinatura digital é fase posterior |
-| Integração Sienge (v1) | Avaliação inicial é manual; integração técnica é fase pós-piloto |
-| Notificações por e-mail/WhatsApp | Fora do MVP; não impacta prontidão para produção do piloto |
-| Multi-idioma | Contexto brasileiro, português apenas |
+| Feature                          | Motivo                                                              |
+| -------------------------------- | ------------------------------------------------------------------- |
+| App mobile nativo                | Web responsiva cobre o caso de uso; escala não justifica custo      |
+| Módulo de assinatura do NDA      | NDA é registrado no formulário; assinatura digital é fase posterior |
+| Integração Sienge (v1)           | Avaliação inicial é manual; integração técnica é fase pós-piloto    |
+| Notificações por e-mail/WhatsApp | Fora do MVP; não impacta prontidão para produção do piloto          |
+| Multi-idioma                     | Contexto brasileiro, português apenas                               |
 
 ---
 
 ## Traceabilidade
 
-| Requisito | Fase | Status |
-|-----------|------|--------|
-| AUTH-01 a AUTH-05 | Fase 1 — Fundação & Auth | Pendente |
-| ORG-01 a ORG-04 | Fase 1 — Fundação & Auth | Pendente |
-| FORM-01 a FORM-03 | Fase 2 — Estrutura do Formulário | Pendente |
-| FORM-04 a FORM-07 | Fase 3 — Lógica do Formulário | Pendente |
-| SAVE-01 a SAVE-03 | Fase 4 — Persistência & Autosave | Pendente |
-| SAVE-04 a SAVE-06 | Fase 5 — Versionamento | Pendente |
-| DASH-01 a DASH-05 | Fase 6 — Dashboard | Pendente |
-| EXPORT-01 a EXPORT-05 | Fase 7 — Exportação | Pendente |
-| UX-01 a UX-06 | Transversal (em todas as fases) | Pendente |
+| Requisito             | Fase                                        | Status   |
+| --------------------- | ------------------------------------------- | -------- |
+| UX-01, UX-06          | Phase 1 — Scaffolding & Design System       | Pendente |
+| ORG-01, ORG-02, ORG-04 | Phase 2 — Database Schema & RLS            | Pendente |
+| AUTH-01 a AUTH-05     | Phase 3 — Authentication & Roteamento      | Pendente |
+| ORG-03                | Phase 4 — Gestão de Organizações           | Pendente |
+| FORM-01, FORM-04, UX-03 | Phase 5 — Shell do Formulário             | Pendente |
+| FORM-05, FORM-06      | Phase 6 — Campos Torre 360                 | Pendente |
+| FORM-02, FORM-03, FORM-07, UX-02 | Phase 7 — Habilitações, NDA & G1-G5 | Pendente |
+| SAVE-01 a SAVE-06, UX-04, UX-05 | Phase 8 — Autosave & Versionamento | Pendente |
+| DASH-01 a DASH-05     | Phase 9 — Dashboard de Prontidão            | Pendente |
+| EXPORT-01, EXPORT-02, EXPORT-04, EXPORT-05 | Phase 10 — Exportação PDF | Pendente |
+| EXPORT-03, EXPORT-04  | Phase 11 — Exportação Excel                 | Pendente |
+| (verificação final de UX-01 a UX-06 como sistema) | Phase 12 — Polimento & Deploy | Pendente |
 
 **Cobertura:**
+
 - v1 requirements: 38 total
 - Mapeados para fases: 38
 - Sem fase: 0 ✓
 
 ---
-*Requirements definidos: 2026-05-22*
-*Última atualização: 2026-05-22 após inicialização*
+
+_Requirements definidos: 2026-05-22_
+_Última atualização: 2026-05-22 após criação do ROADMAP.md (12 fases)_
