@@ -1,20 +1,71 @@
 import { useFormStore, TabKey } from '@/stores/formStore'
+import { useFormState, type Control, type FieldValues, type FieldErrors } from 'react-hook-form'
 
 /**
  * Hook de abstração para acessar o slice de dados de uma aba específica do formulário.
  *
- * Retorna:
- * - `data`: objeto com os campos preenchidos na aba (vazio se nunca tocada)
- * - `updateField`: mergea um campo no objeto da aba via updateSection
- * - `errors`: erros de validação por campo (sempre vazio em Phase 5 — Zod vem na Phase 6)
- * - `completeness`: proxy de completude; 0.01 se a aba foi visitada, 0 caso contrário (D-09)
+ * ## Assinatura (Phase 6 — D-03)
  *
- * Phase 6+ pode sobrepor `completeness` com cálculo Zod real e otimizar a assinatura
- * para usar um selector específico em vez de assinar o snapshot completo da store.
+ * ```ts
+ * useFormSection(tenantId, tab)                            // comportamento Phase 5 (compat)
+ * useFormSection(tenantId, tab, control)                   // errors reais + completeness derivado
+ * useFormSection(tenantId, tab, control, totalRequired)    // completeness = filledRequired/total
+ * ```
+ *
+ * ## Compatibilidade retroativa
+ *
+ * Quando `control` é ausente, o hook mantém o comportamento exato da Phase 5:
+ * - `errors`: sempre `{}`
+ * - `completeness`: `0.01` se a aba foi visitada, `0` caso contrário (D-09)
+ *
+ * ## Com control fornecido
+ *
+ * - `errors`: mapa achatado `field → mensagem` derivado de `formState.errors` via RHF
+ * - `completeness`: se `totalRequired > 0`, `filledRequired / totalRequired` em `[0, 1]`;
+ *   se `totalRequired` ausente/0, usa `isDirty && errorCount === 0 ? 1 : (visitedTabs ? 0.5 : 0)`
+ *
+ * ## Regra de hooks
+ *
+ * `useFormState` é chamado incondicionalmente — o `control` opcional é passado diretamente
+ * para o hook (RHF trata `control: undefined` como "sem subscription", retornando estado vazio).
+ * Isso garante conformidade com a regra rules-of-hooks sem sub-hooks ou flags condicionais.
+ *
+ * @see .planning/phases/06-campos-do-formul-rio-torre-360/06-CONTEXT.md D-03
  */
-export function useFormSection(
+
+// ---------------------------------------------------------------------------
+// Helpers locais
+// ---------------------------------------------------------------------------
+
+/**
+ * Achata um objeto FieldErrors aninhado em Record<string, string>.
+ * Campos aninhados usam dot-notation como chave (ex: "modules.cadastros.contratado").
+ */
+function flattenErrors(errs: FieldErrors, prefix = ''): Record<string, string> {
+  const out: Record<string, string> = {}
+  for (const [key, val] of Object.entries(errs ?? {})) {
+    const fullKey = prefix ? `${prefix}.${key}` : key
+    if (val && typeof val === 'object') {
+      if ('message' in val && typeof (val as { message?: unknown }).message === 'string') {
+        out[fullKey] = (val as { message: string }).message
+      } else {
+        // Nó intermediário: recursar com prefixo acumulado
+        Object.assign(out, flattenErrors(val as FieldErrors, fullKey))
+      }
+    }
+  }
+  return out
+}
+
+// ---------------------------------------------------------------------------
+// Hook
+// ---------------------------------------------------------------------------
+
+export function useFormSection<T extends FieldValues = FieldValues>(
   tenantId: string,
-  tab: TabKey
+  tab: TabKey,
+  control?: Control<T>,
+  totalRequired?: number
 ): {
   data: Record<string, unknown>
   updateField: (field: string, value: unknown) => void
@@ -30,12 +81,33 @@ export function useFormSection(
   const updateField = (field: string, value: unknown) =>
     store.updateSection(tab, { ...data, [field]: value })
 
-  // Phase 5 não tem schema Zod; erros sempre vazios
-  const errors: Record<string, string> = {}
+  // CRÍTICO (rules-of-hooks): useFormState SEMPRE chamado, nunca condicionalmente.
+  // Quando control é undefined, RHF retorna estado vazio: errors={}, isDirty=false.
+  const formState = useFormState({ control: control as Control<FieldValues> | undefined })
 
-  // Proxy de completude: 0.01 se a aba foi visitada, 0 caso contrário (D-09)
-  // Phase 6+ substitui por cálculo real baseado em campos obrigatórios preenchidos
-  const completeness = store.visitedTabs.has(tab) ? 0.01 : 0
+  // Cálculo de errors e completeness — bifurca em compat (Phase 5) vs. real (Phase 6+)
+  let errors: Record<string, string>
+  let completeness: number
+
+  if (control) {
+    // Phase 6+: errors derivados do formState real
+    errors = flattenErrors(formState.errors as FieldErrors)
+    const errorCount = Object.keys(errors).length
+
+    if (totalRequired && totalRequired > 0) {
+      // totalRequired fornecido: completeness = campos preenchidos sem erro / total obrigatório
+      const filled = Math.max(0, totalRequired - errorCount)
+      completeness = filled / totalRequired
+    } else {
+      // totalRequired ausente: aba completa se foi tocada (isDirty) e sem erros
+      completeness =
+        formState.isDirty && errorCount === 0 ? 1 : store.visitedTabs.has(tab) ? 0.5 : 0
+    }
+  } else {
+    // Phase 5 compat: sentinels originais preservados (D-09)
+    errors = {}
+    completeness = store.visitedTabs.has(tab) ? 0.01 : 0
+  }
 
   return { data, updateField, errors, completeness }
 }
