@@ -81,14 +81,15 @@
 **Requirements:** AUTH-01, AUTH-02, AUTH-03, AUTH-04, AUTH-05
 **Depends on:** Phase 1 _(pode ser executada em paralelo com Phase 2)_
 
-#### Plans
+**Plans:** 6 plans
 
-1. **Criar AuthProvider e hook `useAuth()`** — contexto React que expõe `user`, `session`, `role`, `orgId`; subscrição a `onAuthStateChange`; `createBrowserClient` com persistência automática de sessão via `localStorage`
-2. **Criar página de Login** — formulário com React Hook Form + Zod (`email`, `password`); chamada a `supabase.auth.signInWithPassword()`; exibição de erro inline em caso de credenciais inválidas; estado de loading no botão
-3. **Criar página de Recuperação de Senha** — formulário com campo `email`; chamada a `supabase.auth.resetPasswordForEmail()`; feedback de sucesso/erro; página de redefinição de senha com token
-4. **Configurar React Router com rotas protegidas** — instalar `react-router-dom`; criar `ProtectedRoute` que verifica sessão ativa; criar `AdminRoute` que verifica `role === 'admin'`; redirect para `/login` se não autenticado
-5. **Implementar roteamento pós-login por role** — após login bem-sucedido: admin → `/admin/dashboard`; construtora → `/form/:orgId`; buscar `org_id` e `role` da tabela `org_members` via `auth.uid()`
-6. **Criar hook `useUser()`** — abstração sobre AuthContext que expõe `profile`, `role`, `orgId`, `isAdmin`; usado por todos os componentes que precisam de contexto de usuário
+Plans:
+- [ ] 03-01-PLAN.md — Instalar dependências (react-router-dom, RHF, Zod) + AuthProvider + useAuth()
+- [ ] 03-02-PLAN.md — Hook useUser() + atualizar formStore com persist key namespaceada por tenantId
+- [ ] 03-03-PLAN.md — Página de Login com layout UI-SPEC, validação Zod/RHF, auth flicker
+- [ ] 03-04-PLAN.md — Páginas ForgotPassword e ResetPassword (fluxo de recuperação de senha)
+- [ ] 03-05-PLAN.md — ProtectedRoute, AdminRoute e configuração do React Router v6
+- [ ] 03-06-PLAN.md — Wiring final: App.tsx + main.tsx + roteamento pós-login por role
 
 **UAT:**
 
