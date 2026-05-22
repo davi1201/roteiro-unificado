@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
+import { AuthProvider } from '@/features/auth/AuthProvider'
 import './index.css'
 import App from './App'
 
@@ -20,7 +21,9 @@ if (!root) throw new Error('Root element not found')
 createRoot(root).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
       <Toaster position="top-right" richColors duration={4000} closeButton />
     </QueryClientProvider>
   </StrictMode>

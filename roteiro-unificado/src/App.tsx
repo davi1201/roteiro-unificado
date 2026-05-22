@@ -1,7 +1,8 @@
-import { DesignSystem } from '@/pages/DesignSystem'
+import { RouterProvider } from 'react-router-dom'
+import { router } from '@/router'
 
 function App() {
-  return <DesignSystem />
+  return <RouterProvider router={router} />
 }
 
 export default App
