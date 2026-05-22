@@ -109,25 +109,25 @@ Plans:
 **Requirements:** ORG-03
 **Depends on:** Phases 2 + 3 _(pode ser executada em paralelo com Phase 5)_
 
-**Plans:** 5 plans
+**Plans:** 5/5 plans complete
 
 Plans:
 **Wave 1**
 
-- [ ] 04-01-PLAN.md — Criar shell do painel admin (Dialog primitive + AdminLayout + AdminSidebar + AdminHeader; substituir placeholders das rotas admin no router.tsx)
+- [x] 04-01-PLAN.md — Criar shell do painel admin (Dialog primitive + AdminLayout + AdminSidebar + AdminHeader; substituir placeholders das rotas admin no router.tsx)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 04-02-PLAN.md — Criar página de listagem de organizações (hook useOrgs com member_count agregado + OrgTable apresentacional + paginação client-side)
+- [x] 04-02-PLAN.md — Criar página de listagem de organizações (hook useOrgs com member_count agregado + OrgTable apresentacional + paginação client-side)
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 04-03-PLAN.md — Criar modal de criação de organização (schema Zod + CreateOrgModal com React Hook Form + INSERT orgs + invalidateQueries)
-- [ ] 04-04-PLAN.md — Criar página de detalhe da organização e Edge Function create-user (service_role isolado em Deno; AddMemberModal com fluxo Edge Function → INSERT org_members)
+- [x] 04-03-PLAN.md — Criar modal de criação de organização (schema Zod + CreateOrgModal com React Hook Form + INSERT orgs + invalidateQueries)
+- [x] 04-04-PLAN.md — Criar página de detalhe da organização e Edge Function create-user (service_role isolado em Deno; AddMemberModal com fluxo Edge Function → INSERT org_members)
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 04-05-PLAN.md — Implementar desativação de organização (useArchiveOrg + ArchiveOrgDialog; wiring em AdminDashboard e OrgDetail)
+- [x] 04-05-PLAN.md — Implementar desativação de organização (useArchiveOrg + ArchiveOrgDialog; wiring em AdminDashboard e OrgDetail)
 
 **Wave structure:**
 
