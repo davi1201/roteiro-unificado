@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'sonner'
 import './index.css'
 import App from './App'
 
@@ -20,7 +21,7 @@ createRoot(root).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <App />
-      {/* Toaster (Sonner) será adicionado no Plano 01-06 */}
+      <Toaster position="top-right" richColors duration={4000} closeButton />
     </QueryClientProvider>
   </StrictMode>
 )
