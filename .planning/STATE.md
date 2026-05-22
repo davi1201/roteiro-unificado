@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Wave 2 completa — plans 01-04 executados (useUser, formStore, Login, ForgotPassword, ResetPassword)
-stopped_at: Wave 2 concluída — aguardando Wave 3 (03-05)
-last_updated: "2026-05-22T17:10:00.000Z"
-last_activity: "2026-05-22 — Plans 01-04 executados; Wave 2 completa"
+status: "Wave 2 concluída — iniciando Wave 3 (03-05: ProtectedRoute + AdminRoute + router)"
+stopped_at: "Wave 2 completa — Plans 03-01 a 03-04 executados; próximo: Wave 3 (03-05)"
+last_updated: "2026-05-22T17:04:14.007Z"
+last_activity: 2026-05-22 — Plans 01-04 executados em paralelo
 progress:
   total_phases: 12
   completed_phases: 2
   total_plans: 16
-  completed_plans: 14
+  completed_plans: 15
   percent: 17
 ---
 
@@ -30,7 +30,7 @@ Plan: 4/6 executados (03-01, 03-02, 03-03, 03-04 completos)
 Status: Wave 2 concluída — iniciando Wave 3 (03-05: ProtectedRoute + AdminRoute + router)
 Last activity: 2026-05-22 — Plans 01-04 executados em paralelo
 
-Progress: [█████████░] 90%
+Progress: [█████████░] 94%
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Progress: [█████████░] 90%
 - Trend: estável
 
 _Updated após cada plano concluído_
+| Phase 03-authentication-roteamento-por-role P05 | 181 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -73,6 +74,7 @@ Recent decisions affecting current work:
 - Phase 1 (01-03): `[_ in never]: never` adicionado em Tables/Enums para evitar no-empty-object-type ESLint error
 - Phase 3 (03-01): `.single<T>()` com tipo genérico explícito necessário para inferência correta do PostgREST Supabase client
 - Phase 3 (03-02): formStore atualizado com persist key `form-progress-${tenantId}` — risco de cross-tenant leakage eliminado
+- [Phase ?]: React Router v6 pattern
 
 ### Pending Todos
 
@@ -90,5 +92,5 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-22T17:10:00.000Z
+Last session: 2026-05-22T17:04:09.413Z
 Stopped at: Wave 2 completa — Plans 03-01 a 03-04 executados; próximo: Wave 3 (03-05)
