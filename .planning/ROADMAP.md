@@ -58,11 +58,11 @@
 
 #### Plans
 
-1. **Criar tabelas core** — migration SQL: `orgs (id, name, cnpj, created_at)`, `org_members (id, org_id, user_id, role, created_at)`, `assessments (id, org_id, status, form_data JSONB, version INT, created_at, submitted_at)` — com constraints e foreign keys
-2. **Definir enums e índices** — enum `member_role AS ('admin', 'company')`; enum `assessment_status AS ('draft', 'submitted')`; índices em `org_id`, `user_id`, `status`; índice composto `(org_id, version)` para queries de histórico
-3. **Implementar RLS policies em `orgs`** — `SELECT` apenas se `id` está em `org_members` para o `auth.uid()` atual ou role = admin; `INSERT`/`UPDATE`/`DELETE` apenas para admins
-4. **Implementar RLS policies em `assessments`** — `SELECT`, `INSERT`, `UPDATE` apenas se `org_id` do registro está em `org_members` do usuário autenticado; admins têm `SELECT` em tudo; nenhum `DELETE` permitido (append-only)
-5. **Criar migration de seed** — inserir org de teste `org_test`, usuário admin `admin@suaequipe.ia`, usuário de construtora `empresa1@teste.com`; script de seed executável via Supabase CLI
+**Plans:** 3 plans
+
+- [ ] 02-01-PLAN.md — Inicializar Supabase CLI, criar migrations de schema base (enums/tabelas/índices) e popular database.ts com tipos TypeScript
+- [ ] 02-02-PLAN.md — Criar migrations de RLS (enable, helper functions, policies) e seed SQL com usuários de teste
+- [ ] 02-03-PLAN.md — [BLOCKING] Aplicar schema ao banco remoto via supabase db push e verificar isolamento RLS
 
 **UAT:**
 
