@@ -52,18 +52,19 @@ Qualquer construtora do piloto consegue preencher, salvar e retomar sua avaliaç
 
 ## Key Decisions
 
-| Decisão | Racional | Outcome |
-|---------|----------|---------|
-| Supabase como BaaS | Auth + DB + RLS integrados, sem backend custom para o MVP | — Pending |
-| Tailwind v4 | Requisito explícito do usuário | — Pending |
-| Versionamento de avaliações | Preservar histórico por empresa é requisito v1 (não deixar para depois) | — Pending |
-| Construtoras com acesso direto | Reduz intermediação; construtoras preenchem por conta própria | — Pending |
+| Decisão                        | Racional                                                                | Outcome   |
+| ------------------------------ | ----------------------------------------------------------------------- | --------- |
+| Supabase como BaaS             | Auth + DB + RLS integrados, sem backend custom para o MVP               | — Pending |
+| Tailwind v4                    | Requisito explícito do usuário                                          | — Pending |
+| Versionamento de avaliações    | Preservar histórico por empresa é requisito v1 (não deixar para depois) | — Pending |
+| Construtoras com acesso direto | Reduz intermediação; construtoras preenchem por conta própria           | — Pending |
 
 ## Evolution
 
 Este documento evolui a cada transição de fase e milestone.
 
 **Após cada fase** (via `/gsd-transition`):
+
 1. Requisitos invalidados? → Mover para Out of Scope com motivo
 2. Requisitos validados? → Mover para Validated com referência de fase
 3. Novos requisitos surgiram? → Adicionar em Active
@@ -71,9 +72,11 @@ Este documento evolui a cada transição de fase e milestone.
 5. "What This Is" ainda preciso? → Atualizar se derivou
 
 **Após cada milestone** (via `/gsd:complete-milestone`):
+
 1. Revisão completa de todas as seções
 2. Core Value check — ainda a prioridade certa?
 3. Auditar Out of Scope — motivos ainda válidos?
 
 ---
-*Last updated: 2026-05-22 após inicialização*
+
+_Last updated: 2026-05-22 após inicialização_
