@@ -101,7 +101,7 @@ Tokens definidos em `src/index.css` via `@theme {}`. Nunca hardcodar hex nos com
 | Estado | Cor do ícone (ProgressBadge) | Pill de texto |
 |--------|------------------------------|---------------|
 | Vazio | `text-primary-300` (círculo vazio) | `bg-gray-100 text-gray-600` "Não iniciado" |
-| Em progresso | `text-accent` (ícone clock) | `bg-accent-100 text-accent-700` "Em progresso" |
+| Em progresso | `text-accent` (ícone clock) | `bg-orange-100 text-orange-700` "Em progresso" |
 | Completo | `text-green-500` (ícone check) | `bg-green-100 text-green-700` "Completo" |
 
 Fonte: `src/index.css` tokens + `badge.tsx` + `ProgressBadge.tsx` + `HistoryPage.tsx` padrões.
