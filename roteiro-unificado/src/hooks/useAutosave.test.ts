@@ -61,8 +61,18 @@ vi.mock('@/lib/supabase', () => ({
 // Mock do useToast para capturar chamadas de toast
 const mockSuccess = vi.fn()
 const mockWarning = vi.fn()
+const mockError = vi.fn()
+const mockInfo = vi.fn()
 vi.mock('@/hooks/useToast', () => ({
-  useToast: () => ({ success: mockSuccess, warning: mockWarning }),
+  useToast: () => ({
+    success: mockSuccess,
+    warning: mockWarning,
+    error: mockError,
+    info: mockInfo,
+    loading: vi.fn(),
+    promise: vi.fn(),
+    dismiss: vi.fn(),
+  }),
 }))
 
 // Helpers para manipular timers falsos
@@ -70,6 +80,8 @@ beforeEach(() => {
   vi.useFakeTimers()
   mockSuccess.mockClear()
   mockWarning.mockClear()
+  mockError.mockClear()
+  mockInfo.mockClear()
 })
 
 afterEach(() => {
