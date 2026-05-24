@@ -280,15 +280,30 @@ Plans:
 **Requirements:** SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, UX-04, UX-05
 **Depends on:** Phase 7
 
-**Plans:** 5 planos
+**Plans:** 6 planos em 5 waves
 
 Plans:
 
-- [ ] 08-01-PLAN.md — Migration UNIQUE parcial (constraint WHERE status=draft para upsert do autosave)
+**Wave 1**
+- [ ] 08-00-PLAN.md — Infraestrutura Vitest (instalar + vitest.config.ts + stubs dos arquivos de teste)
+
+**Wave 2** *(bloqueada pela Wave 1)*
+- [ ] 08-01-PLAN.md — Migration UNIQUE parcial `(org_id, status) WHERE status=draft` para upsert do autosave
+
+**Wave 3** *(bloqueada pela Wave 2 — paralela)*
 - [ ] 08-02-PLAN.md — formStore.hydrateFromAssessment + hook useAutosave com debounce 1500ms
 - [ ] 08-03-PLAN.md — useSubmitAssessment (UPDATE draft→submitted) + useNewRevision (INSERT append-only)
+
+**Wave 4** *(bloqueada pela Wave 3)*
 - [ ] 08-04-PLAN.md — FormLayout wiring (useQuery draft, skeleton, dialog submissão) + HistoryPage criada
+
+**Wave 5** *(bloqueada pela Wave 4)*
 - [ ] 08-05-PLAN.md — Rota /form/:orgId/history + checkpoint visual do fluxo completo
+
+**Cross-cutting constraints:**
+- `onConflict: 'org_id,status'` em useAutosave deve corresponder exatamente ao índice criado em 08-01
+- Todos os hooks usam `useToast()` wrapper — nunca importar `toast` do sonner diretamente
+- TanStack Query v5: hidratação via `useEffect([draftQuery.data])`, não `onSuccess` (removido na v5)
 
 **UAT:**
 
