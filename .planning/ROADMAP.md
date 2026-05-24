@@ -339,7 +339,7 @@ Plans:
 **Requirements:** DASH-01, DASH-02, DASH-03, DASH-04, DASH-05
 **Depends on:** Phase 8
 
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 **Wave 1** *(paralelo — lógica/contratos sem dependências)*
@@ -353,7 +353,7 @@ Plans:
 
 **Wave 3** *(wiring final + checkpoint humano — depende de 09-02 e 09-03)*
 
-- [ ] 09-04-PLAN.md — Wiring: AdminDashboard grid+filtros (substitui OrgTable) + AssessmentSection no OrgDetail + rota /form/:orgId/dashboard + checkpoint visual
+- [x] 09-04-PLAN.md — Wiring: AdminDashboard grid+filtros (substitui OrgTable) + AssessmentSection no OrgDetail + rota /form/:orgId/dashboard + checkpoint visual
 
 **Wave structure:**
 
