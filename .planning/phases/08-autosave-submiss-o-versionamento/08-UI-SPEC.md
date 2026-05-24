@@ -5,6 +5,7 @@ status: draft
 shadcn_initialized: false
 preset: none
 created: 2026-05-23
+revised: 2026-05-23
 ---
 
 # Phase 8 — UI Design Contract
@@ -55,7 +56,9 @@ Exceções:
 | Body     | 14px   | 400 (regular)   | 1.5         |
 | Label    | 14px   | 600 (semibold)  | 1.4         |
 | Heading  | 20px   | 600 (semibold)  | 1.2         |
-| Display  | 28px   | 700 (bold)      | 1.2         |
+| Display  | 28px   | 600 (semibold)  | 1.2         |
+
+**Pesos declarados: 2 — 400 (regular) e 600 (semibold).** O tamanho 28px do Display já confere hierarquia visual suficiente sem necessidade de um terceiro peso.
 
 Nota: herda das fases anteriores. `text-xl font-semibold` no `<h1>` do FormLayout = 20px/600 — não alterar.
 Texto de version number no histórico: `text-sm font-semibold` (14px/600).
@@ -69,12 +72,13 @@ Texto de data/metadata no histórico: `text-sm text-gray-500` (14px/400).
 |-------------------|------------------------|-----------|--------------------------------------------------------|
 | Dominant (60%)    | `bg-gray-50`           | ~#F9FAFB  | Background geral da página (já existente no FormLayout) |
 | Secondary (30%)   | `bg-white` / `bg-primary` | #FFFFFF / #123B66 | Cards do histórico (branco); sidebar (azul primário)  |
-| Accent (10%)      | `bg-accent` / `text-accent` | #F28C28 | Botão "Enviar Avaliação" (variant primary via accent); indicador de status "Enviado" |
+| Accent (10%)      | `bg-accent` / `text-accent` | #F28C28 | Badge de status "Enviado" — único elemento accent desta fase |
 | Destructive       | `bg-g1` / `text-g1`    | ~#DC2626  | Não usado nesta fase — nenhuma ação destrutiva         |
 
 Accent reservado para:
-1. Botão "Enviar Avaliação" — único CTA primário de submissão; usa `variant="primary"` existente (bg-primary), mas com peso visual destacado via `size="lg"`.
-2. Badge de status "Enviado" na lista de histórico — `bg-accent text-white` para distinguir visualmente de "Rascunho".
+1. Badge de status "Enviado" na lista de histórico — `bg-accent text-white` para distinguir visualmente de "Rascunho".
+
+Nota sobre o botão "Enviar Avaliação": usa `variant="primary"` (`bg-primary` #123B66, azul), **não** accent. A proeminência visual vem de `size="lg"` + sticky footer fixo no viewport — não de cor accent. O accent NÃO é aplicado ao botão.
 
 Nota: as cores `--color-primary: #123B66` e `--color-accent: #F28C28` existem como tokens Tailwind v4 em `src/index.css` — usar via classes utilitárias, nunca via hex hardcoded.
 
@@ -103,7 +107,7 @@ Usa `src/components/ui/dialog.tsx` existente (max-w-md, bg-white, rounded-lg, sh
 | Título                | "Enviar Avaliação?" — `DialogTitle` (text-xl font-semibold text-gray-900) |
 | Descrição             | "Após o envio, esta versão ficará imutável. Você poderá iniciar uma nova revisão a partir dela." — `DialogDescription` (text-sm text-gray-500) |
 | Botão confirmar       | `<Button variant="primary" size="md">Confirmar Envio</Button>` — à direita |
-| Botão cancelar        | `<Button variant="secondary" size="md">Cancelar</Button>` — à esquerda |
+| Botão cancelar        | `<Button variant="secondary" size="md">Manter Rascunho</Button>` — à esquerda |
 | Footer layout         | `DialogFooter` — `justify-end gap-3` (já definido no Dialog existente) |
 
 ### Botão "Enviar Avaliação"
@@ -135,7 +139,7 @@ bg-white rounded-lg border border-gray-200 shadow-sm p-4 md:p-6
 |-----------------|-------------------------------------------------------------------------|
 | Versão          | `"Versão N"` — `text-sm font-semibold text-gray-900`                   |
 | Data de envio   | `"Enviada em DD/MM/AAAA às HH:MM"` — `text-sm text-gray-500`           |
-| Status badge    | "Enviado": `bg-accent text-white`; "Rascunho": `bg-gray-100 text-gray-700` — ambos `text-xs font-semibold px-2.5 py-0.5 rounded-full` |
+| Status badge    | "Enviado": `bg-accent text-white`; "Rascunho": `bg-gray-100 text-gray-700` — ambos `text-xs font-semibold px-3 py-0.5 rounded-full` |
 | Nível gerencial | Badge G1-G5 usando `<Badge grade={...} />` existente                    |
 | Nível técnico   | `text-sm text-gray-600` — string direta (ex: "HAB-B")                  |
 | Botão histórico | `<Button variant="secondary" size="sm">Ver detalhes</Button>` — abre form em modo read-only |
@@ -198,7 +202,7 @@ Visível apenas quando `isSaving === false && lastSavedAt !== null`. Ocultar dur
 | Dialog título                     | "Enviar Avaliação?"                                                                 |
 | Dialog descrição                  | "Após o envio, esta versão ficará imutável. Você poderá iniciar uma nova revisão a partir dela." |
 | Dialog botão confirmar            | "Confirmar Envio"                                                                   |
-| Dialog botão cancelar             | "Cancelar"                                                                          |
+| Dialog botão cancelar             | "Manter Rascunho"                                                                   |
 | Estado pós-envio (no lugar do botão) | "Avaliação enviada em {DD/MM/AAAA} às {HH:MM}"                                |
 | HistoryPage título                | "Histórico de Avaliações"                                                           |
 | HistoryPage subtítulo             | "Todas as versões enviadas pela sua empresa"                                        |
@@ -291,6 +295,18 @@ Nenhum terceiro registry declarado. Nenhum bloco de terceiros a vetar.
 
 ---
 
+## Revision Log
+
+| Data       | Problema                                               | Correção aplicada                                               |
+|------------|--------------------------------------------------------|-----------------------------------------------------------------|
+| 2026-05-23 | D1: Dialog cancelar usava label genérica "Cancelar"    | Substituído por "Manter Rascunho" em todo o documento           |
+| 2026-05-23 | D4: Três pesos declarados (400, 600, 700)              | Display alterado de 700 (bold) para 600 (semibold) — 2 pesos   |
+| 2026-05-23 | D5: Badge usava `px-2.5` (10px, não múltiplo de 4)    | Substituído por `px-3` (12px) em todo o documento              |
+| 2026-05-23 | D3 (rec): Accent listado como reservado para o botão  | Removido — accent reservado apenas para badge "Enviado"; botão usa `variant="primary"` (bg-primary) |
+
+---
+
 *Phase: 08-autosave-submissao-versionamento*
 *UI-SPEC gerado: 2026-05-23*
+*UI-SPEC revisado: 2026-05-23 — 3 blocking fixes + 1 recommendation aplicados*
 *Fonte de decisões: 08-CONTEXT.md (D-01 a D-06 + Discretion), REQUIREMENTS.md §SAVE + §UX, index.css tokens, componentes existentes em src/components/ui/*
