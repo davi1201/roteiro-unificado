@@ -3,12 +3,58 @@ import { renderHook, act } from '@testing-library/react'
 import { useAutosave } from './useAutosave'
 import { createFormStore, TabKey } from '@/stores/formStore'
 
-// Mock do supabase — não queremos chamadas de rede reais
+/**
+ * Fábrica de mock do supabase para a cadeia fluente SELECT+UPDATE/INSERT.
+ *
+ * O hook useAutosave usa a seguinte estratégia (substituindo upsert — fix 42P10):
+ *   1. supabase.from('assessments').select('id').eq(...).eq(...).maybeSingle()
+ *   2a. Se draft existe: supabase.from('assessments').update({...}).eq('id', ...).eq('status', 'draft')
+ *   2b. Se não existe:   supabase.from('assessments').insert({...})
+ */
+
+type MockOptions = {
+  existingId?: string | null // null = sem draft existente, string = draft com esse id
+  updateError?: Error | null
+  insertError?: Error | null
+}
+
+function makeMockFrom({
+  existingId = null,
+  updateError = null,
+  insertError = null,
+}: MockOptions = {}) {
+  const mockMaybeSingle = vi.fn().mockResolvedValue({
+    data: existingId ? { id: existingId } : null,
+    error: null,
+  })
+  const mockEqSelect2 = vi.fn(() => ({ maybeSingle: mockMaybeSingle }))
+  const mockEqSelect1 = vi.fn(() => ({ eq: mockEqSelect2 }))
+  const mockSelect = vi.fn(() => ({ eq: mockEqSelect1 }))
+
+  const mockUpdate = vi.fn().mockResolvedValue({ error: updateError })
+  const mockEqUpdate2 = vi.fn(() => mockUpdate)
+  const mockEqUpdate1 = vi.fn(() => ({ eq: mockEqUpdate2 }))
+  const mockUpdateFn = vi.fn(() => ({ eq: mockEqUpdate1 }))
+
+  const mockInsert = vi.fn().mockResolvedValue({ error: insertError })
+
+  const mockFrom = vi.fn((table: string) => {
+    if (table !== 'assessments') return { select: vi.fn(), update: vi.fn(), insert: vi.fn() }
+    // Retorna objeto com todos os métodos possíveis — o hook usa select, update ou insert
+    return {
+      select: mockSelect,
+      update: mockUpdateFn,
+      insert: mockInsert,
+    }
+  })
+
+  return { mockFrom, mockSelect, mockMaybeSingle, mockUpdateFn, mockInsert }
+}
+
+// Mock do supabase — inicializado com mock padrão (sem draft existente)
 vi.mock('@/lib/supabase', () => ({
   supabase: {
-    from: vi.fn(() => ({
-      upsert: vi.fn().mockResolvedValue({ error: null }),
-    })),
+    from: vi.fn(),
   },
 }))
 
@@ -31,10 +77,10 @@ afterEach(() => {
 })
 
 describe('useAutosave', () => {
-  it('SAVE-01: faz upsert com status draft após 1500ms de inatividade', async () => {
+  it('SAVE-01: faz SELECT+INSERT quando não existe draft, com status draft após 1500ms', async () => {
     const { supabase } = await import('@/lib/supabase')
-    const mockUpsert = vi.fn().mockResolvedValue({ error: null })
-    vi.mocked(supabase.from).mockReturnValue({ upsert: mockUpsert } as never)
+    const { mockFrom, mockInsert } = makeMockFrom({ existingId: null })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
 
     const tenantId = `test-autosave-${Math.random().toString(36).slice(2)}`
     const store = createFormStore(tenantId)
@@ -46,29 +92,60 @@ describe('useAutosave', () => {
       store.getState().updateSection(TabKey.Identificacao, { empresa: 'Acme' })
     })
 
-    // Antes dos 1500ms, upsert não deve ter sido chamado
-    expect(mockUpsert).not.toHaveBeenCalled()
+    // Antes dos 1500ms, nenhuma chamada ao banco
+    expect(mockInsert).not.toHaveBeenCalled()
 
-    // Avança 1500ms
+    // Avança 1500ms e aguarda microtasks (Promises async)
     await act(async () => {
       vi.advanceTimersByTime(1500)
-      // Aguarda microtasks (a Promise do upsert async)
+      await Promise.resolve()
+      await Promise.resolve()
       await Promise.resolve()
     })
 
-    expect(mockUpsert).toHaveBeenCalledWith(
+    // Deve ter feito INSERT com org_id e status: 'draft'
+    expect(mockInsert).toHaveBeenCalledWith(
       expect.objectContaining({
         org_id: tenantId,
         status: 'draft',
-      }),
-      { onConflict: 'org_id,status' }
+      })
+    )
+  })
+
+  it('SAVE-01b: faz SELECT+UPDATE quando draft já existe', async () => {
+    const { supabase } = await import('@/lib/supabase')
+    const draftId = 'existing-draft-uuid'
+    const { mockFrom, mockUpdateFn } = makeMockFrom({ existingId: draftId })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
+
+    const tenantId = `test-update-${Math.random().toString(36).slice(2)}`
+    const store = createFormStore(tenantId)
+
+    renderHook(() => useAutosave(tenantId))
+
+    act(() => {
+      store.getState().updateSection(TabKey.Identificacao, { empresa: 'Acme' })
+    })
+
+    await act(async () => {
+      vi.advanceTimersByTime(1500)
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    // Deve ter feito UPDATE (não INSERT)
+    expect(mockUpdateFn).toHaveBeenCalledWith(
+      expect.objectContaining({
+        form_data: expect.anything(),
+      })
     )
   })
 
   it('SAVE-02: cancela timer anterior ao receber nova mudança (debounce)', async () => {
     const { supabase } = await import('@/lib/supabase')
-    const mockUpsert = vi.fn().mockResolvedValue({ error: null })
-    vi.mocked(supabase.from).mockReturnValue({ upsert: mockUpsert } as never)
+    const { mockFrom, mockInsert } = makeMockFrom({ existingId: null })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
 
     const tenantId = `test-debounce-${Math.random().toString(36).slice(2)}`
     const store = createFormStore(tenantId)
@@ -95,23 +172,26 @@ describe('useAutosave', () => {
       vi.advanceTimersByTime(1000)
     })
 
-    // Upsert ainda não deve ter sido chamado (debounce resetado)
-    expect(mockUpsert).not.toHaveBeenCalled()
+    // INSERT ainda não deve ter sido chamado (debounce resetado)
+    expect(mockInsert).not.toHaveBeenCalled()
 
     // Avança mais 500ms (1500ms desde a segunda mudança)
     await act(async () => {
       vi.advanceTimersByTime(500)
       await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
     })
 
-    // Agora deve ter sido chamado apenas uma vez
-    expect(mockUpsert).toHaveBeenCalledTimes(1)
+    // Agora deve ter sido chamado apenas uma vez (INSERT ou seleção de update)
+    // Como não há draft, deve ter chamado INSERT exatamente 1 vez
+    expect(mockInsert).toHaveBeenCalledTimes(1)
   })
 
-  it('UX-04: exibe toast "Salvo às HH:MM" após upsert com sucesso', async () => {
+  it('UX-04: exibe toast "Salvo às HH:MM" após save com sucesso', async () => {
     const { supabase } = await import('@/lib/supabase')
-    const mockUpsert = vi.fn().mockResolvedValue({ error: null })
-    vi.mocked(supabase.from).mockReturnValue({ upsert: mockUpsert } as never)
+    const { mockFrom } = makeMockFrom({ existingId: null, insertError: null })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
 
     const tenantId = `test-toast-success-${Math.random().toString(36).slice(2)}`
     const store = createFormStore(tenantId)
@@ -125,6 +205,8 @@ describe('useAutosave', () => {
     await act(async () => {
       vi.advanceTimersByTime(1500)
       await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
     })
 
     // Deve chamar success com mensagem "Salvo às HH:MM"
@@ -133,10 +215,13 @@ describe('useAutosave', () => {
     })
   })
 
-  it('UX-04: exibe toast de warning quando upsert falha', async () => {
+  it('UX-04: exibe toast de warning quando save falha', async () => {
     const { supabase } = await import('@/lib/supabase')
-    const mockUpsert = vi.fn().mockResolvedValue({ error: new Error('DB error') })
-    vi.mocked(supabase.from).mockReturnValue({ upsert: mockUpsert } as never)
+    const { mockFrom } = makeMockFrom({
+      existingId: null,
+      insertError: new Error('DB error'),
+    })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
 
     const tenantId = `test-toast-error-${Math.random().toString(36).slice(2)}`
     const store = createFormStore(tenantId)
@@ -150,6 +235,8 @@ describe('useAutosave', () => {
     await act(async () => {
       vi.advanceTimersByTime(1500)
       await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
     })
 
     expect(mockWarning).toHaveBeenCalledWith('Falha ao salvar — tentando novamente')
@@ -158,8 +245,8 @@ describe('useAutosave', () => {
 
   it('cleanup: cancela timer e faz unsubscribe ao desmontar', async () => {
     const { supabase } = await import('@/lib/supabase')
-    const mockUpsert = vi.fn().mockResolvedValue({ error: null })
-    vi.mocked(supabase.from).mockReturnValue({ upsert: mockUpsert } as never)
+    const { mockFrom, mockInsert } = makeMockFrom({ existingId: null })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
 
     const tenantId = `test-cleanup-${Math.random().toString(36).slice(2)}`
     const store = createFormStore(tenantId)
@@ -174,12 +261,12 @@ describe('useAutosave', () => {
     // Desmonta antes dos 1500ms
     unmount()
 
-    // Avança 1500ms — não deve chamar upsert (timer foi cancelado no cleanup)
+    // Avança 1500ms — não deve chamar insert (timer foi cancelado no cleanup)
     await act(async () => {
       vi.advanceTimersByTime(1500)
       await Promise.resolve()
     })
 
-    expect(mockUpsert).not.toHaveBeenCalled()
+    expect(mockInsert).not.toHaveBeenCalled()
   })
 })

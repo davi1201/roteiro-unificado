@@ -8,6 +8,10 @@
  *   - orgs        → organizações (tenants: construtoras + time interno)
  *   - org_members → membros de cada org com role (admin | company)
  *   - assessments → avaliações de prontidão com snapshot JSONB
+ *
+ * NOTA: `Relationships: []` é obrigatório em cada tabela para satisfazer
+ * `GenericTable` do @supabase/postgrest-js v2.x — sem ele, Schema resolve
+ * como `never` e todos os métodos (.update, .insert, etc.) ficam sem tipo.
  */
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
@@ -36,6 +40,7 @@ export interface Database {
           active?: boolean
           created_at?: string
         }
+        Relationships: []
       }
       org_members: {
         Row: {
@@ -59,6 +64,7 @@ export interface Database {
           role?: Database['public']['Enums']['member_role']
           created_at?: string
         }
+        Relationships: []
       }
       assessments: {
         Row: {
@@ -94,6 +100,7 @@ export interface Database {
           created_at?: string
           submitted_at?: string | null
         }
+        Relationships: []
       }
     }
     Views: {
