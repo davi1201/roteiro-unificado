@@ -372,6 +372,49 @@ Plans:
 
 ---
 
+### Phase 9.5: Layout & Design System Overhaul
+
+**Goal:** Admin com sidebar colapsável (240px↔60px) e topbar branca com breadcrumb; formulário com conteúdo das abas organizado em cards semânticos com header colorido, grid responsivo e footer sticky com prev/next. Interface mais densa e profissional — sem regressão funcional.
+**Requirements:** UX-01, UX-03, UX-06
+**Depends on:** Phase 9
+
+**Plans:** 5 plans
+
+Plans:
+**Wave 1** *(foundation — tokens, fonte, hooks e componentes presentacionais; sem overlap de arquivos)*
+
+- [ ] 09.5-01-PLAN.md — Tokens CSS de layout (sidebar/header), import Inter no index.html, hook useSidebarCollapsed, componentes FormCard + FormCardRow + AutosaveIndicator
+
+**Wave 2** *(paralelo — Wave 2 consome artefatos da Wave 1; sem overlap entre os 3 plans)*
+
+- [ ] 09.5-02-PLAN.md — Refactor admin shell: AdminSidebar colapsável com user pill + AdminHeader branco com breadcrumb + AdminLayout com margin dinâmico
+- [ ] 09.5-03-PLAN.md — Refactor form shell: formStore.lastSavedAt + useAutosave grava timestamp + FormLayout com topbar de status (AutosaveIndicator) e footer universal prev/next/submit
+- [ ] 09.5-04-PLAN.md — IdentificacaoSection refatorado em FormCards (prova de conceito do padrão)
+
+**Wave 3** *(rollout do padrão + checkpoint humano blocking)*
+
+- [ ] 09.5-05-PLAN.md — Aplicar FormCard/FormCardRow nas 9 sections restantes (Torre Decisão, Sienge, Acesso, Classificação, Hab Venda, Repositórios, Responsáveis, Classificação, NDA) + checkpoint visual end-to-end (24 itens)
+
+**Wave structure:**
+
+- Wave 1: 09.5-01 (6 arquivos foundation — sem dependências)
+- Wave 2: 09.5-02 (admin shell), 09.5-03 (form shell), 09.5-04 (Identificação) — paralelos, sem overlap de arquivos, todos dependem de 09.5-01
+- Wave 3: 09.5-05 (rollout + checkpoint humano) — depende de 09.5-02 + 09.5-03 + 09.5-04
+
+**UAT:**
+
+- [ ] Admin sidebar expande/recolhe ao clicar no toggle — labels somem, apenas ícones visíveis em 60px
+- [ ] Topbar admin exibe breadcrumb "Admin › {Página}" com fundo branco, não mais azul escuro
+- [ ] User pill aparece no rodapé da sidebar com avatar + email truncado + "Sair"
+- [ ] Formulário: cada grupo semântico da aba Identificação está em card com header colorido (ícone + título + subtítulo)
+- [ ] Cards menores ficam lado a lado em viewport ≥ 768px; empilham em mobile
+- [ ] Footer sticky do formulário aparece em todas as abas com botões "← Anterior" e "Próxima aba →"
+- [ ] Indicador de autosave "Salvo há X min" aparece no topbar do formulário após save
+- [ ] Transições sidebar/main-area ocorrem em 0.25s sem flicker ou layout shift
+- [ ] Nenhum botão/link funcional é quebrado após o refactor
+
+---
+
 ### Phase 10: Exportação PDF
 
 **Goal:** Botão "Exportar PDF" gera relatório com identidade visual azul/laranja para qualquer versão do histórico, sem impacto no First Load do app.
