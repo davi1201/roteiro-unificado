@@ -174,111 +174,112 @@ export function FormLayout() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       <ProgressBar tenantId={tenantId} />
-      <div className="flex flex-1 flex-col md:flex-row">
-        <aside className="bg-primary flex w-full flex-col text-white md:sticky md:top-1 md:h-[calc(100vh-4px)] md:max-w-[300px] md:min-w-[220px] md:self-start md:overflow-y-auto">
-          <div className="border-primary-800 hidden border-b px-4 py-4 md:block">
-            <span className="text-base font-semibold">Roteiro Unificado</span>
+      {/* Desktop sidebar: fixed, mirrors AdminSidebar pattern */}
+      <aside className="bg-primary fixed top-1 bottom-0 left-0 z-20 hidden w-[240px] flex-col overflow-y-auto text-white md:flex">
+        <div className="border-primary-800 border-b px-4 py-4">
+          <span className="text-base font-semibold">Roteiro Unificado</span>
+        </div>
+        <div className="flex-1 p-3">
+          <TabNavigation tenantId={tenantId} />
+        </div>
+        <div className="border-primary-800 mt-auto border-t p-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="hover:bg-primary-800 w-full justify-start text-white"
+            onClick={handleSignOut}
+          >
+            Sair
+          </Button>
+        </div>
+      </aside>
+      {/* Mobile horizontal tab bar */}
+      <div className="bg-primary overflow-x-auto px-3 py-2 md:hidden">
+        <TabNavigation tenantId={tenantId} />
+      </div>
+      <main className="flex flex-1 flex-col p-6 md:ml-[240px] md:p-8">
+        <div className="-mx-6 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:-mx-8 md:px-8">
+          <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
+          <AutosaveIndicator lastSaved={store.lastSavedAt} />
+        </div>
+        <ReadinessClassification tenantId={tenantId} />
+        {draftQuery.isLoading ? (
+          <div className="mt-4 space-y-4" aria-busy="true">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-24 w-full" />
           </div>
-          <div className="flex-1 p-3">
-            <TabNavigation tenantId={tenantId} />
-          </div>
-          <div className="border-primary-800 mt-auto hidden border-t p-3 md:block">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="hover:bg-primary-800 w-full justify-start text-white"
-              onClick={handleSignOut}
-            >
-              Sair
+        ) : draftQuery.isError ? (
+          <div
+            className="border-g1/30 bg-g1/5 mt-4 flex flex-col items-start gap-3 rounded-md border p-4"
+            role="alert"
+            aria-live="polite"
+          >
+            <p className="text-g1 text-sm font-semibold">Não foi possível carregar seu rascunho</p>
+            <p className="text-sm text-gray-700">
+              Verifique sua conexão e tente novamente. Seus dados anteriores não foram perdidos.
+            </p>
+            <Button variant="secondary" size="sm" onClick={() => draftQuery.refetch()}>
+              Tentar novamente
             </Button>
           </div>
-        </aside>
-        <main className="flex flex-1 flex-col p-6 md:p-8">
-          <div className="-mx-6 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:-mx-8 md:px-8">
-            <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
-            <AutosaveIndicator lastSaved={store.lastSavedAt} />
-          </div>
-          <ReadinessClassification tenantId={tenantId} />
-          {draftQuery.isLoading ? (
-            <div className="mt-4 space-y-4" aria-busy="true">
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-3/4" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-24 w-full" />
-            </div>
-          ) : draftQuery.isError ? (
-            <div
-              className="border-g1/30 bg-g1/5 mt-4 flex flex-col items-start gap-3 rounded-md border p-4"
-              role="alert"
-              aria-live="polite"
-            >
-              <p className="text-g1 text-sm font-semibold">
-                Não foi possível carregar seu rascunho
-              </p>
-              <p className="text-sm text-gray-700">
-                Verifique sua conexão e tente novamente. Seus dados anteriores não foram perdidos.
-              </p>
-              <Button variant="secondary" size="sm" onClick={() => draftQuery.refetch()}>
-                Tentar novamente
-              </Button>
-            </div>
-          ) : (
-            renderSection(store.activeTab, tenantId)
-          )}
+        ) : (
+          renderSection(store.activeTab, tenantId)
+        )}
 
-          {/* Footer universal — filho de <main>, não coluna do flex externo */}
-          {!draftQuery.isLoading && !draftQuery.isError && (
-            <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
+        {/* Footer universal — filho de <main>, não coluna do flex externo */}
+        {!draftQuery.isLoading && !draftQuery.isError && (
+          <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
+            <Button
+              variant="ghost"
+              size="md"
+              disabled={!prevTab}
+              onClick={() => prevTab && goToTab(prevTab.key)}
+              aria-label="Aba anterior"
+            >
+              ← Anterior
+            </Button>
+            <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
-                size="md"
-                disabled={!prevTab}
-                onClick={() => prevTab && goToTab(prevTab.key)}
-                aria-label="Aba anterior"
+                size="sm"
+                className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
+                onClick={() =>
+                  toast.info
+                    ? toast.info('Rascunho será salvo automaticamente em 1.5s')
+                    : toast.success('Salvo automaticamente')
+                }
+                aria-label="Salvar rascunho manualmente"
               >
-                ← Anterior
+                Salvar rascunho
               </Button>
-              <div className="flex items-center gap-3">
+              {isNdaTab ? (
                 <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
-                  onClick={() =>
-                    toast.info
-                      ? toast.info('Rascunho será salvo automaticamente em 1.5s')
-                      : toast.success('Salvo automaticamente')
-                  }
-                  aria-label="Salvar rascunho manualmente"
+                  variant="primary"
+                  size="md"
+                  onClick={() => setIsSubmitOpen(true)}
+                  aria-label="Enviar avaliação"
                 >
-                  Salvar rascunho
+                  Enviar Avaliação
                 </Button>
-                {isNdaTab ? (
-                  <Button
-                    variant="primary"
-                    size="md"
-                    onClick={() => setIsSubmitOpen(true)}
-                    aria-label="Enviar avaliação"
-                  >
-                    Enviar Avaliação
-                  </Button>
-                ) : (
-                  <Button
-                    variant="primary"
-                    size="md"
-                    disabled={!nextTab}
-                    onClick={() => nextTab && goToTab(nextTab.key)}
-                    aria-label="Próxima aba"
-                  >
-                    Próxima aba →
-                  </Button>
-                )}
-              </div>
+              ) : (
+                <Button
+                  variant="primary"
+                  size="md"
+                  disabled={!nextTab}
+                  onClick={() => nextTab && goToTab(nextTab.key)}
+                  aria-label="Próxima aba"
+                >
+                  Próxima aba →
+                </Button>
+              )}
             </div>
-          )}
-        </main>
-      </div>
+          </div>
+        )}
+      </main>
 
       {/* Dialog de confirmação de submissão (per UI-SPEC §Dialog de Confirmação) */}
       <Dialog open={isSubmitOpen} onClose={() => setIsSubmitOpen(false)}>
