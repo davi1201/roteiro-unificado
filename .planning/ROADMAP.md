@@ -339,12 +339,12 @@ Plans:
 **Requirements:** DASH-01, DASH-02, DASH-03, DASH-04, DASH-05
 **Depends on:** Phase 8
 
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 **Wave 1** *(paralelo — lógica/contratos sem dependências)*
 
-- [ ] 09-01-PLAN.md — Lógica pura: computeTabStatus (src/lib/sectionStatus.ts) + hook useOrgsWithReadiness (JOIN orgs+assessments, filtro submitted no cliente)
+- [x] 09-01-PLAN.md — Lógica pura: computeTabStatus (src/lib/sectionStatus.ts) + hook useOrgsWithReadiness (JOIN orgs+assessments, filtro submitted no cliente)
 
 **Wave 2** *(paralelo — dependem de 09-01; sem overlap de arquivos)*
 
