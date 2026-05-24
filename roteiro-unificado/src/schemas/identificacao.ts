@@ -6,6 +6,7 @@ export const identificacaoSchema = z.object({
     .string()
     .min(1, 'Campo obrigatório')
     .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, 'Formato inválido'),
+  cidadeUf: z.string().max(100, 'Máximo 100 caracteres').optional(),
   dataReuniao: z.string().optional(),
   participantes: z.string().optional(),
   sponsorPiloto: z.string().optional(),

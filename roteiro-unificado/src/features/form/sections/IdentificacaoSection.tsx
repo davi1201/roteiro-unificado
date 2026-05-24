@@ -47,7 +47,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
 
   return (
     <form className="flex max-w-4xl flex-col gap-4" noValidate>
-      {/* ROW 1 — full width: Dados da Empresa (campos críticos) */}
+      {/* ROW 1 — full width: Dados da Empresa — grid 3-col (Empresa col-span-2 | Cidade/UF col 3) + CNPJ abaixo */}
       <FormCardRow cols={1}>
         <FormCard
           icon={
@@ -71,19 +71,32 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
           subtitle="Identificação básica no piloto"
         >
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
-                Empresa / grupo<span className="text-g1 ml-0.5">*</span>
-              </label>
-              <Input
-                type="text"
-                placeholder="Digite aqui..."
-                error={!!errors.empresa}
-                errorMessage={errors.empresa?.message}
-                {...register('empresa')}
-              />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="flex flex-col gap-1 md:col-span-2">
+                <label className="text-sm font-semibold text-gray-700">
+                  Empresa / grupo<span className="text-g1 ml-0.5">*</span>
+                </label>
+                <Input
+                  type="text"
+                  placeholder="Digite aqui..."
+                  error={!!errors.empresa}
+                  errorMessage={errors.empresa?.message}
+                  {...register('empresa')}
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-gray-700">Cidade/UF sede</label>
+                <Input
+                  type="text"
+                  placeholder="Ex.: São Paulo / SP"
+                  maxLength={100}
+                  error={!!errors.cidadeUf}
+                  errorMessage={errors.cidadeUf?.message}
+                  {...register('cidadeUf')}
+                />
+              </div>
             </div>
-            <div className="flex max-w-xs flex-col gap-1">
+            <div className="max-w-[280px] flex flex-col gap-1">
               <label className="text-sm font-semibold text-gray-700">
                 CNPJ principal<span className="text-g1 ml-0.5">*</span>
               </label>
@@ -104,59 +117,8 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
         </FormCard>
       </FormCardRow>
 
-      {/* ROW 2 — cols-2: Reunião | Responsáveis (densidade similar, complementares, sem textareas longas) */}
+      {/* ROW 2 — cols-2: Responsáveis (amber) | Escopo do Piloto (green) — sketch 002 Variant B */}
       <FormCardRow cols={2}>
-        <FormCard
-          icon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="h-4 w-4"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-              />
-            </svg>
-          }
-          iconColor="green"
-          title="Reunião e Participantes"
-          subtitle="Quando e quem participou"
-        >
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">Data da reunião</label>
-              <Input
-                type="date"
-                error={!!errors.dataReuniao}
-                errorMessage={errors.dataReuniao?.message}
-                {...register('dataReuniao')}
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">Sponsor do piloto</label>
-              <Input
-                type="text"
-                placeholder="Nome e cargo"
-                error={!!errors.sponsorPiloto}
-                errorMessage={errors.sponsorPiloto?.message}
-                {...register('sponsorPiloto')}
-              />
-            </div>
-            <TextareaField
-              name="participantes"
-              control={control}
-              label="Participantes e papéis"
-              placeholder="Diretoria, financeiro, engenharia..."
-              error={errors.participantes?.message}
-            />
-          </div>
-        </FormCard>
-
         <FormCard
           icon={
             <svg
@@ -217,10 +179,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
             </div>
           </div>
         </FormCard>
-      </FormCardRow>
 
-      {/* ROW 3 — full width: Escopo (2 campos curtos lado a lado) */}
-      <FormCardRow cols={1}>
         <FormCard
           icon={
             <svg
@@ -271,7 +230,61 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
         </FormCard>
       </FormCardRow>
 
-      {/* ROW 4 — full width: Prioridades (textareas lado a lado dentro do card) */}
+      {/* ROW 3 — full width: Reunião e Participantes (movido de Row 2 esq → Row 3 standalone) */}
+      <FormCardRow cols={1}>
+        <FormCard
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
+              />
+            </svg>
+          }
+          iconColor="green"
+          title="Reunião e Participantes"
+          subtitle="Quando e quem participou"
+        >
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700">Data da reunião</label>
+              <Input
+                type="date"
+                error={!!errors.dataReuniao}
+                errorMessage={errors.dataReuniao?.message}
+                {...register('dataReuniao')}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700">Sponsor do piloto</label>
+              <Input
+                type="text"
+                placeholder="Nome e cargo"
+                error={!!errors.sponsorPiloto}
+                errorMessage={errors.sponsorPiloto?.message}
+                {...register('sponsorPiloto')}
+              />
+            </div>
+            <TextareaField
+              name="participantes"
+              control={control}
+              label="Participantes e papéis"
+              placeholder="Diretoria, financeiro, engenharia..."
+              error={errors.participantes?.message}
+            />
+          </div>
+        </FormCard>
+      </FormCardRow>
+
+      {/* ROW 4 — full width: Prioridades (textareas lado a lado com maxLength=500) */}
       <FormCardRow cols={1}>
         <FormCard
           icon={
@@ -301,6 +314,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               label="Principal prioridade para Torre 360"
               placeholder="Descreva a principal prioridade..."
               error={errors.prioridadeTorre360?.message}
+              maxLength={500}
             />
             <TextareaField
               name="prioridadeHabilitacoes"
@@ -308,6 +322,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               label="Principal prioridade para Habilitações"
               placeholder="Descreva a principal prioridade..."
               error={errors.prioridadeHabilitacoes?.message}
+              maxLength={500}
             />
           </div>
         </FormCard>
