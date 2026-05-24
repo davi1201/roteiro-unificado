@@ -280,7 +280,7 @@ Plans:
 **Requirements:** SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, UX-04, UX-05
 **Depends on:** Phase 7
 
-**Plans:** 1/6 plans executed
+**Plans:** 2/6 plans executed
 
 Plans:
 
@@ -288,7 +288,7 @@ Plans:
 - [x] 08-00-PLAN.md — Infraestrutura Vitest (instalar + vitest.config.ts + stubs dos arquivos de teste)
 
 **Wave 2** *(bloqueada pela Wave 1)*
-- [ ] 08-01-PLAN.md — Migration UNIQUE parcial `(org_id, status) WHERE status=draft` para upsert do autosave
+- [x] 08-01-PLAN.md — Migration UNIQUE parcial `(org_id, status) WHERE status=draft` para upsert do autosave
 
 **Wave 3** *(bloqueada pela Wave 2 — paralela)*
 - [ ] 08-02-PLAN.md — formStore.hydrateFromAssessment + hook useAutosave com debounce 1500ms
