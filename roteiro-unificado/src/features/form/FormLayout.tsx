@@ -208,12 +208,28 @@ export function FormLayout() {
               <Skeleton className="h-10 w-full" />
               <Skeleton className="h-24 w-full" />
             </div>
+          ) : draftQuery.isError ? (
+            <div
+              className="mt-4 flex flex-col items-start gap-3 rounded-md border border-g1/30 bg-g1/5 p-4"
+              role="alert"
+              aria-live="polite"
+            >
+              <p className="text-sm font-semibold text-g1">
+                Não foi possível carregar seu rascunho
+              </p>
+              <p className="text-sm text-gray-700">
+                Verifique sua conexão e tente novamente. Seus dados anteriores não foram perdidos.
+              </p>
+              <Button variant="secondary" size="sm" onClick={() => draftQuery.refetch()}>
+                Tentar novamente
+              </Button>
+            </div>
           ) : (
             renderSection(store.activeTab, tenantId)
           )}
 
           {/* Footer universal — filho de <main>, não coluna do flex externo */}
-          {!draftQuery.isLoading && (
+          {!draftQuery.isLoading && !draftQuery.isError && (
             <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
               <Button
                 variant="ghost"
