@@ -195,8 +195,8 @@ export function FormLayout() {
             </Button>
           </div>
         </aside>
-        <main className="flex-1 p-4 pb-24 md:p-6 md:pb-24">
-          <div className="-mx-4 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-4 md:-mx-6 md:px-6">
+        <main className="flex flex-1 flex-col p-6 md:p-8">
+          <div className="-mx-6 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:-mx-8 md:px-8">
             <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
             <AutosaveIndicator lastSaved={store.lastSavedAt} />
           </div>
@@ -211,57 +211,57 @@ export function FormLayout() {
           ) : (
             renderSection(store.activeTab, tenantId)
           )}
-        </main>
 
-        {/* Footer universal — aparece em todas as 10 abas quando não está carregando */}
-        {!draftQuery.isLoading && (
-          <div className="sticky bottom-0 z-10 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:px-6">
-            <Button
-              variant="ghost"
-              size="md"
-              disabled={!prevTab}
-              onClick={() => prevTab && goToTab(prevTab.key)}
-              aria-label="Aba anterior"
-            >
-              ← Anterior
-            </Button>
-            <div className="flex items-center gap-3">
+          {/* Footer universal — filho de <main>, não coluna do flex externo */}
+          {!draftQuery.isLoading && (
+            <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
               <Button
                 variant="ghost"
-                size="sm"
-                className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
-                onClick={() =>
-                  toast.info
-                    ? toast.info('Rascunho será salvo automaticamente em 1.5s')
-                    : toast.success('Salvo automaticamente')
-                }
-                aria-label="Salvar rascunho manualmente"
+                size="md"
+                disabled={!prevTab}
+                onClick={() => prevTab && goToTab(prevTab.key)}
+                aria-label="Aba anterior"
               >
-                Salvar rascunho
+                ← Anterior
               </Button>
-              {isNdaTab ? (
+              <div className="flex items-center gap-3">
                 <Button
-                  variant="primary"
-                  size="md"
-                  onClick={() => setIsSubmitOpen(true)}
-                  aria-label="Enviar avaliação"
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
+                  onClick={() =>
+                    toast.info
+                      ? toast.info('Rascunho será salvo automaticamente em 1.5s')
+                      : toast.success('Salvo automaticamente')
+                  }
+                  aria-label="Salvar rascunho manualmente"
                 >
-                  Enviar Avaliação
+                  Salvar rascunho
                 </Button>
-              ) : (
-                <Button
-                  variant="primary"
-                  size="md"
-                  disabled={!nextTab}
-                  onClick={() => nextTab && goToTab(nextTab.key)}
-                  aria-label="Próxima aba"
-                >
-                  Próxima aba →
-                </Button>
-              )}
+                {isNdaTab ? (
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => setIsSubmitOpen(true)}
+                    aria-label="Enviar avaliação"
+                  >
+                    Enviar Avaliação
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    size="md"
+                    disabled={!nextTab}
+                    onClick={() => nextTab && goToTab(nextTab.key)}
+                    aria-label="Próxima aba"
+                  >
+                    Próxima aba →
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </main>
       </div>
 
       {/* Dialog de confirmação de submissão (per UI-SPEC §Dialog de Confirmação) */}
