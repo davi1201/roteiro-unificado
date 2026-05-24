@@ -175,9 +175,8 @@ export function FormLayout() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <ProgressBar tenantId={tenantId} />
-      {/* Desktop sidebar: fixed, mirrors AdminSidebar pattern */}
-      <aside className="bg-primary fixed top-1 bottom-0 left-0 z-20 hidden w-[240px] flex-col overflow-y-auto text-white md:flex">
+      {/* Desktop sidebar: fixed — mirrors AdminSidebar exactly */}
+      <aside className="bg-primary fixed top-0 bottom-0 left-0 z-20 hidden w-[240px] flex-col overflow-y-auto text-white md:flex">
         <div className="border-primary-800 border-b px-4 py-4">
           <span className="text-base font-semibold">Roteiro Unificado</span>
         </div>
@@ -195,91 +194,97 @@ export function FormLayout() {
           </Button>
         </div>
       </aside>
-      {/* Mobile horizontal tab bar */}
-      <div className="bg-primary overflow-x-auto px-3 py-2 md:hidden">
-        <TabNavigation tenantId={tenantId} />
-      </div>
-      <main className="flex flex-1 flex-col p-6 md:ml-[240px] md:p-8">
-        <div className="-mx-6 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:-mx-8 md:px-8">
-          <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
-          <AutosaveIndicator lastSaved={store.lastSavedAt} />
+      {/* Content wrapper — offset by sidebar width on desktop (AdminLayout pattern) */}
+      <div className="flex min-h-screen flex-col md:ml-[240px]">
+        <ProgressBar tenantId={tenantId} />
+        {/* Mobile horizontal tab bar — hidden on desktop */}
+        <div className="bg-primary overflow-x-auto px-3 py-2 md:hidden">
+          <TabNavigation tenantId={tenantId} />
         </div>
-        <ReadinessClassification tenantId={tenantId} />
-        {draftQuery.isLoading ? (
-          <div className="mt-4 space-y-4" aria-busy="true">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-3/4" />
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-24 w-full" />
+        <main className="flex flex-1 flex-col p-6 md:p-8">
+          <div className="-mx-6 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:-mx-8 md:px-8">
+            <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
+            <AutosaveIndicator lastSaved={store.lastSavedAt} />
           </div>
-        ) : draftQuery.isError ? (
-          <div
-            className="border-g1/30 bg-g1/5 mt-4 flex flex-col items-start gap-3 rounded-md border p-4"
-            role="alert"
-            aria-live="polite"
-          >
-            <p className="text-g1 text-sm font-semibold">Não foi possível carregar seu rascunho</p>
-            <p className="text-sm text-gray-700">
-              Verifique sua conexão e tente novamente. Seus dados anteriores não foram perdidos.
-            </p>
-            <Button variant="secondary" size="sm" onClick={() => draftQuery.refetch()}>
-              Tentar novamente
-            </Button>
-          </div>
-        ) : (
-          renderSection(store.activeTab, tenantId)
-        )}
-
-        {/* Footer universal — filho de <main>, não coluna do flex externo */}
-        {!draftQuery.isLoading && !draftQuery.isError && (
-          <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
-            <Button
-              variant="ghost"
-              size="md"
-              disabled={!prevTab}
-              onClick={() => prevTab && goToTab(prevTab.key)}
-              aria-label="Aba anterior"
+          <ReadinessClassification tenantId={tenantId} />
+          {draftQuery.isLoading ? (
+            <div className="mt-4 space-y-4" aria-busy="true">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-24 w-full" />
+            </div>
+          ) : draftQuery.isError ? (
+            <div
+              className="border-g1/30 bg-g1/5 mt-4 flex flex-col items-start gap-3 rounded-md border p-4"
+              role="alert"
+              aria-live="polite"
             >
-              ← Anterior
-            </Button>
-            <div className="flex items-center gap-3">
+              <p className="text-g1 text-sm font-semibold">
+                Não foi possível carregar seu rascunho
+              </p>
+              <p className="text-sm text-gray-700">
+                Verifique sua conexão e tente novamente. Seus dados anteriores não foram perdidos.
+              </p>
+              <Button variant="secondary" size="sm" onClick={() => draftQuery.refetch()}>
+                Tentar novamente
+              </Button>
+            </div>
+          ) : (
+            renderSection(store.activeTab, tenantId)
+          )}
+
+          {/* Footer universal — filho de <main>, não coluna do flex externo */}
+          {!draftQuery.isLoading && !draftQuery.isError && (
+            <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
               <Button
                 variant="ghost"
-                size="sm"
-                className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
-                onClick={() =>
-                  toast.info
-                    ? toast.info('Rascunho será salvo automaticamente em 1.5s')
-                    : toast.success('Salvo automaticamente')
-                }
-                aria-label="Salvar rascunho manualmente"
+                size="md"
+                disabled={!prevTab}
+                onClick={() => prevTab && goToTab(prevTab.key)}
+                aria-label="Aba anterior"
               >
-                Salvar rascunho
+                ← Anterior
               </Button>
-              {isNdaTab ? (
+              <div className="flex items-center gap-3">
                 <Button
-                  variant="primary"
-                  size="md"
-                  onClick={() => setIsSubmitOpen(true)}
-                  aria-label="Enviar avaliação"
+                  variant="ghost"
+                  size="sm"
+                  className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
+                  onClick={() =>
+                    toast.info
+                      ? toast.info('Rascunho será salvo automaticamente em 1.5s')
+                      : toast.success('Salvo automaticamente')
+                  }
+                  aria-label="Salvar rascunho manualmente"
                 >
-                  Enviar Avaliação
+                  Salvar rascunho
                 </Button>
-              ) : (
-                <Button
-                  variant="primary"
-                  size="md"
-                  disabled={!nextTab}
-                  onClick={() => nextTab && goToTab(nextTab.key)}
-                  aria-label="Próxima aba"
-                >
-                  Próxima aba →
-                </Button>
-              )}
+                {isNdaTab ? (
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={() => setIsSubmitOpen(true)}
+                    aria-label="Enviar avaliação"
+                  >
+                    Enviar Avaliação
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary"
+                    size="md"
+                    disabled={!nextTab}
+                    onClick={() => nextTab && goToTab(nextTab.key)}
+                    aria-label="Próxima aba"
+                  >
+                    Próxima aba →
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-      </main>
+          )}
+        </main>
+      </div>
 
       {/* Dialog de confirmação de submissão (per UI-SPEC §Dialog de Confirmação) */}
       <Dialog open={isSubmitOpen} onClose={() => setIsSubmitOpen(false)}>
