@@ -280,7 +280,7 @@ Plans:
 **Requirements:** SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, UX-04, UX-05
 **Depends on:** Phase 7
 
-**Plans:** 4/6 plans executed
+**Plans:** 5/6 plans executed
 
 Plans:
 
@@ -295,7 +295,7 @@ Plans:
 - [x] 08-03-PLAN.md — useSubmitAssessment (UPDATE draft→submitted) + useNewRevision (INSERT append-only)
 
 **Wave 4** *(bloqueada pela Wave 3)*
-- [ ] 08-04-PLAN.md — FormLayout wiring (useQuery draft, skeleton, dialog submissão) + HistoryPage criada
+- [x] 08-04-PLAN.md — FormLayout wiring (useQuery draft, skeleton, dialog submissão) + HistoryPage criada
 
 **Wave 5** *(bloqueada pela Wave 4)*
 - [ ] 08-05-PLAN.md — Rota /form/:orgId/history + checkpoint visual do fluxo completo
