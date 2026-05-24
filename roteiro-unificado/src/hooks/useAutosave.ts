@@ -98,6 +98,7 @@ export function useAutosave(tenantId: string): void {
         if (saveError) {
           toastRef.current.warning('Falha ao salvar — tentando novamente')
         } else {
+          store.getState().setLastSaved(new Date())
           const time = new Date().toLocaleTimeString('pt-BR', {
             hour: '2-digit',
             minute: '2-digit',
