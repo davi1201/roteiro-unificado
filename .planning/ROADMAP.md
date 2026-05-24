@@ -280,7 +280,7 @@ Plans:
 **Requirements:** SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, UX-04, UX-05
 **Depends on:** Phase 7
 
-**Plans:** 2/6 plans executed
+**Plans:** 4/6 plans executed
 
 Plans:
 
@@ -291,8 +291,8 @@ Plans:
 - [x] 08-01-PLAN.md — Migration UNIQUE parcial `(org_id, status) WHERE status=draft` para upsert do autosave
 
 **Wave 3** *(bloqueada pela Wave 2 — paralela)*
-- [ ] 08-02-PLAN.md — formStore.hydrateFromAssessment + hook useAutosave com debounce 1500ms
-- [ ] 08-03-PLAN.md — useSubmitAssessment (UPDATE draft→submitted) + useNewRevision (INSERT append-only)
+- [x] 08-02-PLAN.md — formStore.hydrateFromAssessment + hook useAutosave com debounce 1500ms
+- [x] 08-03-PLAN.md — useSubmitAssessment (UPDATE draft→submitted) + useNewRevision (INSERT append-only)
 
 **Wave 4** *(bloqueada pela Wave 3)*
 - [ ] 08-04-PLAN.md — FormLayout wiring (useQuery draft, skeleton, dialog submissão) + HistoryPage criada
