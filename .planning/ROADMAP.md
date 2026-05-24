@@ -323,6 +323,16 @@ Plans:
 
 ---
 
+### Phase 08.1: Fix SAVE-03 RLS — permitir draft→submitted (INSERTED)
+
+**Goal:** Construtora (role company) consegue submeter avaliação (transição draft→submitted) sem erro RLS — bug crítico SAVE-03 corrigido via migration corretiva na policy `assessments_update_draft`, preservando o bloqueio de regressão submitted→draft.
+**Requirements:** SAVE-03
+**Depends on:** Phase 8
+**Plans:** 1 plan
+
+Plans:
+- [ ] 08.1-01-PLAN.md — Migration corretiva do WITH CHECK em assessments_update_draft (draft→submitted) + [BLOCKING] supabase db push + checkpoint de verificação end-to-end
+
 ### Phase 9: Dashboard de Prontidão
 
 **Goal:** Admin vê status de todas as empresas com filtros; construtora vê seu próprio painel de progresso e histórico.
