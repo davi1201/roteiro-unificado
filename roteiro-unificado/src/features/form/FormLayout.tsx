@@ -176,8 +176,8 @@ export function FormLayout() {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <ProgressBar tenantId={tenantId} />
-      <div className="flex min-h-screen flex-col md:flex-row">
-        <aside className="bg-primary flex w-full flex-col text-white md:sticky md:top-0 md:h-screen md:max-w-[300px] md:min-w-[220px] md:overflow-y-auto">
+      <div className="flex flex-1 flex-col md:flex-row">
+        <aside className="bg-primary flex w-full flex-col text-white md:sticky md:top-1 md:h-[calc(100vh-4px)] md:max-w-[300px] md:min-w-[220px] md:self-start md:overflow-y-auto">
           <div className="border-primary-800 hidden border-b px-4 py-4 md:block">
             <span className="text-base font-semibold">Roteiro Unificado</span>
           </div>
@@ -210,11 +210,11 @@ export function FormLayout() {
             </div>
           ) : draftQuery.isError ? (
             <div
-              className="mt-4 flex flex-col items-start gap-3 rounded-md border border-g1/30 bg-g1/5 p-4"
+              className="border-g1/30 bg-g1/5 mt-4 flex flex-col items-start gap-3 rounded-md border p-4"
               role="alert"
               aria-live="polite"
             >
-              <p className="text-sm font-semibold text-g1">
+              <p className="text-g1 text-sm font-semibold">
                 Não foi possível carregar seu rascunho
               </p>
               <p className="text-sm text-gray-700">

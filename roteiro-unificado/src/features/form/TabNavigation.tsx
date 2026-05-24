@@ -1,6 +1,5 @@
 import { useFormStore, TabKey } from '@/stores/formStore'
 import { TAB_CONFIG } from './tabConfig'
-import { ProgressBadge } from './ProgressBadge'
 import { cn } from '@/lib/utils'
 
 interface TabNavigationProps {
@@ -36,18 +35,14 @@ export function TabNavigation({ tenantId }: TabNavigationProps) {
     store.markTabVisited(tab)
   }
 
-  function completenessFor(tab: TabKey): number {
-    return store.visitedTabs.has(tab) ? 0.01 : 0
-  }
-
   return (
     <nav
       aria-label="Navegação do formulário"
       className="flex flex-row gap-1 overflow-x-auto md:flex-col md:overflow-x-visible"
     >
-      {TAB_CONFIG.map((tab) => {
+      {TAB_CONFIG.map((tab, index) => {
         const isActive = store.activeTab === tab.key
-        const completeness = completenessFor(tab.key)
+        const isVisited = store.visitedTabs.has(tab.key)
 
         return (
           <button
@@ -57,13 +52,26 @@ export function TabNavigation({ tenantId }: TabNavigationProps) {
             aria-current={isActive ? 'page' : undefined}
             aria-label={tab.label}
             className={cn(
-              'flex h-10 shrink-0 items-center gap-3 rounded-md px-3 text-left text-sm whitespace-nowrap',
+              'flex h-10 shrink-0 items-center gap-[10px] rounded-md px-2 text-left text-[12.5px] whitespace-nowrap',
               isActive
-                ? 'bg-primary-800 font-semibold text-white'
-                : 'text-primary-100 hover:bg-primary-800 hover:text-white'
+                ? 'bg-white/[0.12] font-semibold text-white'
+                : 'text-white/55 hover:bg-white/[0.08] hover:text-white'
             )}
           >
-            <ProgressBadge completeness={completeness} />
+            {/* Step number badge — matches sketch: active=accent, done=g4, default=white/12 */}
+            <span
+              aria-hidden="true"
+              className={cn(
+                'flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold',
+                isActive
+                  ? 'bg-accent text-white'
+                  : isVisited
+                    ? 'bg-g4 text-white'
+                    : 'bg-white/[0.12] text-white/55'
+              )}
+            >
+              {index + 1}
+            </span>
             <span className="hidden md:inline">{tab.label}</span>
           </button>
         )
