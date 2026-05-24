@@ -106,6 +106,12 @@ Recent decisions affecting current work:
 
 None.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260524-mrz | fix FormLayout.tsx — footer inside main, sidebar sticky, padding p-6/p-8 | 2026-05-24 | 9878df3 | [260524-mrz](./quick/260524-mrz-fix-formlayout-tsx-footer-inside-main-si/) |
+
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
