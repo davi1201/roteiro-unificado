@@ -1,6 +1,7 @@
 import { create, useStore } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import type { StoreApi } from 'zustand'
+import type { Json } from '@/types/database'
 
 /**
  * Enum com as 10 abas do formulário de avaliação.
@@ -53,6 +54,7 @@ interface FormActions {
   markTabVisited: (tab: TabKey) => void
   updateSection: (tab: TabKey, data: Record<string, unknown>) => void
   resetForm: () => void
+  hydrateFromAssessment: (formData: Json) => void
 }
 
 type FormStore = FormState & FormActions
@@ -101,6 +103,37 @@ export function createFormStore(tenantId: string): StoreApi<FormStore> {
 
           updateSection: (tab, data) =>
             set((state) => ({ sectionData: { ...state.sectionData, [tab]: data } })),
+
+          hydrateFromAssessment: (formData) => {
+            // Guarda contra null, undefined ou valores não-iteráveis
+            if (
+              formData === null ||
+              formData === undefined ||
+              typeof formData !== 'object' ||
+              Array.isArray(formData)
+            ) {
+              return
+            }
+
+            const data = formData as Record<string, Record<string, unknown>>
+            const validKeys = Object.values(TabKey) as string[]
+
+            set((state) => {
+              const newSectionData = { ...state.sectionData }
+              for (const [key, value] of Object.entries(data)) {
+                // Ignora keys fora do TabKey enum e valores não-objeto
+                if (
+                  validKeys.includes(key) &&
+                  value !== null &&
+                  typeof value === 'object' &&
+                  !Array.isArray(value)
+                ) {
+                  newSectionData[key as TabKey] = value as Record<string, unknown>
+                }
+              }
+              return { sectionData: newSectionData }
+            })
+          },
 
           resetForm: () =>
             set({
