@@ -280,7 +280,7 @@ Plans:
 **Requirements:** SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, UX-04, UX-05
 **Depends on:** Phase 7
 
-**Plans:** 5/6 plans executed
+**Plans:** 6/6 plans complete
 
 Plans:
 
@@ -298,7 +298,7 @@ Plans:
 - [x] 08-04-PLAN.md — FormLayout wiring (useQuery draft, skeleton, dialog submissão) + HistoryPage criada
 
 **Wave 5** *(bloqueada pela Wave 4)*
-- [ ] 08-05-PLAN.md — Rota /form/:orgId/history + checkpoint visual do fluxo completo
+- [x] 08-05-PLAN.md — Rota /form/:orgId/history + checkpoint visual do fluxo completo
 
 **Cross-cutting constraints:**
 - `onConflict: 'org_id,status'` em useAutosave deve corresponder exatamente ao índice criado em 08-01
