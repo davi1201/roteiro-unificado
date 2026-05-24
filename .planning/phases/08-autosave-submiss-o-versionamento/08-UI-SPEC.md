@@ -84,6 +84,18 @@ Nota: as cores `--color-primary: #123B66` e `--color-accent: #F28C28` existem co
 
 ---
 
+## Visuals
+
+**Ponto focal primário:** O sticky footer com o botão "Enviar Avaliação" é a âncora visual principal da tela de formulário. É o único elemento de CTA de nível primário (`variant="primary" size="lg"`) fixo no viewport, visível apenas na aba NDA. Todo o design do FormLayout deve tratar este footer como o destino visual de conversão — nenhum outro elemento desta fase deve competir com ele em tamanho, cor ou posicionamento fixo.
+
+Hierarquia visual da tela principal (FormLayout):
+1. Sticky footer "Enviar Avaliação" — CTA de conversão, posição fixa inferior, bg-white + border-t
+2. Tabs de navegação — orientação espacial do usuário
+3. Indicador de autosave inline — feedback de estado discreto, abaixo do h1, `text-xs text-gray-400`
+4. Conteúdo da seção ativa — área de preenchimento
+
+---
+
 ## Componentes Visuais por Contexto
 
 ### Toast de Autosave
@@ -182,7 +194,7 @@ Exibido enquanto `isLoading === true` no `useQuery(['assessment', 'draft', orgId
 Opcional: linha de texto discreto abaixo do `<h1>` do FormLayout quando `activeTab !== TabKey.Nda`:
 
 ```
-<p className="text-xs text-gray-400 mt-0.5">
+<p className="text-xs text-gray-400 mt-1">
   {lastSavedAt ? `Salvo às ${lastSavedAt}` : 'Não salvo ainda'}
 </p>
 ```
@@ -303,10 +315,12 @@ Nenhum terceiro registry declarado. Nenhum bloco de terceiros a vetar.
 | 2026-05-23 | D4: Três pesos declarados (400, 600, 700)              | Display alterado de 700 (bold) para 600 (semibold) — 2 pesos   |
 | 2026-05-23 | D5: Badge usava `px-2.5` (10px, não múltiplo de 4)    | Substituído por `px-3` (12px) em todo o documento              |
 | 2026-05-23 | D3 (rec): Accent listado como reservado para o botão  | Removido — accent reservado apenas para badge "Enviado"; botão usa `variant="primary"` (bg-primary) |
+| 2026-05-23 | D5 (bloqueio): `mt-0.5` (2px) no indicador de autosave — não é múltiplo de 4 | Substituído por `mt-1` (4px) — menor unidade válida da grade |
+| 2026-05-23 | D2 (recomendação): Ponto focal primário não declarado  | Adicionada seção Visuals declarando sticky footer "Enviar Avaliação" como âncora visual principal |
 
 ---
 
 *Phase: 08-autosave-submissao-versionamento*
 *UI-SPEC gerado: 2026-05-23*
-*UI-SPEC revisado: 2026-05-23 — 3 blocking fixes + 1 recommendation aplicados*
+*UI-SPEC revisado: 2026-05-23 — 3 blocking fixes + 1 recommendation aplicados; 2026-05-23 — D5 mt-0.5→mt-1 + D2 Visuals section adicionada*
 *Fonte de decisões: 08-CONTEXT.md (D-01 a D-06 + Discretion), REQUIREMENTS.md §SAVE + §UX, index.css tokens, componentes existentes em src/components/ui/*
