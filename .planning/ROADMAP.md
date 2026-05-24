@@ -280,14 +280,15 @@ Plans:
 **Requirements:** SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, UX-04, UX-05
 **Depends on:** Phase 7
 
-#### Plans
+**Plans:** 5 planos
 
-1. **Implementar autosave com debounce** — hook `useAutosave()` que observa mudanças no Zustand store; `debounce(1500ms)` antes de disparar `upsert` no Supabase (`assessments` com `status = 'draft'`); estratégia de upsert: INSERT if not exists, UPDATE if exists com mesmo `org_id + status = 'draft'`
-2. **Implementar toast de confirmação de autosave** — ao salvar com sucesso: toast discreto "Salvo automaticamente" com timestamp; ao falhar (offline/erro): toast de warning "Falha ao salvar — tentando novamente"
-3. **Implementar submissão formal** — botão "Enviar Avaliação" na última aba; dialog de confirmação; ao confirmar: UPDATE `status = 'submitted'`, `submitted_at = now()`, `version = version + 1`; registro se torna read-only no frontend
-4. **Implementar append-only versioning** — ao submeter: a row atual é marcada como `submitted`; próxima revisão cria novo registro com `version + 1` copiando `form_data` da versão mais recente; nunca sobrescrever registros `submitted`; RLS policy bloqueia UPDATE em registros submitted para role `company`
-5. **Criar UI de histórico de versões** — página `/form/:orgId/history`; lista de avaliações com: versão, data de envio, nível G1-G5 da época, status; botão "Ver detalhes" abre o form em modo read-only; botão "Iniciar nova revisão" disponível na versão mais recente
-6. **Implementar skeleton loading** — estados de loading com `Skeleton` nos cards do formulário, histórico e dashboard enquanto TanStack Query busca dados; sem flash de conteúdo vazio (UX-05)
+Plans:
+
+- [ ] 08-01-PLAN.md — Migration UNIQUE parcial (constraint WHERE status=draft para upsert do autosave)
+- [ ] 08-02-PLAN.md — formStore.hydrateFromAssessment + hook useAutosave com debounce 1500ms
+- [ ] 08-03-PLAN.md — useSubmitAssessment (UPDATE draft→submitted) + useNewRevision (INSERT append-only)
+- [ ] 08-04-PLAN.md — FormLayout wiring (useQuery draft, skeleton, dialog submissão) + HistoryPage criada
+- [ ] 08-05-PLAN.md — Rota /form/:orgId/history + checkpoint visual do fluxo completo
 
 **UAT:**
 
