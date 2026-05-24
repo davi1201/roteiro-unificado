@@ -1,10 +1,11 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import { Button } from '@/components/ui'
+import { Button, Spinner } from '@/components/ui'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import type { Grade } from '@/components/ui/badge'
+import { useAuth } from '@/features/auth/useAuth'
 import { useNewRevision } from './useNewRevision'
 
 type AssessmentRow = {
@@ -50,9 +51,29 @@ function useAssessmentHistory(orgId: string) {
  */
 export function HistoryPage() {
   const { orgId } = useParams<{ orgId: string }>()
+  const { orgId: authOrgId, isLoading: authLoading } = useAuth()
   const navigate = useNavigate()
-  const { data: history, isLoading } = useAssessmentHistory(orgId ?? '')
-  const newRevisionMutation = useNewRevision(orgId ?? '')
+
+  // Cross-tenant guard — mirrors FormLayout (Phase 5)
+  if (authLoading || !orgId || !authOrgId) {
+    return (
+      <div className="bg-primary flex min-h-screen items-center justify-center">
+        <Spinner size="lg" className="border-white border-t-transparent" />
+      </div>
+    )
+  }
+
+  if (orgId !== authOrgId) {
+    return <Navigate to={`/form/${authOrgId}/history`} replace />
+  }
+
+  return <HistoryPageContent orgId={orgId} />
+}
+
+function HistoryPageContent({ orgId }: { orgId: string }) {
+  const navigate = useNavigate()
+  const { data: history, isLoading } = useAssessmentHistory(orgId)
+  const newRevisionMutation = useNewRevision(orgId)
 
   // Skeleton durante carregamento — 3 cards fake (per UI-SPEC §Skeleton da HistoryPage)
   if (isLoading) {
