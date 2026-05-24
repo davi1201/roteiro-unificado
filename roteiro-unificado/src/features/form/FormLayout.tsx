@@ -1,7 +1,21 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams, useLocation, useNavigate, Navigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/features/auth/useAuth'
-import { useFormStore, TabKey } from '@/stores/formStore'
+import { useFormStore, createFormStore, TabKey } from '@/stores/formStore'
+import { supabase } from '@/lib/supabase'
+import type { Tables } from '@/types/database'
+import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Dialog,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogContent,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { useAutosave } from '@/hooks/useAutosave'
+import { useSubmitAssessment } from './useSubmitAssessment'
 import { TAB_CONFIG } from './tabConfig'
 import { TabNavigation } from './TabNavigation'
 import { ProgressBar } from './ProgressBar'
@@ -55,9 +69,11 @@ function renderSection(activeTab: TabKey, tenantId: string) {
  * Shell principal do formulário de avaliação.
  *
  * Integra: sidebar bg-primary + TabNavigation (stepper) + ProgressBar (faixa sticky)
- * + botão Sair + hash sync com URL + cross-tenant guard.
+ * + botão Sair + hash sync com URL + cross-tenant guard + autosave + draft hydration
+ * + sticky footer "Enviar Avaliação" (aba NDA) + dialog de confirmação de submissão.
  *
  * Todas as 10 abas renderizam seus Section components via switch(activeTab) — Phase 7 completa.
+ * Autosave ativo via useAutosave(tenantId) — Phase 8.
  */
 export function FormLayout() {
   const { orgId: routeOrgId } = useParams<{ orgId: string }>()
@@ -70,6 +86,43 @@ export function FormLayout() {
   // para satisfazer o tipo de useFormStore — o store nunca é acessado quando vazio.
   const tenantId = routeOrgId ?? ''
   const store = useFormStore(tenantId)
+
+  // Estado local para controlar abertura do dialog de confirmação de submissão
+  const [isSubmitOpen, setIsSubmitOpen] = useState(false)
+
+  // useQuery para carregar draft existente do Supabase (D-01, D-03)
+  const draftQuery = useQuery({
+    queryKey: ['assessment', 'draft', tenantId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('assessments')
+        .select('*')
+        .eq('org_id', tenantId)
+        .eq('status', 'draft')
+        .order('version', { ascending: false })
+        .limit(1)
+        .maybeSingle<Tables<'assessments'>>() // retorna null se não existe draft — sem throw (D-03)
+      if (error) throw error
+      return data
+    },
+    staleTime: 30_000, // 30s — evita re-fetch em cada troca de aba (D-01)
+    enabled: !!tenantId,
+  })
+
+  // Hidratação do store com dados do draft — TanStack v5 sem onSuccess em useQuery
+  // CRÍTICO: createFormStore(tenantId).getState() acessa o store sem criar subscription React
+  // — evita loop infinito (Armadilha 2 do RESEARCH.md)
+  useEffect(() => {
+    if (draftQuery.data?.form_data) {
+      createFormStore(tenantId).getState().hydrateFromAssessment(draftQuery.data.form_data)
+    }
+  }, [draftQuery.data, tenantId])
+
+  // Autosave — persiste rascunhos automaticamente com debounce 1500ms
+  useAutosave(tenantId)
+
+  // Mutation de submissão formal
+  const submitMutation = useSubmitAssessment(tenantId)
 
   // Hash sync — sincroniza URL hash com activeTab no mount e nas navegações
   // CRITICAL: não incluir `store` nas deps — provoca loop infinito (T-05-04-04)
@@ -130,12 +183,68 @@ export function FormLayout() {
             </Button>
           </div>
         </aside>
-        <main className="flex-1 p-4 md:p-6">
+        <main className={`flex-1 p-4 md:p-6${store.activeTab === TabKey.Nda ? 'pb-20' : ''}`}>
           <h1 className="text-xl font-semibold text-gray-900">{activeTabConfig.label}</h1>
           <ReadinessClassification tenantId={tenantId} />
-          {renderSection(store.activeTab, tenantId)}
+          {draftQuery.isLoading ? (
+            <div className="mt-4 space-y-4" aria-busy="true">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-3/4" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-24 w-full" />
+            </div>
+          ) : (
+            renderSection(store.activeTab, tenantId)
+          )}
         </main>
+
+        {/* Sticky footer — visível apenas na aba NDA e quando não está carregando */}
+        {store.activeTab === TabKey.Nda && !draftQuery.isLoading && (
+          <div className="sticky bottom-0 flex justify-end border-t border-gray-200 bg-white px-4 py-4 md:px-6">
+            <Button
+              variant="primary"
+              size="lg"
+              className="w-full sm:w-auto"
+              onClick={() => setIsSubmitOpen(true)}
+            >
+              Enviar Avaliação
+            </Button>
+          </div>
+        )}
       </div>
+
+      {/* Dialog de confirmação de submissão (per UI-SPEC §Dialog de Confirmação) */}
+      <Dialog open={isSubmitOpen} onClose={() => setIsSubmitOpen(false)}>
+        <DialogHeader>
+          <DialogTitle>Enviar Avaliação?</DialogTitle>
+        </DialogHeader>
+        <DialogContent>
+          <DialogDescription>
+            Após o envio, esta versão ficará imutável. Você poderá iniciar uma nova revisão a partir
+            dela.
+          </DialogDescription>
+        </DialogContent>
+        <DialogFooter>
+          <Button
+            type="button"
+            variant="secondary"
+            size="md"
+            disabled={submitMutation.isPending}
+            onClick={() => setIsSubmitOpen(false)}
+          >
+            Manter Rascunho
+          </Button>
+          <Button
+            type="button"
+            variant="primary"
+            size="md"
+            isLoading={submitMutation.isPending}
+            onClick={() => submitMutation.mutate()}
+          >
+            {submitMutation.isPending ? 'Enviando...' : 'Confirmar Envio'}
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </div>
   )
 }
