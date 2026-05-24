@@ -339,14 +339,27 @@ Plans:
 **Requirements:** DASH-01, DASH-02, DASH-03, DASH-04, DASH-05
 **Depends on:** Phase 8
 
-#### Plans
+**Plans:** 4 plans
 
-1. **Criar página admin dashboard** — `/admin/dashboard`; query TanStack Query buscando todas as orgs com sua última avaliação (JOIN `orgs` + `assessments`); grid de cards de empresas
-2. **Criar `CompanyCard`** — card exibindo: nome da empresa, CNPJ (truncado), badge G1-G5 com cor semântica, data da última avaliação, nível técnico (string), link "Ver detalhes"; skeleton enquanto carrega (DASH-02)
-3. **Implementar filtros no painel admin** — input de busca por nome/CNPJ (client-side filter); select de filtro por nível de prontidão (G1–G5 + "Todos"); botão "Limpar filtros"; contagem de resultados exibidos (DASH-05)
-4. **Criar dashboard da construtora** — `/form/:orgId/dashboard`; exibe: classificação atual G1-G5, última atualização, barra de progresso total, breakdown de progresso por seção (% de campos preenchidos por aba); botão "Continuar avaliação" → `/form/:orgId`; link para histórico de versões (DASH-03, DASH-04)
-5. **Criar componente `SectionProgress`** — grid de cards por aba do formulário (10 abas); cada card: nome da aba, ícone, `%` de completude, badge de status (Não iniciado / Em progresso / Completo)
-6. **Implementar view de detalhe de empresa (admin)** — `/admin/orgs/:orgId`; combina dashboard da empresa + histórico de versões + link de exportação; admin pode ver tudo que a empresa vê
+Plans:
+**Wave 1** *(paralelo — lógica/contratos sem dependências)*
+
+- [ ] 09-01-PLAN.md — Lógica pura: computeTabStatus (src/lib/sectionStatus.ts) + hook useOrgsWithReadiness (JOIN orgs+assessments, filtro submitted no cliente)
+
+**Wave 2** *(paralelo — dependem de 09-01; sem overlap de arquivos)*
+
+- [ ] 09-02-PLAN.md — Componentes admin: CompanyCard (Badge G1-G5 / "Sem avaliação") + AssessmentSection (histórico de versões para OrgDetail)
+- [ ] 09-03-PLAN.md — Painel construtora: SectionProgress (10 cards de progresso) + CompanyDashboard (/form/:orgId/dashboard com cross-tenant guard)
+
+**Wave 3** *(wiring final + checkpoint humano — depende de 09-02 e 09-03)*
+
+- [ ] 09-04-PLAN.md — Wiring: AdminDashboard grid+filtros (substitui OrgTable) + AssessmentSection no OrgDetail + rota /form/:orgId/dashboard + checkpoint visual
+
+**Wave structure:**
+
+- Wave 1: 09-01 (sectionStatus + useOrgsWithReadiness — contratos consumidos pelas Waves 2-3)
+- Wave 2: 09-02 (componentes admin) + 09-03 (componentes construtora) — paralelos, sem overlap de arquivos
+- Wave 3: 09-04 (composição em AdminDashboard/OrgDetail/router + checkpoint humano blocking)
 
 **UAT:**
 
