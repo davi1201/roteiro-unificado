@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-22)
 Phase: 08
 Plan: Not started
 Status: Ready to execute
-Last activity: 2026-05-24 -- Phase 09.5 planning complete
+Last activity: 2026-05-24 - Completed quick task 260524-ned: corrigir 3 blockers UI audit (draftQuery.isError, Row 2 layout, Cidade/UF + char-count)
 
 Next: Phase 9 (Dashboard de Prontidão) — desbloqueada pela conclusão de Phase 08.1
 
@@ -112,6 +112,7 @@ None.
 |---|-------------|------|--------|-----------|
 | 260524-mrz | fix FormLayout.tsx — footer inside main, sidebar sticky, padding p-6/p-8 | 2026-05-24 | 9878df3 | [260524-mrz](./quick/260524-mrz-fix-formlayout-tsx-footer-inside-main-si/) |
 | 260524-n1y | faça um ajuste para a main do formLayout ocupe 100 do espaço | 2026-05-24 | 542ea0b | [260524-n1y](./quick/260524-n1y-fa-a-um-ajuste-para-a-main-do-formlayout/) |
+| 260524-ned | corrigir 3 blockers UI audit: draftQuery.isError silencioso, Row 2 layout invertido, Cidade/UF ausente + char-count | 2026-05-24 | 28a7320 | [260524-ned](./quick/260524-ned-corrigir-3-blockers-ui-audit-draftquery-/) |
 
 ## Deferred Items
 
