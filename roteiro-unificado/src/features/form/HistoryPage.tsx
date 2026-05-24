@@ -52,7 +52,6 @@ function useAssessmentHistory(orgId: string) {
 export function HistoryPage() {
   const { orgId } = useParams<{ orgId: string }>()
   const { orgId: authOrgId, isLoading: authLoading } = useAuth()
-  const navigate = useNavigate()
 
   // Cross-tenant guard — mirrors FormLayout (Phase 5)
   if (authLoading || !orgId || !authOrgId) {
