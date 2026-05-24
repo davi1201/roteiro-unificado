@@ -176,7 +176,7 @@ export function FormLayout() {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       <ProgressBar tenantId={tenantId} />
-      <div className="flex flex-1 flex-col md:flex-row">
+      <div className="flex min-h-screen flex-col md:flex-row">
         <aside className="bg-primary flex w-full flex-col text-white md:sticky md:top-0 md:h-screen md:max-w-[300px] md:min-w-[220px] md:overflow-y-auto">
           <div className="border-primary-800 hidden border-b px-4 py-4 md:block">
             <span className="text-base font-semibold">Roteiro Unificado</span>
