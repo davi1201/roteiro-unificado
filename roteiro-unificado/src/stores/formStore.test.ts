@@ -1,5 +1,42 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { createFormStore, TabKey } from './formStore'
+import { createFormStore, clearFormStore, TabKey } from './formStore'
+
+describe('formStore — lastSavedAt', () => {
+  let tenantId: string
+
+  beforeEach(() => {
+    tenantId = `test-lastsaved-${Math.random().toString(36).slice(2)}`
+  })
+
+  it('Test 1: novo store tem lastSavedAt === null por default', () => {
+    const store = createFormStore(tenantId)
+    expect(store.getState().lastSavedAt).toBeNull()
+  })
+
+  it('Test 2: setLastSaved(new Date()) atualiza lastSavedAt para a data passada', () => {
+    const store = createFormStore(tenantId)
+    const date = new Date('2026-05-24')
+    store.getState().setLastSaved(date)
+    expect(store.getState().lastSavedAt).toBe(date)
+  })
+
+  it('Test 3: setLastSaved(null) reseta para null', () => {
+    const store = createFormStore(tenantId)
+    store.getState().setLastSaved(new Date())
+    store.getState().setLastSaved(null)
+    expect(store.getState().lastSavedAt).toBeNull()
+  })
+
+  it('Test 4: lastSavedAt NÃO é persistido em localStorage', () => {
+    const store = createFormStore(tenantId)
+    store.getState().setLastSaved(new Date('2026-05-24'))
+    const raw = localStorage.getItem(`form-progress-${tenantId}`)
+    expect(raw).toBeDefined()
+    const parsed = JSON.parse(raw ?? '{}')
+    expect(Object.prototype.hasOwnProperty.call(parsed.state ?? parsed, 'lastSavedAt')).toBe(false)
+    clearFormStore(tenantId)
+  })
+})
 
 describe('formStore — hydrateFromAssessment', () => {
   let store: ReturnType<typeof createFormStore>

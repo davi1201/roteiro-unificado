@@ -43,6 +43,7 @@ interface FormState {
   activeTab: TabKey
   visitedTabs: Set<TabKey>
   sectionData: Partial<Record<TabKey, Record<string, unknown>>>
+  lastSavedAt: Date | null
 }
 
 interface FormActions {
@@ -55,6 +56,7 @@ interface FormActions {
   updateSection: (tab: TabKey, data: Record<string, unknown>) => void
   resetForm: () => void
   hydrateFromAssessment: (formData: Json) => void
+  setLastSaved: (date: Date | null) => void
 }
 
 type FormStore = FormState & FormActions
@@ -65,6 +67,7 @@ const initialState: FormState = {
   activeTab: TabKey.Identificacao,
   visitedTabs: new Set<TabKey>(),
   sectionData: {},
+  lastSavedAt: null,
 }
 
 const storesByTenant = new Map<string, StoreApi<FormStore>>()
@@ -144,7 +147,10 @@ export function createFormStore(tenantId: string): StoreApi<FormStore> {
               completedSteps: new Set<number>(),
               visitedTabs: new Set<TabKey>(),
               sectionData: {},
+              lastSavedAt: null,
             }),
+
+          setLastSaved: (date) => set({ lastSavedAt: date }),
         }),
         {
           name: `form-progress-${tenantId}`,
@@ -152,6 +158,7 @@ export function createFormStore(tenantId: string): StoreApi<FormStore> {
 
           // Serializa Sets como Arrays para localStorage (JSON não suporta Set).
           // sectionData é EXCLUÍDO aqui — persiste apenas em sessionStorage via subscriber manual.
+          // lastSavedAt é ephemeral — não persiste (re-deriva no próximo save bem-sucedido).
           partialize: (state) => ({
             currentStep: state.currentStep,
             completedSteps: [...state.completedSteps],
@@ -159,11 +166,13 @@ export function createFormStore(tenantId: string): StoreApi<FormStore> {
             visitedTabs: [...state.visitedTabs],
           }),
 
-          // Reconverte Arrays de volta para Sets ao reidratar do localStorage
+          // Reconverte Arrays de volta para Sets ao reidratar do localStorage.
+          // Garante lastSavedAt=null ao reidratar (defensivo — evita estado inconsistente se persist legacy retornar valor).
           onRehydrateStorage: () => (state) => {
             if (state) {
               state.completedSteps = new Set(state.completedSteps as unknown as number[])
               state.visitedTabs = new Set(state.visitedTabs as unknown as TabKey[])
+              state.lastSavedAt = null
             }
           },
         }

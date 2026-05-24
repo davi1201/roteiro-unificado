@@ -19,6 +19,7 @@ import { useSubmitAssessment } from './useSubmitAssessment'
 import { TAB_CONFIG } from './tabConfig'
 import { TabNavigation } from './TabNavigation'
 import { ProgressBar } from './ProgressBar'
+import { AutosaveIndicator } from './AutosaveIndicator'
 import { Button, Spinner } from '@/components/ui'
 import { useToast } from '@/hooks/useToast'
 import { IdentificacaoSection } from './sections/IdentificacaoSection'
@@ -160,6 +161,17 @@ export function FormLayout() {
   }
 
   const activeTabConfig = TAB_CONFIG.find((t) => t.key === store.activeTab) ?? TAB_CONFIG[0]
+  const activeIndex = TAB_CONFIG.findIndex((t) => t.key === store.activeTab)
+  const prevTab = activeIndex > 0 ? TAB_CONFIG[activeIndex - 1] : null
+  const nextTab =
+    activeIndex >= 0 && activeIndex < TAB_CONFIG.length - 1 ? TAB_CONFIG[activeIndex + 1] : null
+  const isNdaTab = store.activeTab === TabKey.Nda
+
+  function goToTab(key: TabKey) {
+    store.setActiveTab(key)
+    window.history.replaceState(null, '', `#${key}`)
+    store.markTabVisited(key)
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
@@ -183,8 +195,11 @@ export function FormLayout() {
             </Button>
           </div>
         </aside>
-        <main className={`flex-1 p-4 md:p-6 ${store.activeTab === TabKey.Nda ? 'pb-20' : ''}`}>
-          <h1 className="text-xl font-semibold text-gray-900">{activeTabConfig.label}</h1>
+        <main className="flex-1 p-4 pb-24 md:p-6 md:pb-24">
+          <div className="-mx-4 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-4 md:-mx-6 md:px-6">
+            <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
+            <AutosaveIndicator lastSaved={store.lastSavedAt} />
+          </div>
           <ReadinessClassification tenantId={tenantId} />
           {draftQuery.isLoading ? (
             <div className="mt-4 space-y-4" aria-busy="true">
@@ -198,17 +213,53 @@ export function FormLayout() {
           )}
         </main>
 
-        {/* Sticky footer — visível apenas na aba NDA e quando não está carregando */}
-        {store.activeTab === TabKey.Nda && !draftQuery.isLoading && (
-          <div className="sticky bottom-0 flex justify-end border-t border-gray-200 bg-white px-4 py-4 md:px-6">
+        {/* Footer universal — aparece em todas as 10 abas quando não está carregando */}
+        {!draftQuery.isLoading && (
+          <div className="sticky bottom-0 z-10 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:px-6">
             <Button
-              variant="primary"
-              size="lg"
-              className="w-full sm:w-auto"
-              onClick={() => setIsSubmitOpen(true)}
+              variant="ghost"
+              size="md"
+              disabled={!prevTab}
+              onClick={() => prevTab && goToTab(prevTab.key)}
+              aria-label="Aba anterior"
             >
-              Enviar Avaliação
+              ← Anterior
             </Button>
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-gray-500 underline-offset-2 hover:text-gray-700 hover:underline"
+                onClick={() =>
+                  toast.info
+                    ? toast.info('Rascunho será salvo automaticamente em 1.5s')
+                    : toast.success('Salvo automaticamente')
+                }
+                aria-label="Salvar rascunho manualmente"
+              >
+                Salvar rascunho
+              </Button>
+              {isNdaTab ? (
+                <Button
+                  variant="primary"
+                  size="md"
+                  onClick={() => setIsSubmitOpen(true)}
+                  aria-label="Enviar avaliação"
+                >
+                  Enviar Avaliação
+                </Button>
+              ) : (
+                <Button
+                  variant="primary"
+                  size="md"
+                  disabled={!nextTab}
+                  onClick={() => nextTab && goToTab(nextTab.key)}
+                  aria-label="Próxima aba"
+                >
+                  Próxima aba →
+                </Button>
+              )}
+            </div>
           </div>
         )}
       </div>
