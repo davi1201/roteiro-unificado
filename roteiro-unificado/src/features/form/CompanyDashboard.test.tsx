@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { createElement } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { CompanyDashboard } from './CompanyDashboard'
@@ -104,7 +104,10 @@ describe('CompanyDashboard — cross-tenant guard', () => {
 
     // Guard não deve aparecer
     expect(screen.queryByTestId('navigate')).toBeNull()
-    // Conteúdo deve aparecer — título "Painel de Prontidão"
-    expect(screen.getByText('Painel de Prontidão')).toBeDefined()
+    // Conteúdo deve aparecer após a query resolver — título "Painel de Prontidão"
+    // (waitFor aguarda o TanStack Query sair do estado loading)
+    await waitFor(() => {
+      expect(screen.getByText('Painel de Prontidão')).toBeDefined()
+    })
   })
 })
