@@ -239,23 +239,23 @@ Plans:
 **Requirements:** FORM-02, FORM-03, FORM-07, UX-02
 **Depends on:** Phase 6
 
-**Plans:** 6 plans
+**Plans:** 6/6 plans complete
 
 Plans:
 **Wave 1** *(paralelo — sem dependências entre si, sem overlap de arquivos)*
 
-- [ ] 07-01-PLAN.md — Fundação: InputField (wrapper RHF), barrel export, constante NDA_TEXT em src/constants/, função pura calculateReadiness em src/lib/readiness.ts
-- [ ] 07-02-PLAN.md — 5 schemas Zod (hab-venda, hab-repositorios, hab-responsaveis com matriz aninhada; hab-classificacao flat; nda com z.literal(true))
+- [x] 07-01-PLAN.md — Fundação: InputField (wrapper RHF), barrel export, constante NDA_TEXT em src/constants/, função pura calculateReadiness em src/lib/readiness.ts
+- [x] 07-02-PLAN.md — 5 schemas Zod (hab-venda, hab-repositorios, hab-responsaveis com matriz aninhada; hab-classificacao flat; nda com z.literal(true))
 
 **Wave 2** *(paralelo — 3 planos de Sections, todos consomem schemas + InputField + readiness da Wave 1)*
 
-- [ ] 07-03-PLAN.md — HabVendaSection (6 flat + 10 cenários × 5 colunas) + HabRepositoriosSection (CheckboxGroupField + 4 selects + 1 textarea + 14 domínios × 5 colunas)
-- [ ] 07-04-PLAN.md — HabResponsaveisSection (CheckboxGroupField + 4 selects + textarea + 10 atividades × 5 colunas) + HabClassificacaoSection (4 selects + 5 textareas, classificacaoFinal hab-a..hab-e)
-- [ ] 07-05-PLAN.md — NdaSection (texto scrollable + 4 InputFields + Controller boolean para aceitaTermos + textarea) + ReadinessClassification (useMemo + Badge G1-G5 + spans HAB-X + indicador NDA)
+- [x] 07-03-PLAN.md — HabVendaSection (6 flat + 10 cenários × 5 colunas) + HabRepositoriosSection (CheckboxGroupField + 4 selects + 1 textarea + 14 domínios × 5 colunas)
+- [x] 07-04-PLAN.md — HabResponsaveisSection (CheckboxGroupField + 4 selects + textarea + 10 atividades × 5 colunas) + HabClassificacaoSection (4 selects + 5 textareas, classificacaoFinal hab-a..hab-e)
+- [x] 07-05-PLAN.md — NdaSection (texto scrollable + 4 InputFields + Controller boolean para aceitaTermos + textarea) + ReadinessClassification (useMemo + Badge G1-G5 + spans HAB-X + indicador NDA)
 
 **Wave 3** *(wiring final + checkpoint humano — depende das 3 Sections da Wave 2)*
 
-- [ ] 07-06-PLAN.md — Wiring FormLayout (6 imports + 5 cases novos no switch + ReadinessClassification entre h1 e renderSection) + checkpoint visual de 11 passos cobrindo as 5 abas novas, engine em tempo real, erro NDA, responsividade 768px
+- [x] 07-06-PLAN.md — Wiring FormLayout (6 imports + 5 cases novos no switch + ReadinessClassification entre h1 e renderSection) + checkpoint visual de 11 passos cobrindo as 5 abas novas, engine em tempo real, erro NDA, responsividade 768px
 
 **Wave structure:**
 

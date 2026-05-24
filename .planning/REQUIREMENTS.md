@@ -25,12 +25,12 @@
 ### Formulário de Avaliação (FORM)
 
 - [x] **FORM-01**: Formulário estruturado em abas: Identificação, Torre 360 (Decisão, Sienge, Acesso, Classificação), Habilitações (Venda, Repositórios, Responsáveis, Classificação), NDA
-- [ ] **FORM-02**: Todos os campos do HTML atual são preservados na versão React (nenhuma seção omitida)
-- [ ] **FORM-03**: Validação de campos obrigatórios via Zod + React Hook Form antes de avançar de aba
+- [x] **FORM-02**: Todos os campos do HTML atual são preservados na versão React (nenhuma seção omitida)
+- [x] **FORM-03**: Validação de campos obrigatórios via Zod + React Hook Form antes de avançar de aba
 - [x] **FORM-04**: Usuário pode navegar entre abas livremente (dados da aba anterior são preservados)
 - [x] **FORM-05**: Seleções tipo dropdown, radio, checkbox e textarea são fiéis ao documento original
 - [x] **FORM-06**: Campos condicionais exibem/ocultam conforme seleção anterior (ex: "Possui BI?" → mostrar qual)
-- [ ] **FORM-07**: Classificação de prontidão (G1–G5 gerencial; níveis técnicos) é calculada automaticamente com base nas respostas
+- [x] **FORM-07**: Classificação de prontidão (G1–G5 gerencial; níveis técnicos) é calculada automaticamente com base nas respostas
 
 ### Persistência e Versionamento (SAVE)
 
@@ -60,7 +60,7 @@
 ### Design e UX (UX)
 
 - [ ] **UX-01**: Paleta de cores: azul `#123B66` e laranja `#F28C28` como cores primárias
-- [ ] **UX-02**: Layout responsivo — funciona em desktop e tablet (formulário em campo)
+- [x] **UX-02**: Layout responsivo — funciona em desktop e tablet (formulário em campo)
 - [x] **UX-03**: Indicador visual de aba ativa e progresso geral do formulário
 - [ ] **UX-04**: Feedback visual ao salvar (toast de confirmação)
 - [ ] **UX-05**: Estados de loading/skeleton durante carregamento de dados do Supabase
