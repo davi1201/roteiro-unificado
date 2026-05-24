@@ -1,8 +1,9 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import type { Enums } from '@/types/database'
+import { clearFormStore } from '@/stores/formStore'
 
 export interface AuthContextType {
   user: User | null
@@ -25,6 +26,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<Session | null>(null)
   const [role, setRole] = useState<Enums<'member_role'> | null>(null)
   const [orgId, setOrgId] = useState<string | null>(null)
+  // Ref mantém o orgId atual acessível de forma síncrona dentro do callback
+  // onAuthStateChange, onde o state do React ainda não foi atualizado.
+  const currentOrgIdRef = useRef<string | null>(null)
   // isLoading stays true until both the auth session AND the org_members
   // lookup have resolved. Starts as true so ProtectedRoute always waits.
   const [isLoading, setIsLoading] = useState(true)
@@ -38,6 +42,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     const { data: subscription } = supabase.auth.onAuthStateChange((event, currentSession) => {
       if (event === 'SIGNED_OUT' || !currentSession) {
+        // Limpa a store do tenant antes de zerar o orgId para evitar cross-user
+        // data leakage quando dois usuários compartilham o mesmo browser sem reload.
+        if (currentOrgIdRef.current) {
+          clearFormStore(currentOrgIdRef.current)
+          currentOrgIdRef.current = null
+        }
         setUser(null)
         setSession(null)
         setRole(null)
@@ -76,9 +86,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (error || !data) {
         setRole(null)
         setOrgId(null)
+        currentOrgIdRef.current = null
       } else {
         setRole(data.role)
         setOrgId(data.org_id)
+        currentOrgIdRef.current = data.org_id
       }
       setIsLoading(false)
     }

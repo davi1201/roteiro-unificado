@@ -68,6 +68,9 @@ const initialState: FormState = {
 }
 
 const storesByTenant = new Map<string, StoreApi<FormStore>>()
+// Stores the sessionStorage subscriber unsubscribe function per tenant
+// so clearFormStore can stop the subscription before removing the entry.
+const unsubscribeByTenant = new Map<string, () => void>()
 
 /**
  * Factory que cria (ou retorna a instância memoizada de) uma FormStore
@@ -179,8 +182,9 @@ export function createFormStore(tenantId: string): StoreApi<FormStore> {
       }
     } catch {}
 
-    // Subscriber: persiste sectionData no sessionStorage sempre que mudar
-    store.subscribe((state, prev) => {
+    // Subscriber: persiste sectionData no sessionStorage sempre que mudar.
+    // Guardamos o retorno (unsubscribe) para poder cancelar ao fazer logout.
+    const unsubscribe = store.subscribe((state, prev) => {
       if (state.sectionData !== prev.sectionData) {
         try {
           sessionStorage.setItem(SESSION_KEY, JSON.stringify(state.sectionData))
@@ -189,8 +193,31 @@ export function createFormStore(tenantId: string): StoreApi<FormStore> {
     })
 
     storesByTenant.set(tenantId, store)
+    unsubscribeByTenant.set(tenantId, unsubscribe)
   }
   return storesByTenant.get(tenantId)!
+}
+
+/**
+ * Remove a store memoizada de um tenant do Map e limpa o storage associado.
+ * Deve ser chamada no logout para evitar cross-user data leakage quando dois
+ * usuários compartilham o mesmo browser sem reload completo.
+ *
+ * Também cancela o subscriber de sessionStorage para evitar acumulação
+ * indefinida de subscriptions em sessões longas.
+ */
+export function clearFormStore(tenantId: string): void {
+  // Cancela o subscriber de sessionStorage antes de remover a store
+  const unsubscribe = unsubscribeByTenant.get(tenantId)
+  if (unsubscribe) {
+    unsubscribe()
+    unsubscribeByTenant.delete(tenantId)
+  }
+  storesByTenant.delete(tenantId)
+  try {
+    localStorage.removeItem(`form-progress-${tenantId}`)
+    sessionStorage.removeItem(`form-data-${tenantId}`)
+  } catch {}
 }
 
 /**
