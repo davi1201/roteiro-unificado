@@ -183,7 +183,7 @@ export function FormLayout() {
             </Button>
           </div>
         </aside>
-        <main className={`flex-1 p-4 md:p-6${store.activeTab === TabKey.Nda ? 'pb-20' : ''}`}>
+        <main className={`flex-1 p-4 md:p-6 ${store.activeTab === TabKey.Nda ? 'pb-20' : ''}`}>
           <h1 className="text-xl font-semibold text-gray-900">{activeTabConfig.label}</h1>
           <ReadinessClassification tenantId={tenantId} />
           {draftQuery.isLoading ? (
