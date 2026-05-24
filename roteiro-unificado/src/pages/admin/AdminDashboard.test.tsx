@@ -110,9 +110,10 @@ describe('filterOrgs', () => {
   })
 
   it('"Limpar filtros" (searchTerm="" e gradeFilter="Todos") retorna todas as orgs', () => {
-    // Simula limpar filtros após ter filtrado
-    const withFilter = filterOrgs(ALL_ORGS, 'xyz', 'G2')
-    expect(withFilter.length).toBe(0) // sem match
+    // Simula limpar filtros após ter filtrado com combinação sem match
+    // ORG_G2 tem nome 'Construtora XYZ' mas gradeFilter G3 não combina → 0 resultados
+    const withFilter = filterOrgs(ALL_ORGS, 'xyz', 'G3')
+    expect(withFilter.length).toBe(0) // sem match: XYZ é G2, não G3
 
     const cleared = filterOrgs(ALL_ORGS, '', 'Todos')
     expect(cleared.length).toBe(3)
