@@ -239,7 +239,11 @@ export function FormLayout() {
             variant="primary"
             size="md"
             isLoading={submitMutation.isPending}
-            onClick={() => submitMutation.mutate()}
+            onClick={() => {
+              submitMutation.mutate(undefined, {
+                onSuccess: () => setIsSubmitOpen(false),
+              })
+            }}
           >
             {submitMutation.isPending ? 'Enviando...' : 'Confirmar Envio'}
           </Button>
