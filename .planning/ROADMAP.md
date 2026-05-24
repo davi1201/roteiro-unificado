@@ -331,7 +331,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 08.1-01-PLAN.md — Migration corretiva do WITH CHECK em assessments_update_draft (draft→submitted) + [BLOCKING] supabase db push + checkpoint de verificação end-to-end
+- [x] 08.1-01-PLAN.md — Migration corretiva do WITH CHECK em assessments_update_draft (draft→submitted) + [BLOCKING] supabase db push + checkpoint de verificação end-to-end ✅ SAVE-03 desbloqueado
 
 ### Phase 9: Dashboard de Prontidão
 

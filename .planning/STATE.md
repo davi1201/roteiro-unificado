@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 08.1 Plan 01 Task 3 — checkpoint:human-verify
-last_updated: "2026-05-24T03:14:00Z"
-last_activity: 2026-05-24 -- Phase 08.1 Plan 01 Tasks 1+2 complete; awaiting E2E browser verification
+status: ready
+stopped_at: Phase 08.1 Plan 01 — COMPLETE
+last_updated: "2026-05-24T04:00:00Z"
+last_activity: 2026-05-24 -- Phase 08.1 Plan 01 completa; SAVE-03 desbloqueado; checkpoint aprovado pelo usuário
 progress:
   total_phases: 13
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 45
-  completed_plans: 43
-  percent: 54
+  completed_plans: 44
+  percent: 56
 ---
 
 # Project State
@@ -25,10 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-22)
 
 ## Current Position
 
-Phase: 08.1 (fix-save-03-rls-permitir-draft-submitted) — EXECUTING (checkpoint)
-Plan: 1 of 1
-Status: Tasks 1+2 complete; paused at Task 3 checkpoint:human-verify
-Last activity: 2026-05-24 -- Migration 20260523000002 aplicada ao banco remoto; policy verificada via pg_policies; aguardando verificação E2E no browser
+Phase: 08.1 (fix-save-03-rls-permitir-draft-submitted) — COMPLETE
+Plan: 1 of 1 — DONE
+Status: Todas as 3 tasks completas; checkpoint aprovado pelo usuário ("aprovado"); SAVE-03 desbloqueado
+Last activity: 2026-05-24 -- Phase 08.1 completa — submissão draft→submitted verificada end-to-end sem erro RLS
+
+Next: Phase 9 (Dashboard de Prontidão) — desbloqueada pela conclusão de Phase 08.1
 
 Progress: [██████████] 100%
 
