@@ -9,6 +9,8 @@ import {
   HAB_RESPONSIBILITIES,
 } from '@/schemas/hab-responsaveis'
 import { CheckboxGroupField, SelectField, TextareaField } from '@/components/ui'
+import { FormCard } from '../FormCard'
+import { FormCardRow } from '../FormCardRow'
 
 // ─── Opções de campos flat ────────────────────────────────────────────────────
 
@@ -84,126 +86,186 @@ export function HabResponsaveisSection({ tenantId }: HabResponsaveisSectionProps
   const respErrors = (errors.responsibilities as unknown as ResponsibilityErrors) ?? {}
 
   return (
-    <form className="max-w-5xl" noValidate>
-      {/* ── Grupo 1: Dificuldades operacionais recorrentes ─────────────────── */}
-      <div className="mb-6">
-        <h2 className="mb-2 text-base font-semibold text-gray-900">
-          Dificuldades operacionais recorrentes
-        </h2>
-        <CheckboxGroupField
-          name="dificuldadesRecorrentes"
-          control={control}
-          label="Selecione as dificuldades observadas"
-          options={dificuldadesOptions}
-          error={errors.dificuldadesRecorrentes?.message as string | undefined}
-        />
-      </div>
+    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+      {/* ROW 1 — cols-2: Dificuldades Recorrentes | Controles Gerais */}
+      <FormCardRow cols={2}>
+        <FormCard
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+              />
+            </svg>
+          }
+          iconColor="blue"
+          title="Dificuldades Operacionais"
+          subtitle="Problemas recorrentes observados"
+        >
+          <CheckboxGroupField
+            name="dificuldadesRecorrentes"
+            control={control}
+            label="Selecione as dificuldades observadas"
+            options={dificuldadesOptions}
+            error={errors.dificuldadesRecorrentes?.message as string | undefined}
+          />
+        </FormCard>
 
-      <hr className="my-6 border-gray-100" />
+        <FormCard
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          }
+          iconColor="green"
+          title="Controles Gerais"
+          subtitle="Rotinas e práticas de gestão documental"
+        >
+          <div className="flex flex-col gap-4">
+            <SelectField
+              name="tempoMedioKit"
+              control={control}
+              label="Tempo médio para montar um kit"
+              options={tempoMedioKitOptions}
+              error={errors.tempoMedioKit?.message as string | undefined}
+            />
+            <SelectField
+              name="existeChecklist"
+              control={control}
+              label="Existe checklist padrão?"
+              options={simParcialNaoOptions}
+              error={errors.existeChecklist?.message as string | undefined}
+            />
+            <SelectField
+              name="existeRenovacao"
+              control={control}
+              label="Existe rotina de renovação?"
+              options={simParcialNaoOptions}
+              error={errors.existeRenovacao?.message as string | undefined}
+            />
+            <SelectField
+              name="existeValidacao"
+              control={control}
+              label="Existe validação antes do envio?"
+              options={simParcialNaoOptions}
+              error={errors.existeValidacao?.message as string | undefined}
+            />
+            <TextareaField
+              name="observacoesRotina"
+              control={control}
+              label="Observações sobre rotina e dificuldades"
+              error={errors.observacoesRotina?.message as string | undefined}
+            />
+          </div>
+        </FormCard>
+      </FormCardRow>
 
-      {/* ── Grupo 2: Controles gerais ──────────────────────────────────────── */}
-      <div className="space-y-4">
-        <h2 className="mb-2 text-base font-semibold text-gray-900">Controles gerais</h2>
-        <SelectField
-          name="tempoMedioKit"
-          control={control}
-          label="Tempo médio para montar um kit"
-          options={tempoMedioKitOptions}
-          error={errors.tempoMedioKit?.message as string | undefined}
-        />
-        <SelectField
-          name="existeChecklist"
-          control={control}
-          label="Existe checklist padrão?"
-          options={simParcialNaoOptions}
-          error={errors.existeChecklist?.message as string | undefined}
-        />
-        <SelectField
-          name="existeRenovacao"
-          control={control}
-          label="Existe rotina de renovação?"
-          options={simParcialNaoOptions}
-          error={errors.existeRenovacao?.message as string | undefined}
-        />
-        <SelectField
-          name="existeValidacao"
-          control={control}
-          label="Existe validação antes do envio?"
-          options={simParcialNaoOptions}
-          error={errors.existeValidacao?.message as string | undefined}
-        />
-        <TextareaField
-          name="observacoesRotina"
-          control={control}
-          label="Observações sobre rotina e dificuldades"
-          error={errors.observacoesRotina?.message as string | undefined}
-        />
-      </div>
-
-      <hr className="my-6 border-gray-100" />
-
-      {/* ── Grupo 3: Mapa rápido de responsabilidades ─────────────────────── */}
-      <h2 className="mb-4 text-base font-semibold text-gray-900">
-        Mapa rápido de responsabilidades
-      </h2>
-      {HAB_RESPONSIBILITIES.map((activity) => {
-        const respErr = respErrors[activity.slug] ?? {}
-        return (
-          <article
-            key={activity.slug}
-            className="mb-4 rounded-md border border-gray-200 bg-white p-4"
-          >
-            <h3 className="mb-3 text-sm font-semibold text-gray-900">{activity.label}</h3>
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              <TextareaField
-                name={`responsibilities.${activity.slug}.quemFaz` as FieldPath<HabResponsaveisData>}
-                control={control}
-                label="Quem faz hoje?"
-                rows={2}
-                error={respErr.quemFaz?.message}
+      {/* ROW 2 — full width: Mapa de Responsabilidades (10 atividades) */}
+      <FormCardRow cols={1}>
+        <FormCard
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"
               />
-              <SelectField
-                name={
-                  `responsibilities.${activity.slug}.existeSubstituto` as FieldPath<HabResponsaveisData>
-                }
-                control={control}
-                label="Existe substituto?"
-                options={simParcialNaoSabeOptions}
-                error={respErr.existeSubstituto?.message}
-              />
-              <SelectField
-                name={
-                  `responsibilities.${activity.slug}.terceiroDependente` as FieldPath<HabResponsaveisData>
-                }
-                control={control}
-                label="Terceiro depende?"
-                options={simParcialNaoSabeOptions}
-                error={respErr.terceiroDependente?.message}
-              />
-              <TextareaField
-                name={
-                  `responsibilities.${activity.slug}.maiorDificuldade` as FieldPath<HabResponsaveisData>
-                }
-                control={control}
-                label="Maior dificuldade"
-                rows={2}
-                error={respErr.maiorDificuldade?.message}
-              />
-            </div>
-            <div className="mt-3">
-              <TextareaField
-                name={
-                  `responsibilities.${activity.slug}.observacoes` as FieldPath<HabResponsaveisData>
-                }
-                control={control}
-                label="Observações"
-                rows={2}
-                error={respErr.observacoes?.message}
-              />
-            </div>
-          </article>
-        )
-      })}
+            </svg>
+          }
+          iconColor="amber"
+          title="Mapa Rápido de Responsabilidades"
+          subtitle="10 atividades documentais e seus responsáveis"
+        >
+          <div className="flex flex-col gap-4">
+            {HAB_RESPONSIBILITIES.map((activity) => {
+              const respErr = respErrors[activity.slug] ?? {}
+              return (
+                <article
+                  key={activity.slug}
+                  className="rounded-md border border-gray-200 bg-gray-50 p-4"
+                >
+                  <h3 className="mb-3 text-sm font-semibold text-gray-900">{activity.label}</h3>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <TextareaField
+                      name={
+                        `responsibilities.${activity.slug}.quemFaz` as FieldPath<HabResponsaveisData>
+                      }
+                      control={control}
+                      label="Quem faz hoje?"
+                      rows={2}
+                      error={respErr.quemFaz?.message}
+                    />
+                    <SelectField
+                      name={
+                        `responsibilities.${activity.slug}.existeSubstituto` as FieldPath<HabResponsaveisData>
+                      }
+                      control={control}
+                      label="Existe substituto?"
+                      options={simParcialNaoSabeOptions}
+                      error={respErr.existeSubstituto?.message}
+                    />
+                    <SelectField
+                      name={
+                        `responsibilities.${activity.slug}.terceiroDependente` as FieldPath<HabResponsaveisData>
+                      }
+                      control={control}
+                      label="Terceiro depende?"
+                      options={simParcialNaoSabeOptions}
+                      error={respErr.terceiroDependente?.message}
+                    />
+                    <TextareaField
+                      name={
+                        `responsibilities.${activity.slug}.maiorDificuldade` as FieldPath<HabResponsaveisData>
+                      }
+                      control={control}
+                      label="Maior dificuldade"
+                      rows={2}
+                      error={respErr.maiorDificuldade?.message}
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <TextareaField
+                      name={
+                        `responsibilities.${activity.slug}.observacoes` as FieldPath<HabResponsaveisData>
+                      }
+                      control={control}
+                      label="Observações"
+                      rows={2}
+                      error={respErr.observacoes?.message}
+                    />
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </FormCard>
+      </FormCardRow>
     </form>
   )
 }

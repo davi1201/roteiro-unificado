@@ -9,6 +9,8 @@ import {
   HAB_SCENARIOS,
 } from '@/schemas/hab-venda'
 import { SelectField, TextareaField } from '@/components/ui'
+import { FormCard } from '../FormCard'
+import { FormCardRow } from '../FormCardRow'
 
 // ─── Option constants (slug values + Portuguese labels matching HTML) ─────────
 
@@ -93,121 +95,159 @@ export function HabVendaSection({ tenantId }: HabVendaSectionProps) {
   const scenarioErrors = (errors.scenarios as unknown as ScenarioErrors) ?? {}
 
   return (
-    <form className="max-w-5xl" noValidate>
-      {/* ── Grupo flat: Canais e situações comerciais ─────────────────────── */}
-      <div className="mb-6 space-y-4">
-        <h2 className="mb-2 text-base font-semibold text-gray-900">
-          Canais e situações comerciais
-        </h2>
-
-        <SelectField
-          name="principalFormaVenda"
-          control={control}
-          label="Principal forma de venda"
-          options={principalFormaVendaOptions}
-          error={errors.principalFormaVenda?.message as string | undefined}
-        />
-
-        <SelectField
-          name="quemPedeDocumentos"
-          control={control}
-          label="Quem pede documentos?"
-          options={quemPedeDocumentosOptions}
-          error={errors.quemPedeDocumentos?.message as string | undefined}
-        />
-
-        <SelectField
-          name="prazoTipico"
-          control={control}
-          label="Prazo típico para reunir documentos"
-          options={prazoTipicoOptions}
-          error={errors.prazoTipico?.message as string | undefined}
-        />
-
-        <SelectField
-          name="perdeuOportunidade"
-          control={control}
-          label="Já perdeu oportunidade por documentação?"
-          options={perdeuOportunidadeOptions}
-          error={errors.perdeuOportunidade?.message as string | undefined}
-        />
-
-        <TextareaField
-          name="principaisExigencias"
-          control={control}
-          label="Principais exigências recorrentes"
-          error={errors.principaisExigencias?.message as string | undefined}
-        />
-
-        <TextareaField
-          name="ondeCostumaTravar"
-          control={control}
-          label="Onde costuma travar?"
-          error={errors.ondeCostumaTravar?.message as string | undefined}
-        />
-      </div>
-
-      <hr className="my-6 border-gray-100" />
-
-      {/* ── Grupo matriz: Cenários de habilitação ────────────────────────── */}
-      <div>
-        <h2 className="mb-4 text-base font-semibold text-gray-900">
-          Matriz de cenários de habilitação
-        </h2>
-
-        {HAB_SCENARIOS.map((scenario) => {
-          const scErr = scenarioErrors[scenario.slug] ?? {}
-          return (
-            <article
-              key={scenario.slug}
-              className="mb-4 rounded-md border border-gray-200 bg-white p-4"
+    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+      {/* ROW 1 — full width: Visão Geral de Venda */}
+      <FormCardRow cols={1}>
+        <FormCard
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
             >
-              <h3 className="mb-3 text-sm font-semibold text-gray-900">{scenario.label}</h3>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                <SelectField
-                  name={`scenarios.${scenario.slug}.acontece` as FieldPath<HabVendaData>}
-                  control={control}
-                  label="Acontece hoje?"
-                  options={aconteceOptions}
-                  error={scErr.acontece?.message}
-                />
-                <SelectField
-                  name={`scenarios.${scenario.slug}.importancia` as FieldPath<HabVendaData>}
-                  control={control}
-                  label="Importância"
-                  options={importanciaOptions}
-                  error={scErr.importancia?.message}
-                />
-                <TextareaField
-                  name={`scenarios.${scenario.slug}.quemConduz` as FieldPath<HabVendaData>}
-                  control={control}
-                  label="Quem conduz"
-                  rows={2}
-                  error={scErr.quemConduz?.message}
-                />
-                <TextareaField
-                  name={
-                    `scenarios.${scenario.slug}.principalDificuldade` as FieldPath<HabVendaData>
-                  }
-                  control={control}
-                  label="Principal dificuldade"
-                  rows={2}
-                  error={scErr.principalDificuldade?.message}
-                />
-              </div>
-              <div className="mt-3">
-                <TextareaField
-                  name={`scenarios.${scenario.slug}.observacoes` as FieldPath<HabVendaData>}
-                  control={control}
-                  label="Observações para escopo"
-                  rows={2}
-                  error={scErr.observacoes?.message}
-                />
-              </div>
-            </article>
-          )
-        })}
-      </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+              />
+            </svg>
+          }
+          iconColor="blue"
+          title="Visão Geral de Venda"
+          subtitle="Canais e situações comerciais"
+        >
+          <div className="flex flex-col gap-4">
+            <SelectField
+              name="principalFormaVenda"
+              control={control}
+              label="Principal forma de venda"
+              options={principalFormaVendaOptions}
+              error={errors.principalFormaVenda?.message as string | undefined}
+            />
+
+            <SelectField
+              name="quemPedeDocumentos"
+              control={control}
+              label="Quem pede documentos?"
+              options={quemPedeDocumentosOptions}
+              error={errors.quemPedeDocumentos?.message as string | undefined}
+            />
+
+            <SelectField
+              name="prazoTipico"
+              control={control}
+              label="Prazo típico para reunir documentos"
+              options={prazoTipicoOptions}
+              error={errors.prazoTipico?.message as string | undefined}
+            />
+
+            <SelectField
+              name="perdeuOportunidade"
+              control={control}
+              label="Já perdeu oportunidade por documentação?"
+              options={perdeuOportunidadeOptions}
+              error={errors.perdeuOportunidade?.message as string | undefined}
+            />
+
+            <TextareaField
+              name="principaisExigencias"
+              control={control}
+              label="Principais exigências recorrentes"
+              error={errors.principaisExigencias?.message as string | undefined}
+            />
+
+            <TextareaField
+              name="ondeCostumaTravar"
+              control={control}
+              label="Onde costuma travar?"
+              error={errors.ondeCostumaTravar?.message as string | undefined}
+            />
+          </div>
+        </FormCard>
+      </FormCardRow>
+
+      {/* ROW 2 — full width: Cenários de Venda (10 cenários × 5 colunas) */}
+      <FormCardRow cols={1}>
+        <FormCard
+          icon={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125h-1.5m2.625-1.5V5.625M6 18.375V5.625m15.75 0A1.125 1.125 0 0 0 20.625 4.5H3.375A1.125 1.125 0 0 0 2.25 5.625m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h1.5m-1.5 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h17.25"
+              />
+            </svg>
+          }
+          iconColor="amber"
+          title="Matriz de Cenários de Habilitação"
+          subtitle="10 cenários de venda avaliados por importância e dificuldade"
+        >
+          <div className="flex flex-col gap-4">
+            {HAB_SCENARIOS.map((scenario) => {
+              const scErr = scenarioErrors[scenario.slug] ?? {}
+              return (
+                <article
+                  key={scenario.slug}
+                  className="rounded-md border border-gray-200 bg-gray-50 p-4"
+                >
+                  <h3 className="mb-3 text-sm font-semibold text-gray-900">{scenario.label}</h3>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <SelectField
+                      name={`scenarios.${scenario.slug}.acontece` as FieldPath<HabVendaData>}
+                      control={control}
+                      label="Acontece hoje?"
+                      options={aconteceOptions}
+                      error={scErr.acontece?.message}
+                    />
+                    <SelectField
+                      name={`scenarios.${scenario.slug}.importancia` as FieldPath<HabVendaData>}
+                      control={control}
+                      label="Importância"
+                      options={importanciaOptions}
+                      error={scErr.importancia?.message}
+                    />
+                    <TextareaField
+                      name={`scenarios.${scenario.slug}.quemConduz` as FieldPath<HabVendaData>}
+                      control={control}
+                      label="Quem conduz"
+                      rows={2}
+                      error={scErr.quemConduz?.message}
+                    />
+                    <TextareaField
+                      name={
+                        `scenarios.${scenario.slug}.principalDificuldade` as FieldPath<HabVendaData>
+                      }
+                      control={control}
+                      label="Principal dificuldade"
+                      rows={2}
+                      error={scErr.principalDificuldade?.message}
+                    />
+                  </div>
+                  <div className="mt-3">
+                    <TextareaField
+                      name={`scenarios.${scenario.slug}.observacoes` as FieldPath<HabVendaData>}
+                      control={control}
+                      label="Observações para escopo"
+                      rows={2}
+                      error={scErr.observacoes?.message}
+                    />
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </FormCard>
+      </FormCardRow>
     </form>
   )
 }
