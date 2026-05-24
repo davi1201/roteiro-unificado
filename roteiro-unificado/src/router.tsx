@@ -9,6 +9,7 @@ import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { OrgDetail } from '@/pages/admin/OrgDetail'
 import { FormLayout } from '@/features/form/FormLayout'
 import { HistoryPage } from '@/features/form/HistoryPage'
+import { CompanyDashboard } from '@/features/form/CompanyDashboard'
 
 export const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
       {
         path: '/form/:orgId/history',
         element: <HistoryPage />,
+      },
+      {
+        path: '/form/:orgId/dashboard',
+        element: <CompanyDashboard />,
       },
     ],
   },

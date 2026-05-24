@@ -5,6 +5,7 @@ import { useOrgDetail } from '@/features/admin/useOrgDetail'
 import { MemberTable } from '@/components/admin/MemberTable'
 import { AddMemberModal } from '@/components/admin/AddMemberModal'
 import { ArchiveOrgDialog } from '@/components/admin/ArchiveOrgDialog'
+import { AssessmentSection } from '@/components/admin/AssessmentSection'
 
 export function OrgDetail() {
   const { orgId } = useParams<{ orgId: string }>()
@@ -78,6 +79,9 @@ export function OrgDetail() {
           <MemberTable members={members} isLoading={false} />
         </CardContent>
       </Card>
+
+      {/* Assessment section — histórico de avaliações (Plan 09-04) */}
+      {orgId && <AssessmentSection orgId={orgId} />}
 
       {/* Add member modal */}
       {orgId && (
