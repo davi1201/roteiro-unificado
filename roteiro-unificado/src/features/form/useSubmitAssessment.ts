@@ -11,14 +11,16 @@ export function useSubmitAssessment(orgId: string) {
   return useMutation({
     mutationFn: async () => {
       // Busca version atual antes de incrementar (evita race condition — Armadilha 4)
+      // maybeSingle() não lança erro PGRST116 quando não há linha — retorna data: null
       const { data: draft, error: fetchError } = await supabase
         .from('assessments')
         .select('version')
         .eq('org_id', orgId)
         .eq('status', 'draft')
-        .single<{ version: number }>()
+        .maybeSingle<{ version: number }>()
 
       if (fetchError) throw fetchError
+      if (!draft) throw new Error('Nenhum rascunho encontrado. Salve o formulário antes de enviar.')
 
       // UPDATE atômico: transiciona draft para submitted, incrementa version
       const { error } = await supabase
