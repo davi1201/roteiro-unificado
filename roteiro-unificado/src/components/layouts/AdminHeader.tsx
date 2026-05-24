@@ -1,39 +1,43 @@
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '@/features/auth/useAuth'
-import { Button } from '@/components/ui'
-import { useToast } from '@/hooks/useToast'
+import { Fragment, type ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+import { cn } from '@/lib/utils'
 
-export function AdminHeader() {
-  const { user, signOut } = useAuth()
-  const navigate = useNavigate()
-  const toast = useToast()
+export interface BreadcrumbItem {
+  label: string
+  href?: string
+}
 
-  async function handleSignOut() {
-    try {
-      await signOut()
-      navigate('/login', { replace: true })
-    } catch {
-      toast.error('Erro ao encerrar sessão')
-    }
-  }
+export interface AdminHeaderProps {
+  breadcrumb: BreadcrumbItem[]
+  actions?: ReactNode
+}
 
+export function AdminHeader({ breadcrumb, actions }: AdminHeaderProps) {
   return (
-    <header className="bg-primary border-primary-800 fixed top-0 right-0 left-60 z-20 flex h-14 items-center justify-between border-b px-6">
-      {/* Left side — empty (logo/brand lives in sidebar) */}
-      <div />
-
-      {/* Right side — admin email + logout button */}
-      <div className="flex items-center gap-4 text-white">
-        <span className="text-sm">{user?.email}</span>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="hover:bg-primary-800 text-white"
-          onClick={handleSignOut}
-        >
-          Encerrar sessão
-        </Button>
-      </div>
+    <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-gray-200 bg-white px-6 shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-[13px] text-gray-500">
+        {breadcrumb.map((item, idx) => {
+          const isLast = idx === breadcrumb.length - 1
+          return (
+            <Fragment key={`${item.label}-${idx}`}>
+              {idx > 0 && <span aria-hidden="true">›</span>}
+              {item.href && !isLast ? (
+                <Link to={item.href} className="hover:text-gray-700 hover:underline">
+                  {item.label}
+                </Link>
+              ) : (
+                <span
+                  className={cn(isLast && 'font-semibold text-gray-900')}
+                  aria-current={isLast ? 'page' : undefined}
+                >
+                  {item.label}
+                </span>
+              )}
+            </Fragment>
+          )
+        })}
+      </nav>
+      <div className="flex items-center gap-2">{actions}</div>
     </header>
   )
 }
