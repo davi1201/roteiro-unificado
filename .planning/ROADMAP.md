@@ -339,7 +339,7 @@ Plans:
 **Requirements:** DASH-01, DASH-02, DASH-03, DASH-04, DASH-05
 **Depends on:** Phase 8
 
-**Plans:** 1/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
 **Wave 1** *(paralelo — lógica/contratos sem dependências)*
@@ -348,8 +348,8 @@ Plans:
 
 **Wave 2** *(paralelo — dependem de 09-01; sem overlap de arquivos)*
 
-- [ ] 09-02-PLAN.md — Componentes admin: CompanyCard (Badge G1-G5 / "Sem avaliação") + AssessmentSection (histórico de versões para OrgDetail)
-- [ ] 09-03-PLAN.md — Painel construtora: SectionProgress (10 cards de progresso) + CompanyDashboard (/form/:orgId/dashboard com cross-tenant guard)
+- [x] 09-02-PLAN.md — Componentes admin: CompanyCard (Badge G1-G5 / "Sem avaliação") + AssessmentSection (histórico de versões para OrgDetail)
+- [x] 09-03-PLAN.md — Painel construtora: SectionProgress (10 cards de progresso) + CompanyDashboard (/form/:orgId/dashboard com cross-tenant guard)
 
 **Wave 3** *(wiring final + checkpoint humano — depende de 09-02 e 09-03)*
 
