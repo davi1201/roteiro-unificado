@@ -5,7 +5,7 @@ milestone_name: milestone
 status: executing
 stopped_at: Phase 9 UI-SPEC approved
 last_updated: "2026-05-24T18:26:17.875Z"
-last_activity: 2026-05-24 -- Phase 09.5 planning complete
+last_activity: 2026-05-24 -- Completed quick task 260524-n1y: faça um ajuste para a main do formLayout ocupe 100 do espaço
 progress:
   total_phases: 14
   completed_phases: 10
@@ -111,6 +111,7 @@ None.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260524-mrz | fix FormLayout.tsx — footer inside main, sidebar sticky, padding p-6/p-8 | 2026-05-24 | 9878df3 | [260524-mrz](./quick/260524-mrz-fix-formlayout-tsx-footer-inside-main-si/) |
+| 260524-n1y | faça um ajuste para a main do formLayout ocupe 100 do espaço | 2026-05-24 | 542ea0b | [260524-n1y](./quick/260524-n1y-fa-a-um-ajuste-para-a-main-do-formlayout/) |
 
 ## Deferred Items
 
