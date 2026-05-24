@@ -33,7 +33,7 @@ describe('CompanyCard', () => {
   // Caso 1: latestAssessment=null → pill "Sem avaliação", NÃO Badge G1-G5
   it('exibe pill "Sem avaliação" quando latestAssessment é null', () => {
     render(<CompanyCard org={orgBase} />)
-    expect(screen.getByText('Sem avaliação')).toBeInTheDocument()
+    expect(screen.getByText('Sem avaliação')).toBeDefined()
     // Badge G1-G5 não deve aparecer (não há texto G1, G2, etc.)
     expect(screen.queryByText(/^G[1-5] —/)).toBeNull()
   })
@@ -42,7 +42,7 @@ describe('CompanyCard', () => {
   it('exibe "—" em data e nível técnico quando latestAssessment é null', () => {
     render(<CompanyCard org={orgBase} />)
     // Deve haver pelo menos um "—" na tela
-    const dashes = screen.getAllByText('—')
+    const dashes = screen.getAllByText(/—/)
     expect(dashes.length).toBeGreaterThanOrEqual(1)
   })
 
@@ -50,7 +50,7 @@ describe('CompanyCard', () => {
   it('renderiza Badge G1-G5 quando latestAssessment está presente', () => {
     render(<CompanyCard org={orgWithAssessment} />)
     // Badge G2 → label "G2 — Baixo"
-    expect(screen.getByText('G2 — Baixo')).toBeInTheDocument()
+    expect(screen.getByText('G2 — Baixo')).toBeDefined()
     // Pill "Sem avaliação" NÃO deve aparecer
     expect(screen.queryByText('Sem avaliação')).toBeNull()
   })
@@ -59,24 +59,24 @@ describe('CompanyCard', () => {
   it('exibe data formatada em pt-BR quando latestAssessment está presente', () => {
     render(<CompanyCard org={orgWithAssessment} />)
     // "2026-05-01T12:30:00Z" → "01/05/2026" (formato pt-BR)
-    expect(screen.getByText(/01\/05\/2026/)).toBeInTheDocument()
+    expect(screen.getByText(/01\/05\/2026/)).toBeDefined()
   })
 
   // Caso 5: Link "Ver detalhes →" aponta para /admin/orgs/{org.id}
   it('renderiza Link "Ver detalhes →" com href para /admin/orgs/{org.id}', () => {
     render(<CompanyCard org={orgBase} />)
     const link = screen.getByRole('link', { name: /ver detalhes/i })
-    expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/admin/orgs/org-1')
+    expect(link).toBeDefined()
+    expect(link.getAttribute('href')).toBe('/admin/orgs/org-1')
   })
 
   // Caso 6: exibe nome da empresa e CNPJ com classe font-mono
   it('exibe nome da empresa e CNPJ', () => {
     render(<CompanyCard org={orgBase} />)
-    expect(screen.getByText('Construtora Alpha')).toBeInTheDocument()
-    // CNPJ deve aparecer na tela
+    expect(screen.getByText('Construtora Alpha')).toBeDefined()
+    // CNPJ deve aparecer na tela com classe font-mono
     const cnpjEl = screen.getByText('12345678000195')
-    expect(cnpjEl).toBeInTheDocument()
+    expect(cnpjEl).toBeDefined()
     expect(cnpjEl.className).toContain('font-mono')
   })
 })
