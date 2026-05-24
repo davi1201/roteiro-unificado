@@ -378,12 +378,12 @@ Plans:
 **Requirements:** UX-01, UX-03, UX-06
 **Depends on:** Phase 9
 
-**Plans:** 5 plans
+**Plans:** 1/5 plans executed
 
 Plans:
 **Wave 1** *(foundation — tokens, fonte, hooks e componentes presentacionais; sem overlap de arquivos)*
 
-- [ ] 09.5-01-PLAN.md — Tokens CSS de layout (sidebar/header), import Inter no index.html, hook useSidebarCollapsed, componentes FormCard + FormCardRow + AutosaveIndicator
+- [x] 09.5-01-PLAN.md — Tokens CSS de layout (sidebar/header), import Inter no index.html, hook useSidebarCollapsed, componentes FormCard + FormCardRow + AutosaveIndicator
 
 **Wave 2** *(paralelo — Wave 2 consome artefatos da Wave 1; sem overlap entre os 3 plans)*
 
