@@ -378,7 +378,7 @@ Plans:
 **Requirements:** UX-01, UX-03, UX-06
 **Depends on:** Phase 9
 
-**Plans:** 1/5 plans executed
+**Plans:** 4/5 plans executed
 
 Plans:
 **Wave 1** *(foundation — tokens, fonte, hooks e componentes presentacionais; sem overlap de arquivos)*
@@ -387,9 +387,9 @@ Plans:
 
 **Wave 2** *(paralelo — Wave 2 consome artefatos da Wave 1; sem overlap entre os 3 plans)*
 
-- [ ] 09.5-02-PLAN.md — Refactor admin shell: AdminSidebar colapsável com user pill + AdminHeader branco com breadcrumb + AdminLayout com margin dinâmico
-- [ ] 09.5-03-PLAN.md — Refactor form shell: formStore.lastSavedAt + useAutosave grava timestamp + FormLayout com topbar de status (AutosaveIndicator) e footer universal prev/next/submit
-- [ ] 09.5-04-PLAN.md — IdentificacaoSection refatorado em FormCards (prova de conceito do padrão)
+- [x] 09.5-02-PLAN.md — Refactor admin shell: AdminSidebar colapsável com user pill + AdminHeader branco com breadcrumb + AdminLayout com margin dinâmico
+- [x] 09.5-03-PLAN.md — Refactor form shell: formStore.lastSavedAt + useAutosave grava timestamp + FormLayout com topbar de status (AutosaveIndicator) e footer universal prev/next/submit
+- [x] 09.5-04-PLAN.md — IdentificacaoSection refatorado em FormCards (prova de conceito do padrão)
 
 **Wave 3** *(rollout do padrão + checkpoint humano blocking)*
 
