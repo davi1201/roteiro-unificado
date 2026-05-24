@@ -151,7 +151,7 @@ bg-white rounded-lg border border-gray-200 shadow-sm p-4 md:p-6
 |-----------------|-------------------------------------------------------------------------|
 | Versão          | `"Versão N"` — `text-sm font-semibold text-gray-900`                   |
 | Data de envio   | `"Enviada em DD/MM/AAAA às HH:MM"` — `text-sm text-gray-500`           |
-| Status badge    | "Enviado": `bg-accent text-white`; "Rascunho": `bg-gray-100 text-gray-700` — ambos `text-xs font-semibold px-3 py-0.5 rounded-full` |
+| Status badge    | "Enviado": `bg-accent text-white`; "Rascunho": `bg-gray-100 text-gray-700` — ambos `text-xs font-semibold px-3 py-1 rounded-full` |
 | Nível gerencial | Badge G1-G5 usando `<Badge grade={...} />` existente                    |
 | Nível técnico   | `text-sm text-gray-600` — string direta (ex: "HAB-B")                  |
 | Botão histórico | `<Button variant="secondary" size="sm">Ver detalhes</Button>` — abre form em modo read-only |
