@@ -36,7 +36,7 @@
 
 - [ ] **SAVE-01**: Respostas do formulário são salvas no Supabase com status `rascunho` (draft)
 - [ ] **SAVE-02**: Autosave automático (debounce 1500ms) enquanto o usuário preenche
-- [ ] **SAVE-03**: Usuário pode submeter avaliação — status muda para `enviado` (imutável)
+- [x] **SAVE-03**: Usuário pode submeter avaliação — status muda para `enviado` (imutável)
 - [ ] **SAVE-04**: Cada envio cria uma nova versão (`version++`) sem sobrescrever histórico (append-only)
 - [ ] **SAVE-05**: Usuário pode iniciar nova revisão a partir da versão mais recente enviada
 - [ ] **SAVE-06**: Histórico completo de versões da empresa é acessível (lista de avaliações anteriores)

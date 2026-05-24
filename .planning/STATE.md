@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready
-stopped_at: Phase 08.1 Plan 01 — COMPLETE
-last_updated: "2026-05-24T04:00:00Z"
+status: ready_to_plan
+stopped_at: Phase 08.1 complete (1/1) — ready to discuss Phase 9
+last_updated: 2026-05-24T03:32:44.975Z
 last_activity: 2026-05-24 -- Phase 08.1 Plan 01 completa; SAVE-03 desbloqueado; checkpoint aprovado pelo usuário
 progress:
   total_phases: 13
   completed_phases: 8
   total_plans: 45
   completed_plans: 44
-  percent: 56
+  percent: 62
 ---
 
 # Project State
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-22)
 
 **Core value:** Qualquer construtora do piloto consegue preencher, salvar e retomar sua avaliação de prontidão — e o time da SuaEquipe.IA visualiza o status de todas as empresas em um único lugar.
-**Current focus:** Phase 08.1 — fix-save-03-rls-permitir-draft-submitted
+**Current focus:** Phase 9 — dashboard de prontidão
 
 ## Current Position
 
-Phase: 08.1 (fix-save-03-rls-permitir-draft-submitted) — COMPLETE
-Plan: 1 of 1 — DONE
-Status: Todas as 3 tasks completas; checkpoint aprovado pelo usuário ("aprovado"); SAVE-03 desbloqueado
-Last activity: 2026-05-24 -- Phase 08.1 completa — submissão draft→submitted verificada end-to-end sem erro RLS
+Phase: 9
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-05-24
 
 Next: Phase 9 (Dashboard de Prontidão) — desbloqueada pela conclusão de Phase 08.1
 
@@ -38,7 +38,7 @@ Progress: [██████████] 100%
 
 **Velocity:**
 
-- Total plans completed: 11
+- Total plans completed: 12
 - Average duration: ~7 min/plan
 - Total execution time: ~1.5 hours
 
@@ -48,6 +48,7 @@ Progress: [██████████] 100%
 | ----- | ----- | ----- | -------- |
 | 1 — Scaffolding & Design System | 7 | ~1h | ~7 min |
 | 3 — Authentication (completa) | 6/6 | ~38 min | ~6 min |
+| 08.1 | 1 | - | - |
 
 **Recent Trend:**
 
