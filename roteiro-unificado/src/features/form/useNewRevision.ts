@@ -45,6 +45,7 @@ export function useNewRevision(orgId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['assessment', 'draft', orgId] })
       queryClient.invalidateQueries({ queryKey: ['assessments', orgId] })
+      toast.success('Nova revisão iniciada — continue preenchendo o formulário.')
       navigate(`/form/${orgId}`, { replace: true })
     },
     onError: () => {
