@@ -10,6 +10,7 @@ interface TextareaFieldProps<T extends FieldValues> {
   error?: string
   rows?: number
   helpText?: string
+  maxLength?: number
 }
 
 export function TextareaField<T extends FieldValues>({
@@ -21,6 +22,7 @@ export function TextareaField<T extends FieldValues>({
   error,
   rows,
   helpText,
+  maxLength,
 }: TextareaFieldProps<T>) {
   return (
     <div className="flex flex-col gap-1">
@@ -32,13 +34,21 @@ export function TextareaField<T extends FieldValues>({
         name={name}
         control={control}
         render={({ field }) => (
-          <Textarea
-            {...field}
-            placeholder={placeholder}
-            rows={rows}
-            error={!!error}
-            errorMessage={error}
-          />
+          <>
+            <Textarea
+              {...field}
+              placeholder={placeholder}
+              rows={rows}
+              maxLength={maxLength}
+              error={!!error}
+              errorMessage={error}
+            />
+            {maxLength !== undefined && (
+              <p className="text-xs text-gray-500 text-right">
+                {(field.value ?? '').length} / {maxLength}
+              </p>
+            )}
+          </>
         )}
       />
       {helpText && !error && <p className="text-xs text-gray-500">{helpText}</p>}
