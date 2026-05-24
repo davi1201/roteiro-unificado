@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 8 UI-SPEC approved
-last_updated: "2026-05-24T01:05:58.659Z"
-last_activity: 2026-05-24 -- Phase 8 execution started
+last_updated: "2026-05-24T03:03:38.783Z"
+last_activity: 2026-05-24 -- Phase 08.1 planning complete
 progress:
-  total_phases: 12
-  completed_phases: 6
-  total_plans: 44
-  completed_plans: 37
-  percent: 50
+  total_phases: 13
+  completed_phases: 7
+  total_plans: 45
+  completed_plans: 43
+  percent: 54
 ---
 
 # Project State
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-05-22)
 
 Phase: 8 (autosave-submiss-o-versionamento) — EXECUTING
 Plan: 1 of 6
-Status: Executing Phase 8
-Last activity: 2026-05-24 -- Phase 8 execution started
+Status: Ready to execute
+Last activity: 2026-05-24 -- Phase 08.1 planning complete
 
 Progress: [██████████] 100%
 
@@ -59,6 +59,10 @@ _Updated após cada plano concluído_
 | Phase 06 P07 | 120 | 3 tasks | 2 files |
 
 ## Accumulated Context
+
+### Roadmap Evolution
+
+- Phase 08.1 inserted after Phase 8: Fix SAVE-03 RLS — permitir draft→submitted (URGENT)
 
 ### Decisions
 
