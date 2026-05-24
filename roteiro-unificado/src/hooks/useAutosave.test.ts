@@ -282,3 +282,81 @@ describe('useAutosave', () => {
     expect(mockInsert).not.toHaveBeenCalled()
   })
 })
+
+describe('useAutosave — lastSavedAt', () => {
+  it('LAST-SAVED-01: após INSERT bem-sucedido, lastSavedAt é instância de Date', async () => {
+    const { supabase } = await import('@/lib/supabase')
+    const { mockFrom } = makeMockFrom({ existingId: null, insertError: null })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
+
+    const tenantId = `test-lastsaved-insert-${Math.random().toString(36).slice(2)}`
+    const store = createFormStore(tenantId)
+
+    renderHook(() => useAutosave(tenantId))
+
+    act(() => {
+      store.getState().updateSection(TabKey.Identificacao, { empresa: 'Acme' })
+    })
+
+    await act(async () => {
+      vi.advanceTimersByTime(1500)
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(createFormStore(tenantId).getState().lastSavedAt).toBeInstanceOf(Date)
+  })
+
+  it('LAST-SAVED-02: após UPDATE bem-sucedido, lastSavedAt é instância de Date', async () => {
+    const { supabase } = await import('@/lib/supabase')
+    const draftId = 'existing-draft-uuid-lastsaved'
+    const { mockFrom } = makeMockFrom({ existingId: draftId, updateError: null })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
+
+    const tenantId = `test-lastsaved-update-${Math.random().toString(36).slice(2)}`
+    const store = createFormStore(tenantId)
+
+    renderHook(() => useAutosave(tenantId))
+
+    act(() => {
+      store.getState().updateSection(TabKey.Identificacao, { empresa: 'Acme' })
+    })
+
+    await act(async () => {
+      vi.advanceTimersByTime(1500)
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(createFormStore(tenantId).getState().lastSavedAt).toBeInstanceOf(Date)
+  })
+
+  it('LAST-SAVED-03: após save com erro, lastSavedAt permanece null', async () => {
+    const { supabase } = await import('@/lib/supabase')
+    const { mockFrom } = makeMockFrom({
+      existingId: null,
+      insertError: new Error('DB error'),
+    })
+    vi.mocked(supabase.from).mockImplementation(mockFrom as never)
+
+    const tenantId = `test-lastsaved-error-${Math.random().toString(36).slice(2)}`
+    const store = createFormStore(tenantId)
+
+    renderHook(() => useAutosave(tenantId))
+
+    act(() => {
+      store.getState().updateSection(TabKey.Identificacao, { empresa: 'Acme' })
+    })
+
+    await act(async () => {
+      vi.advanceTimersByTime(1500)
+      await Promise.resolve()
+      await Promise.resolve()
+      await Promise.resolve()
+    })
+
+    expect(createFormStore(tenantId).getState().lastSavedAt).toBeNull()
+  })
+})
