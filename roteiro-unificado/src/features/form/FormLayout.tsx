@@ -19,6 +19,7 @@ import { useSubmitAssessment } from './useSubmitAssessment'
 import { TAB_CONFIG } from './tabConfig'
 import { TabNavigation } from './TabNavigation'
 import { ProgressBar } from './ProgressBar'
+import { AutosaveIndicator } from './AutosaveIndicator'
 import { Button, Spinner } from '@/components/ui'
 import { useToast } from '@/hooks/useToast'
 import { IdentificacaoSection } from './sections/IdentificacaoSection'
@@ -183,8 +184,11 @@ export function FormLayout() {
             </Button>
           </div>
         </aside>
-        <main className={`flex-1 p-4 md:p-6 ${store.activeTab === TabKey.Nda ? 'pb-20' : ''}`}>
-          <h1 className="text-xl font-semibold text-gray-900">{activeTabConfig.label}</h1>
+        <main className="flex-1 p-4 pb-24 md:p-6 md:pb-24">
+          <div className="-mx-4 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-4 md:-mx-6 md:px-6">
+            <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
+            <AutosaveIndicator lastSaved={store.lastSavedAt} />
+          </div>
           <ReadinessClassification tenantId={tenantId} />
           {draftQuery.isLoading ? (
             <div className="mt-4 space-y-4" aria-busy="true">
