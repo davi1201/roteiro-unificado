@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 8 UI-SPEC approved
-last_updated: "2026-05-24T03:03:38.783Z"
-last_activity: 2026-05-24 -- Phase 08.1 planning complete
+stopped_at: Phase 08.1 Plan 01 Task 3 — checkpoint:human-verify
+last_updated: "2026-05-24T03:14:00Z"
+last_activity: 2026-05-24 -- Phase 08.1 Plan 01 Tasks 1+2 complete; awaiting E2E browser verification
 progress:
   total_phases: 13
   completed_phases: 7
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-22)
 
 **Core value:** Qualquer construtora do piloto consegue preencher, salvar e retomar sua avaliação de prontidão — e o time da SuaEquipe.IA visualiza o status de todas as empresas em um único lugar.
-**Current focus:** Phase 8 — autosave-submiss-o-versionamento
+**Current focus:** Phase 08.1 — fix-save-03-rls-permitir-draft-submitted
 
 ## Current Position
 
-Phase: 8 (autosave-submiss-o-versionamento) — EXECUTING
-Plan: 1 of 6
-Status: Ready to execute
-Last activity: 2026-05-24 -- Phase 08.1 planning complete
+Phase: 08.1 (fix-save-03-rls-permitir-draft-submitted) — EXECUTING (checkpoint)
+Plan: 1 of 1
+Status: Tasks 1+2 complete; paused at Task 3 checkpoint:human-verify
+Last activity: 2026-05-24 -- Migration 20260523000002 aplicada ao banco remoto; policy verificada via pg_policies; aguardando verificação E2E no browser
 
 Progress: [██████████] 100%
 
@@ -89,6 +89,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Phase 5 (05-04): FormLayout usa useParams().orgId como tenantId com cross-tenant guard antes de chamar useFormStore
 - [Phase ?]: Wiring final Phase 6 com fix de render loop
 - [Phase ?]: Fix stale .js files + watch subscription pattern
+- Phase 08.1 (08.1-01): Fix SAVE-03 — WITH CHECK ampliado para status IN ('draft','submitted'); USING inalterado; DROP+CREATE porque PostgreSQL não tem CREATE OR REPLACE POLICY
+- Phase 08.1 (08.1-01): Migration 20260523000002 aplicada ao banco remoto via supabase db push; pg_policies confirma with_check correto
 
 ### Pending Todos
 
@@ -106,5 +108,5 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-05-24T00:18:02.063Z
-Stopped at: Phase 8 UI-SPEC approved
+Last session: 2026-05-24T03:14:00Z
+Stopped at: Phase 08.1 Plan 01 Task 3 — checkpoint:human-verify (E2E browser verification)
