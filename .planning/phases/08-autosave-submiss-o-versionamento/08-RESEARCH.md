@@ -732,22 +732,31 @@ npm install -D vitest @vitest/coverage-v8 @testing-library/react @testing-librar
 
 ---
 
-## Questões Abertas
+## Questões Abertas (RESOLVED)
 
 1. **Constraint `UNIQUE(org_id, status) WHERE status = 'draft'` existe?**
    - O que sabemos: Phase 2 criou o schema; a migration SQL não foi lida diretamente nesta pesquisa.
-   - O que é incerto: se a constraint parcial foi incluída ou se apenas existe constraint de PK.
-   - Recomendação: O Wave 0 do plano deve incluir tarefa "Verificar migration Phase 2 para constraint UNIQUE parcial; criar migration se ausente".
+   - O que era incerto: se a constraint parcial foi incluída ou se apenas existe constraint de PK.
+   - **RESOLVED:** A constraint NÃO existia na Phase 2. O plano 08-01 cria a migration
+     `20260523000001_assessments_draft_unique.sql` com `CREATE UNIQUE INDEX IF NOT EXISTS
+     assessments_org_id_draft_unique ON public.assessments (org_id, status) WHERE (status = 'draft')`.
+     Índice de DUAS colunas para alinhar com `onConflict: 'org_id,status'` do useAutosave.
 
 2. **RLS policy protege `submitted` de UPDATE?**
    - O que sabemos: Phase 2 CONTEXT.md menciona RLS policies; Phase 8 CONTEXT.md menciona "RLS policy bloqueia UPDATE em registros submitted para role `company`".
-   - O que é incerto: se foi efetivamente implementado ou apenas planejado.
-   - Recomendação: O Wave 0 deve incluir tarefa de verificação via Supabase dashboard ou migration audit.
+   - O que era incerto: se foi efetivamente implementado ou apenas planejado.
+   - **RESOLVED (A2 confirmado verdadeiro):** A policy `assessments_update_draft` em
+     `20260522000008_rls_policies_assessments.sql` foi confirmada como existente com
+     `USING (is_org_member(org_id) AND status = 'draft')`. Registros `submitted` são
+     imutáveis para role `company` por design. Nenhuma migration de RLS adicional é necessária.
 
 3. **`version` deve ser incrementado via SQL ou client-side?**
    - O que sabemos: Race condition teórica com múltiplas abas (raro com 5 construtoras).
-   - O que é incerto: se o projeto tem Edge Functions ou RPCs disponíveis.
-   - Recomendação: Para o piloto, usar SELECT + UPDATE com `version = fetchedVersion + 1`. Documentar como tech debt para escala.
+   - O que era incerto: se o projeto tem Edge Functions ou RPCs disponíveis.
+   - **RESOLVED:** Escolhida a abordagem client-side two-step (SELECT version + UPDATE com
+     version+1) conforme RESEARCH.md §Armadilha 4. Risco de race condition aceito para o
+     piloto com 5 construtoras (T-08-10). Documentado como tech debt: migrar para RPC
+     atômica (`submit_assessment(p_org_id UUID)`) quando escalar além do piloto.
 
 ---
 
