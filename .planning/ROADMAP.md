@@ -432,7 +432,7 @@ Plans:
 
 **Wave 2** *(bloqueada por 10-01)*
 
-- [ ] 10-02-PLAN.md — PDFDocument completo: capa azul/laranja com badge G1-G5 (D-01/D-02), 5 seções Torre 360, 4 seções Hab + NDA com "—" para vazios (D-03), tabela final de classificação G1-G5 (EXPORT-01, EXPORT-02)
+- [x] 10-02-PLAN.md — PDFDocument completo: capa azul/laranja com badge G1-G5 (D-01/D-02), 5 seções Torre 360, 4 seções Hab + NDA com "—" para vazios (D-03), tabela final de classificação G1-G5 (EXPORT-01, EXPORT-02)
 
 **Wave 3** *(bloqueada por 10-01 + 10-02)*
 
