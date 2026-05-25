@@ -472,14 +472,31 @@ Plans:
 **Requirements:** _(UX transversal — verificação final de UX-01 a UX-06 como sistema completo)_
 **Depends on:** Phases 10 + 11
 
-#### Plans
+**Plans:** 6 plans
 
-1. **Auditoria de responsividade completa** — percorrer todos os fluxos (login, formulário, dashboard, histórico, exportação) em 1280px, 1024px e 768px; corrigir overflow, elementos sobrepostos, texto ilegível em cada breakpoint
-2. **Auditoria de acessibilidade básica** — `aria-label` em botões icônicos, foco visível em todos os campos interativos, contraste de cor ≥ 4.5:1 (WCAG AA) para texto sobre fundos azul/laranja; verificar com DevTools Accessibility panel
-3. **Otimização de bundle e performance** — configurar `rollupOptions.output.manualChunks` no `vite.config.ts` para separar vendor, supabase e react-router; medir FCP/LCP com Lighthouse; target: FCP < 1.5s, Lighthouse Performance ≥ 85
-4. **Configurar variáveis de ambiente de produção** — criar `.env.production` com `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` de produção; garantir que credenciais de dev não vazam no build de produção
-5. **Deploy para Vercel** — conectar repositório; configurar environment variables no painel Vercel; configurar `vercel.json` com rewrites para SPA (`"rewrites": [{"source": "/(.*)", "destination": "/index.html"}]`); primeiro deploy
-6. **Smoke tests pós-deploy** — testar em produção: login admin → criar org → login construtora → preencher formulário → autosave → submeter → ver histórico → exportar PDF → exportar Excel; registrar resultado de cada passo
+Plans:
+**Wave 1** _(paralelo — sem overlap de arquivos: layouts vs ui vs config)_
+
+- [ ] 12-01-PLAN.md — Auditoria de responsividade (5 fluxos × 1280/1024/768px) + correções em FormLayout/AdminSidebar/AdminLayout + checkpoint visual (UX-02, UX-03)
+- [ ] 12-02-PLAN.md — Auditoria de acessibilidade: contraste WCAG AA (text-gray-900 sobre bg-accent) em button/badge + aria-label/foco + checkpoint (UX-01)
+- [ ] 12-03-PLAN.md — Otimização de bundle: codeSplitting via Vite 8 rolldownOptions (react-vendor/supabase/router) + Lighthouse ≥ 85 (UX-05)
+- [ ] 12-04-PLAN.md — Infra config: ci.yml (working-directory roteiro-unificado), vercel.json (SPA rewrites), .gitignore .env.production, .env.production.example (D-06, UX-04)
+
+**Wave 2** _(bloqueada por 12-03 + 12-04)_
+
+- [ ] 12-05-PLAN.md — Deploy: criar projeto Supabase prod + supabase db push (11 migrations) + conectar Vercel (Root Directory roteiro-unificado) + branch protection (D-01, D-02, D-05, D-06)
+
+**Wave 3** _(bloqueada por 12-05)_
+
+- [ ] 12-06-PLAN.md — Smoke tests em produção (fluxo end-to-end 13 passos) + verificação de credenciais no bundle + seed via app (D-03, UX-04, UX-06)
+
+**Wave structure:**
+
+- Wave 1: 12-01 (responsividade), 12-02 (acessibilidade), 12-03 (bundle), 12-04 (CI/env/vercel config) — paralelos, sem overlap de arquivos
+- Wave 2: 12-05 (deploy operacional — requer bundle otimizado de 12-03 e configs de 12-04)
+- Wave 3: 12-06 (smoke tests — requer app no ar do 12-05)
+
+**Nota de research:** Plan 3 usa `build.rolldownOptions.output.codeSplitting.groups` (Vite 8/Rolldown) — NÃO `manualChunks` (removido/depreciado no Vite 8). Plan 4 bloqueia `.env.production` no gitignore antes de criar credenciais (mitiga vazamento).
 
 **UAT:**
 
