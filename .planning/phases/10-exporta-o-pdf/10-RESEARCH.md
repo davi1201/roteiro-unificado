@@ -565,22 +565,22 @@ Não aplicável — a fase adiciona funcionalidade nova (geração de PDF) sem m
 
 ---
 
-## Questões em Aberto
+## Questões em Aberto (RESOLVED)
 
-1. **`orgName` e `cnpj` na HistoryPage**
+1. **`orgName` e `cnpj` na HistoryPage** (RESOLVED)
    - O que sabemos: A `HistoryPage` atual usa `useAssessmentHistory(orgId)` e `useAuth()` — mas `useAuth()` retorna `orgId`, não `orgName` nem `cnpj`.
-   - O que está incerto: Qual é a forma mais limpa de obter esses dados para a capa do PDF sem introduzir query extra pesada.
-   - Recomendação: Adicionar `useOrgDetail(orgId)` (já existe em `src/features/admin/useOrgDetail.ts`) ou criar um hook leve `useOrgInfo(orgId)` que faz `SELECT name, cnpj FROM orgs WHERE id = orgId`.
+   - O que estava incerto: Qual é a forma mais limpa de obter esses dados para a capa do PDF sem introduzir query extra pesada.
+   - **Resolução adotada (Plan 10-03):** Criar hook leve `useOrgInfo(orgId)` em `src/features/form/useOrgInfo.ts` que faz `SELECT name, cnpj FROM orgs WHERE id = orgId LIMIT 1` via Supabase. Chamado no topo de `HistoryPageContent` — sem polling, sem cache extra.
 
-2. **Acentos em Helvetica built-in**
+2. **Acentos em Helvetica built-in** (RESOLVED — gerenciado via checkpoint)
    - O que sabemos: react-pdf documenta Helvetica como built-in; português contém acentos extensos (ã, ç, ê, ú etc.).
-   - O que está incerto: Se Helvetica no motor do react-pdf v4 renderiza todos os glyphs PT-BR corretamente.
-   - Recomendação: Testar no Plan 6 (testes e ajuste de layout) com campos reais que contenham acentos. Se falhar, registrar Inter via `Font.register()` com um arquivo TTF local (sem depender de URL externa).
+   - O que estava incerto: Se Helvetica no motor do react-pdf v4 renderiza todos os glyphs PT-BR corretamente.
+   - **Resolução adotada (Plan 10-03, Task 3 checkpoint passo 6):** Verificação empírica no checkpoint visual final. Se Helvetica falhar em qualquer glyph PT-BR, registrar Inter via `Font.register()` com arquivo TTF local (sem URL externa). O checkpoint é blocking-human, garantindo que a decisão seja tomada antes de marcar a fase como completa.
 
-3. **Tamanho real do chunk @react-pdf/renderer**
+3. **Tamanho real do chunk @react-pdf/renderer** (RESOLVED — gerenciado via checkpoint)
    - O que sabemos: A biblioteca é descrita como pesada (~350kb estimado baseado em treino).
-   - O que está incerto: Tamanho exato após instalação e tree-shaking pelo Vite 8.
-   - Recomendação: Após instalação, rodar `npm run build` e verificar tamanho do chunk no output. Se > 1MB, considerar usar a opção de web worker mencionada na documentação para documentos grandes (>30 páginas).
+   - O que estava incerto: Tamanho exato após instalação e tree-shaking pelo Vite 8.
+   - **Resolução adotada (Plan 10-03, Task 3 checkpoint passo 1):** Verificar `npm run build` e inspecionar tamanho do chunk no output. Se > 1MB, considerar web worker para documentos grandes. A verificação é parte do checkpoint humano obrigatório antes do merge do Wave 3.
 
 ---
 
