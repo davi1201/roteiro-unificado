@@ -79,4 +79,4 @@ Este documento evolui a cada transição de fase e milestone.
 
 ---
 
-_Last updated: 2026-05-22 após inicialização_
+_Last updated: 2026-05-25

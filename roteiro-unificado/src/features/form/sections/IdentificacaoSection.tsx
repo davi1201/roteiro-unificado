@@ -98,7 +98,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
                 />
               </div>
             </div>
-            <div className="flex max-w-[280px] flex-col gap-1">
+            <div className="flex max-w-70 flex-col gap-1">
               <label className="text-[12.5px] font-semibold text-gray-800">
                 CNPJ principal<span className="ml-0.5 text-red-500">*</span>
               </label>

@@ -181,7 +181,7 @@ export function FormLayout() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Desktop sidebar: fixed — mirrors AdminSidebar exactly */}
-      <aside className="bg-primary fixed top-0 bottom-0 left-0 z-20 hidden w-[240px] flex-col overflow-y-auto text-white md:flex">
+      <aside className="bg-primary fixed top-0 bottom-0 left-0 z-20 hidden w-60 flex-col overflow-y-auto text-white md:flex">
         <div className="border-primary-800 border-b px-4 py-4">
           <span className="text-base font-semibold">Roteiro Unificado</span>
         </div>
@@ -205,7 +205,7 @@ export function FormLayout() {
         </div>
       </aside>
       {/* Content wrapper — offset by sidebar width on desktop (AdminLayout pattern) */}
-      <div className="flex min-h-screen flex-col md:ml-[240px]">
+      <div className="flex min-h-screen flex-col md:ml-60">
         <ProgressBar tenantId={tenantId} />
         {/* Mobile horizontal tab bar — hidden on desktop */}
         <div className="bg-primary overflow-x-auto px-3 py-2 md:hidden">
@@ -249,7 +249,8 @@ export function FormLayout() {
                     Não foi possível carregar seu rascunho
                   </p>
                   <p className="text-sm text-gray-700">
-                    Verifique sua conexão e tente novamente. Seus dados anteriores não foram perdidos.
+                    Verifique sua conexão e tente novamente. Seus dados anteriores não foram
+                    perdidos.
                   </p>
                   <Button variant="secondary" size="sm" onClick={() => draftQuery.refetch()}>
                     Tentar novamente

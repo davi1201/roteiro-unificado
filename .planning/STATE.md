@@ -5,7 +5,7 @@ milestone_name: milestone
 status: ready_to_plan
 stopped_at: Phase 10 complete (3/3) — ready to discuss Phase 12
 last_updated: 2026-05-25T19:13:23.956Z
-last_activity: 2026-05-25 -- Phase 10 execution started
+last_activity: 2026-05-25 - Completed quick task 260525-n1d: adicionar history no menu lateral
 progress:
   total_phases: 14
   completed_phases: 11
@@ -114,6 +114,7 @@ None.
 | 260524-mrz | fix FormLayout.tsx — footer inside main, sidebar sticky, padding p-6/p-8 | 2026-05-24 | 9878df3 | [260524-mrz](./quick/260524-mrz-fix-formlayout-tsx-footer-inside-main-si/) |
 | 260524-n1y | faça um ajuste para a main do formLayout ocupe 100 do espaço | 2026-05-24 | 542ea0b | [260524-n1y](./quick/260524-n1y-fa-a-um-ajuste-para-a-main-do-formlayout/) |
 | 260524-ned | corrigir 3 blockers UI audit: draftQuery.isError silencioso, Row 2 layout invertido, Cidade/UF ausente + char-count | 2026-05-24 | 28a7320 | [260524-ned](./quick/260524-ned-corrigir-3-blockers-ui-audit-draftquery-/) |
+| 260525-n1d | adicionar history no menu lateral junto com etapas para orgs mantendo conteudo dentro do main | 2026-05-25 | 35bc8eb | [260525-n1d](./quick/260525-n1d-adicionar-history-no-menu-lateral-junto-/) |
 
 ## Deferred Items
 
