@@ -423,12 +423,26 @@ Plans:
 
 #### Plans
 
-1. **Configurar lazy-loading do chunk PDF** — criar `src/lib/pdf/index.ts` como dynamic import; `React.lazy(() => import('./PDFGenerator'))`; `@react-pdf/renderer` nunca incluído no bundle principal; Suspense wrapper com fallback spinner
-2. **Criar template PDF — cover e header** — componente `PDFDocument` com `@react-pdf/renderer`; capa com logo SuaEquipe.IA, nome da empresa, data de geração, versão da avaliação; paleta azul `#123B66` + laranja `#F28C28`; tipografia consistente
-3. **Criar seções do PDF — Torre 360** — seções para cada aba: Identificação, Torre Decisão, Sienge, Acesso, Classificação; campos exibidos como pares "Label: Valor"; campos não preenchidos exibem "—"
-4. **Criar seções do PDF — Habilitações, NDA e Classificação Final** — seções Hab Venda, Repositórios, Responsáveis, Classificação, NDA; página final com tabela de classificação G1-G5 por dimensão e classificação gerencial destacada (EXPORT-02)
-5. **Implementar botão "Exportar PDF" no histórico** — botão disponível em cada versão da lista de histórico; ao clicar: lazy-load do chunk + fetch dos dados da versão selecionada + trigger de download `assessment_v{N}_{empresa}_{data}.pdf` (EXPORT-04)
-6. **Testar e ajustar layout PDF** — gerar PDF com dados de seed completos; verificar paginação (sem conteúdo cortado), fontes embutidas, cores corretas; ajustar margens e quebras de página
+**Plans:** 3 plans em 3 waves
+
+Plans:
+**Wave 1**
+
+- [ ] 10-01-PLAN.md — Fundação: instalar @react-pdf/renderer@4.5.1, chunk isolado (entry imperativo generateAndOpenPDF + window.open), types/styles/paleta e primitivos PDFFieldRow/PDFSectionHeader/PDFFooter + scaffolds de teste Wave 0 (EXPORT-05)
+
+**Wave 2** *(bloqueada por 10-01)*
+
+- [ ] 10-02-PLAN.md — PDFDocument completo: capa azul/laranja com badge G1-G5 (D-01/D-02), 5 seções Torre 360, 4 seções Hab + NDA com "—" para vazios (D-03), tabela final de classificação G1-G5 (EXPORT-01, EXPORT-02)
+
+**Wave 3** *(bloqueada por 10-01 + 10-02)*
+
+- [ ] 10-03-PLAN.md — Wiring: useOrgInfo + ExportPdfButton (state machine + dynamic import) + integração na HistoryPage por card submitted + checkpoint visual (bundle isolado, lazy-load, PDF end-to-end) (EXPORT-01, EXPORT-04, EXPORT-05)
+
+**Wave structure:**
+
+- Wave 1: 10-01 (fundação do chunk — blocker; instalação + primitivos + contratos)
+- Wave 2: 10-02 (PDFDocument + seções — consome primitivos do 10-01; mesmo diretório pdf/ → sequencial)
+- Wave 3: 10-03 (botão + HistoryPage + checkpoint humano — requer chunk completo)
 
 **UAT:**
 
