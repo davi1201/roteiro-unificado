@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge'
 import type { Grade } from '@/components/ui/badge'
 import { useAuth } from '@/features/auth/useAuth'
 import { useNewRevision } from './useNewRevision'
+import { ExportPdfButton } from './ExportPdfButton'
+import { useOrgInfo } from './useOrgInfo'
 
 type AssessmentRow = {
   id: string
@@ -73,6 +75,7 @@ function HistoryPageContent({ orgId }: { orgId: string }) {
   const navigate = useNavigate()
   const { data: history, isLoading } = useAssessmentHistory(orgId)
   const newRevisionMutation = useNewRevision(orgId)
+  const { orgName, cnpj } = useOrgInfo(orgId)
 
   // Skeleton durante carregamento — 3 cards fake (per UI-SPEC §Skeleton da HistoryPage)
   if (isLoading) {
@@ -186,9 +189,18 @@ function HistoryPageContent({ orgId }: { orgId: string }) {
                 {/* Botões de ação */}
                 <div className="flex shrink-0 items-center gap-2">
                   {isSubmitted && (
-                    <Button variant="secondary" size="sm">
-                      Ver detalhes
-                    </Button>
+                    <>
+                      <Button variant="secondary" size="sm">
+                        Ver detalhes
+                      </Button>
+                      <ExportPdfButton
+                        assessmentId={row.id}
+                        version={row.version}
+                        orgName={orgName ?? '—'}
+                        cnpj={cnpj}
+                        grade={row.readiness_level_mgmt}
+                      />
+                    </>
                   )}
 
                   {/* "Iniciar Nova Revisão" — apenas na versão mais recente com status submitted */}
