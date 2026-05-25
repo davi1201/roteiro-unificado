@@ -35,7 +35,10 @@ export function ProgressBar({ tenantId }: ProgressBarProps) {
       aria-valuemax={100}
       aria-label="Progresso geral do formulário"
     >
-      <div className="bg-primary h-full transition-all duration-300" style={{ width: `${pct}%` }} />
+      <div
+        className="h-full bg-green-500 transition-all duration-300"
+        style={{ width: `${pct}%` }}
+      />
     </div>
   )
 }
