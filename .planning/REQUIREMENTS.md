@@ -51,11 +51,11 @@
 
 ### Exportação (EXPORT)
 
-- [ ] **EXPORT-01**: Botão "Exportar PDF" gera relatório da avaliação com identidade visual (azul/laranja)
-- [ ] **EXPORT-02**: PDF inclui todas as seções preenchidas, classificações calculadas e data da avaliação
+- [x] **EXPORT-01**: Botão "Exportar PDF" gera relatório da avaliação com identidade visual (azul/laranja)
+- [x] **EXPORT-02**: PDF inclui todas as seções preenchidas, classificações calculadas e data da avaliação
 - [ ] **EXPORT-03**: Botão "Exportar Excel" gera planilha `.xlsx` com todos os campos e respostas
-- [ ] **EXPORT-04**: Exportação está disponível para qualquer versão do histórico (não só a mais recente)
-- [ ] **EXPORT-05**: Chunk de exportação é lazy-loaded (não impacta o First Load do app)
+- [x] **EXPORT-04**: Exportação está disponível para qualquer versão do histórico (não só a mais recente)
+- [x] **EXPORT-05**: Chunk de exportação é lazy-loaded (não impacta o First Load do app)
 
 ### Design e UX (UX)
 
