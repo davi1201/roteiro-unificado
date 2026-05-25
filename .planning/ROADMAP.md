@@ -436,7 +436,7 @@ Plans:
 
 **Wave 3** *(bloqueada por 10-01 + 10-02)*
 
-- [ ] 10-03-PLAN.md — Wiring: useOrgInfo + ExportPdfButton (state machine + dynamic import) + integração na HistoryPage por card submitted + checkpoint visual (bundle isolado, lazy-load, PDF end-to-end) (EXPORT-01, EXPORT-04, EXPORT-05)
+- [x] 10-03-PLAN.md — Wiring: useOrgInfo + ExportPdfButton (state machine + dynamic import) + integração na HistoryPage por card submitted + checkpoint visual (bundle isolado, lazy-load, PDF end-to-end) (EXPORT-01, EXPORT-04, EXPORT-05)
 
 **Wave structure:**
 
