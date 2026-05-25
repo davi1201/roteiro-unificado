@@ -201,8 +201,8 @@ export function FormLayout() {
         <div className="bg-primary overflow-x-auto px-3 py-2 md:hidden">
           <TabNavigation tenantId={tenantId} />
         </div>
-        <main className="flex flex-1 flex-col p-6 md:p-8">
-          <div className="-mx-6 mb-4 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:-mx-8 md:px-8">
+        <main className="flex flex-1 flex-col px-6 pt-11 pb-6 md:px-8 md:pb-8">
+          <div className="fixed top-1 right-0 left-0 z-30 flex h-10 items-center justify-between border-b border-gray-200 bg-white px-6 md:left-[240px] md:px-8">
             <span className="text-[13px] font-semibold text-gray-900">{activeTabConfig.label}</span>
             <AutosaveIndicator lastSaved={store.lastSavedAt} />
           </div>
