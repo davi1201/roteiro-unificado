@@ -32,7 +32,7 @@ export function ReadinessClassification({ tenantId }: ReadinessClassificationPro
   const hasAnyData = result.gerencial !== null || result.habilitacoes !== null || result.ndaAceito
 
   return (
-    <div className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-gray-200 bg-white p-3">
+    <div className="sticky top-1 z-30 mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-gray-200 bg-white p-3">
       <span className="text-sm font-semibold text-gray-700">Prontidão atual:</span>
 
       {!hasAnyData && (
