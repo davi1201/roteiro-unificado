@@ -75,7 +75,7 @@ export function TorreSiengeSection({ tenantId }: TorreSiengeSectionProps) {
   const moduleErrors = (errors.modules as unknown as ModuleErrors) ?? {}
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+    <form className="flex flex-col gap-4" noValidate>
       {/* ROW 1 — full width: Módulos do Sienge */}
       <FormCardRow cols={1}>
         <FormCard

@@ -95,7 +95,7 @@ export function HabVendaSection({ tenantId }: HabVendaSectionProps) {
   const scenarioErrors = (errors.scenarios as unknown as ScenarioErrors) ?? {}
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+    <form className="flex flex-col gap-4" noValidate>
       {/* ROW 1 — full width: Visão Geral de Venda */}
       <FormCardRow cols={1}>
         <FormCard

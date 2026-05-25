@@ -98,7 +98,7 @@ export function TorreDecisaoSection({ tenantId }: TorreDecisaoSectionProps) {
   const mostraQualBI = watchedExisteBI === 'sim-power-bi' || watchedExisteBI === 'sim-outra'
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+    <form className="flex flex-col gap-4" noValidate>
       {/* ROW 1 — full width: Estrutura de Decisão */}
       <FormCardRow cols={1}>
         <FormCard

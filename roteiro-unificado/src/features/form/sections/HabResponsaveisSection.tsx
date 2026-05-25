@@ -86,7 +86,7 @@ export function HabResponsaveisSection({ tenantId }: HabResponsaveisSectionProps
   const respErrors = (errors.responsibilities as unknown as ResponsibilityErrors) ?? {}
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+    <form className="flex flex-col gap-4" noValidate>
       {/* ROW 1 — cols-2: Dificuldades Recorrentes | Controles Gerais */}
       <FormCardRow cols={2}>
         <FormCard

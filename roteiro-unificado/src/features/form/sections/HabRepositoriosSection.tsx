@@ -84,7 +84,7 @@ export function HabRepositoriosSection({ tenantId }: HabRepositoriosSectionProps
   const documentErrors = (errors.documents as unknown as DocumentErrors) ?? {}
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+    <form className="flex flex-col gap-4" noValidate>
       {/* ROW 1 — cols-2: Tipos de Repositório | Configuração */}
       <FormCardRow cols={2}>
         <FormCard

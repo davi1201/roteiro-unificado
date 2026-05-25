@@ -72,7 +72,7 @@ export function HabClassificacaoSection({ tenantId }: HabClassificacaoSectionPro
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
+    <form className="flex flex-col gap-4" noValidate>
       {/* ROW 1 — full width: Classificação Habilitações */}
       <FormCardRow cols={1}>
         <FormCard

@@ -46,8 +46,10 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <form className="flex max-w-4xl flex-col gap-4" noValidate>
-      {/* ROW 1 — full width: Dados da Empresa — grid 3-col (Empresa col-span-2 | Cidade/UF col 3) + CNPJ abaixo */}
+    <form className="flex flex-col gap-4" noValidate>
+      {/* ROW 1 — full width: Dados da Empresa
+          Grid 3-col: [Empresa/grupo col-span-2 | Cidade/UF] + CNPJ abaixo (max-w-[280px])
+          Fonte: sketch 002 Variant B, card-body g3 */}
       <FormCardRow cols={1}>
         <FormCard
           icon={
@@ -68,27 +70,27 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
           }
           iconColor="blue"
           title="Dados da Empresa"
-          subtitle="Identificação básica no piloto"
+          subtitle="Identificação básica no piloto Sinduscon"
         >
-          <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
               <div className="flex flex-col gap-1 md:col-span-2">
-                <label className="text-sm font-semibold text-gray-700">
-                  Empresa / grupo<span className="text-g1 ml-0.5">*</span>
+                <label className="text-[12.5px] font-semibold text-gray-800">
+                  Empresa / grupo<span className="ml-0.5 text-red-500">*</span>
                 </label>
                 <Input
                   type="text"
-                  placeholder="Digite aqui..."
+                  placeholder="Nome da construtora ou grupo"
                   error={!!errors.empresa}
                   errorMessage={errors.empresa?.message}
                   {...register('empresa')}
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-gray-700">Cidade/UF sede</label>
+                <label className="text-[12.5px] font-semibold text-gray-800">Cidade/UF sede</label>
                 <Input
                   type="text"
-                  placeholder="Ex.: São Paulo / SP"
+                  placeholder="São Paulo/SP"
                   maxLength={100}
                   error={!!errors.cidadeUf}
                   errorMessage={errors.cidadeUf?.message}
@@ -96,14 +98,14 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
                 />
               </div>
             </div>
-            <div className="max-w-[280px] flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
-                CNPJ principal<span className="text-g1 ml-0.5">*</span>
+            <div className="flex max-w-[280px] flex-col gap-1">
+              <label className="text-[12.5px] font-semibold text-gray-800">
+                CNPJ principal<span className="ml-0.5 text-red-500">*</span>
               </label>
               <Input
                 type="text"
                 inputMode="numeric"
-                placeholder="00.000.000/0000-00"
+                placeholder="00.000.000/0001-00"
                 maxLength={18}
                 value={watch('cnpj') ?? ''}
                 error={!!errors.cnpj}
@@ -117,8 +119,12 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
         </FormCard>
       </FormCardRow>
 
-      {/* ROW 2 — cols-2: Responsáveis (amber) | Escopo do Piloto (green) — sketch 002 Variant B */}
+      {/* ROW 2 — cols-2: Responsáveis (amber) | Escopo do Piloto (green)
+          Fonte: sketch 002 Variant B, card-row cols-2
+          Responsáveis: campos empilhados com hints
+          Escopo: campos empilhados (não grid-cols-2) com hints */}
       <FormCardRow cols={2}>
+        {/* Card: Responsáveis */}
         <FormCard
           icon={
             <svg
@@ -132,19 +138,20 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
               />
             </svg>
           }
           iconColor="amber"
           title="Responsáveis"
-          subtitle="Quem responde por cada frente"
+          subtitle="Quem responde pelo processo"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
-                Responsável técnico/Sienge
+              <label className="text-[12.5px] font-semibold text-gray-800">
+                Resp. Torre 360<span className="ml-0.5 text-red-500">*</span>
               </label>
+              <p className="text-[11px] text-gray-500">Nome e contato (ex.: João · 99999-9999)</p>
               <Input
                 type="text"
                 placeholder="Nome e contato"
@@ -154,9 +161,10 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
-                Resp. habilitações/documentos
+              <label className="text-[12.5px] font-semibold text-gray-800">
+                Resp. Habilitações<span className="ml-0.5 text-red-500">*</span>
               </label>
+              <p className="text-[11px] text-gray-500">Nome e contato</p>
               <Input
                 type="text"
                 placeholder="Nome e contato"
@@ -166,12 +174,12 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
+              <label className="text-[12.5px] font-semibold text-gray-800">
                 Conduz oportunidades comerciais?
               </label>
               <Input
                 type="text"
-                placeholder="Diretoria, comercial..."
+                placeholder="Diretoria, time comercial..."
                 error={!!errors.quemConduzComercial}
                 errorMessage={errors.quemConduzComercial?.message}
                 {...register('quemConduzComercial')}
@@ -180,6 +188,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
           </div>
         </FormCard>
 
+        {/* Card: Escopo do Piloto — campos empilhados (não grid interno), cada um com hint */}
         <FormCard
           icon={
             <svg
@@ -193,34 +202,36 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"
+                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
               />
             </svg>
           }
           iconColor="green"
           title="Escopo do Piloto"
-          subtitle="Abrangência"
+          subtitle="Abrangência da avaliação"
         >
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
+              <label className="text-[12.5px] font-semibold text-gray-800">
                 Nº de CNPJs/SPEs no escopo
               </label>
+              <p className="text-[11px] text-gray-500">Quantidade e observações relevantes</p>
               <Input
                 type="text"
-                placeholder="Quantidade e observações"
+                placeholder="Ex.: 3 CNPJs — holding + 2 SPEs"
                 error={!!errors.numCnpjsEscopo}
                 errorMessage={errors.numCnpjsEscopo?.message}
                 {...register('numCnpjsEscopo')}
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">
-                Nº de obras/empreendimentos
+              <label className="text-[12.5px] font-semibold text-gray-800">
+                Nº de obras/empreendimentos ativos
               </label>
+              <p className="text-[11px] text-gray-500">Quantidade, status e observações</p>
               <Input
                 type="text"
-                placeholder="Quantidade, status e observações"
+                placeholder="Ex.: 4 obras — 2 em andamento, 2 lançamento"
                 error={!!errors.numObrasAtivas}
                 errorMessage={errors.numObrasAtivas?.message}
                 {...register('numObrasAtivas')}
@@ -230,7 +241,9 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
         </FormCard>
       </FormCardRow>
 
-      {/* ROW 3 — full width: Reunião e Participantes (movido de Row 2 esq → Row 3 standalone) */}
+      {/* ROW 3 — full width: Reunião e Participantes
+          Nota: não presente no sketch 002, mas campos existem no schema.
+          Mantido após Row 2 para não perder dados já coletados. */}
       <FormCardRow cols={1}>
         <FormCard
           icon={
@@ -253,9 +266,9 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
           title="Reunião e Participantes"
           subtitle="Quando e quem participou"
         >
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">Data da reunião</label>
+              <label className="text-[12.5px] font-semibold text-gray-800">Data da reunião</label>
               <Input
                 type="date"
                 error={!!errors.dataReuniao}
@@ -264,7 +277,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold text-gray-700">Sponsor do piloto</label>
+              <label className="text-[12.5px] font-semibold text-gray-800">Sponsor do piloto</label>
               <Input
                 type="text"
                 placeholder="Nome e cargo"
@@ -284,7 +297,9 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
         </FormCard>
       </FormCardRow>
 
-      {/* ROW 4 — full width: Prioridades (textareas lado a lado com maxLength=500) */}
+      {/* ROW 4 — full width: Prioridades
+          Textareas lado a lado (g2), maxLength=500
+          Fonte: sketch 002 Variant B, card-body g2 */}
       <FormCardRow cols={1}>
         <FormCard
           icon={
@@ -299,20 +314,20 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"
+                d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
               />
             </svg>
           }
           iconColor="purple"
           title="Prioridades"
-          subtitle="Principais focos do piloto"
+          subtitle="O que mais importa para sua empresa neste piloto"
         >
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <TextareaField
               name="prioridadeTorre360"
               control={control}
               label="Principal prioridade para Torre 360"
-              placeholder="Descreva a principal prioridade..."
+              placeholder="Descreva a principal prioridade da construtora com o Torre 360..."
               error={errors.prioridadeTorre360?.message}
               maxLength={500}
             />
@@ -320,7 +335,7 @@ export function IdentificacaoSection({ tenantId }: IdentificacaoSectionProps) {
               name="prioridadeHabilitacoes"
               control={control}
               label="Principal prioridade para Habilitações"
-              placeholder="Descreva a principal prioridade..."
+              placeholder="Descreva a principal prioridade com Habilitações..."
               error={errors.prioridadeHabilitacoes?.message}
               maxLength={500}
             />
