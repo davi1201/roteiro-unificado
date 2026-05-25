@@ -1,7 +1,8 @@
 ---
 phase: 10
 slug: exporta-o-pdf
-status: draft
+status: approved
+reviewed_at: 2026-05-25
 shadcn_initialized: false
 preset: none
 created: 2026-05-25
