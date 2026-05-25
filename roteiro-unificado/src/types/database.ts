@@ -115,6 +115,17 @@ export interface Database {
         Args: { p_org_id: string }
         Returns: boolean
       }
+      get_org_members_with_email: {
+        Args: { p_org_id: string }
+        Returns: {
+          id: string
+          org_id: string
+          user_id: string
+          role: Database['public']['Enums']['member_role']
+          created_at: string
+          email: string
+        }[]
+      }
     }
     Enums: {
       member_role: 'admin' | 'company'
@@ -131,3 +142,7 @@ export type Tables<T extends keyof Database['public']['Tables']> =
   Database['public']['Tables'][T] extends { Row: infer R } ? R : never
 
 export type Enums<T extends keyof Database['public']['Enums']> = Database['public']['Enums'][T]
+
+// Return type for get_org_members_with_email RPC
+export type OrgMemberWithEmail =
+  Database['public']['Functions']['get_org_members_with_email']['Returns'][number]

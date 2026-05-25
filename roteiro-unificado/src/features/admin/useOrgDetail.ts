@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
-import type { Tables } from '@/types/database'
+import type { Tables, OrgMemberWithEmail } from '@/types/database'
 
 export function useOrgDetail(orgId: string | undefined) {
   const orgQuery = useQuery<Tables<'orgs'>>({
@@ -17,16 +17,15 @@ export function useOrgDetail(orgId: string | undefined) {
     enabled: !!orgId,
   })
 
-  const membersQuery = useQuery<Tables<'org_members'>[]>({
+  // Uses get_org_members_with_email RPC (SECURITY DEFINER) to JOIN auth.users
+  // and return email alongside each member row. Non-admins receive an empty set.
+  const membersQuery = useQuery<OrgMemberWithEmail[]>({
     queryKey: ['org_members', orgId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('org_members')
-        .select('id, org_id, user_id, role, created_at')
-        .eq('org_id', orgId!)
-        .order('created_at', { ascending: false })
+        .rpc('get_org_members_with_email', { p_org_id: orgId! })
       if (error) throw error
-      return data ?? []
+      return (data as OrgMemberWithEmail[]) ?? []
     },
     enabled: !!orgId,
   })

@@ -1,8 +1,8 @@
 import { Skeleton } from '@/components/ui'
-import type { Tables } from '@/types/database'
+import type { OrgMemberWithEmail } from '@/types/database'
 
 interface MemberTableProps {
-  members: Tables<'org_members'>[] | undefined
+  members: OrgMemberWithEmail[] | undefined
   isLoading: boolean
 }
 
@@ -23,7 +23,7 @@ export function MemberTable({ members, isLoading }: MemberTableProps) {
       <thead className="bg-gray-50">
         <tr>
           <th scope="col" className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
-            Usuário
+            Email
           </th>
           <th scope="col" className="w-28 px-4 py-3 text-left text-sm font-semibold text-gray-600">
             Role
@@ -53,10 +53,7 @@ export function MemberTable({ members, isLoading }: MemberTableProps) {
             ))
           : (members ?? []).map((member) => (
               <tr key={member.id} className="border-t border-gray-200">
-                {/* Exibicao de email completo deferred — schema auth.users requer view ou RPC */}
-                <td className="px-4 py-3 font-mono text-xs text-gray-600">
-                  {member.user_id.slice(0, 8)}…
-                </td>
+                <td className="px-4 py-3 text-gray-900">{member.email}</td>
                 <td className="px-4 py-3">
                   {member.role === 'admin' ? (
                     <span className="bg-primary-100 text-primary-800 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium">
