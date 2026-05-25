@@ -428,7 +428,7 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 10-01-PLAN.md — Fundação: instalar @react-pdf/renderer@4.5.1, chunk isolado (entry imperativo generateAndOpenPDF + window.open), types/styles/paleta e primitivos PDFFieldRow/PDFSectionHeader/PDFFooter + scaffolds de teste Wave 0 (EXPORT-05)
+- [x] 10-01-PLAN.md — Fundação: instalar @react-pdf/renderer@4.5.1, chunk isolado (entry imperativo generateAndOpenPDF + window.open), types/styles/paleta e primitivos PDFFieldRow/PDFSectionHeader/PDFFooter + scaffolds de teste Wave 0 (EXPORT-05)
 
 **Wave 2** *(bloqueada por 10-01)*
 
