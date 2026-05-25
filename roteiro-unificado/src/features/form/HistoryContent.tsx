@@ -8,7 +8,7 @@ import { useNewRevision } from './useNewRevision'
 import { ExportPdfButton } from './ExportPdfButton'
 import { useOrgInfo } from './useOrgInfo'
 
-export type AssessmentRow = {
+type AssessmentRow = {
   id: string
   version: number
   status: string
@@ -19,11 +19,11 @@ export type AssessmentRow = {
 }
 
 /**
- * Hook para buscar o histórico de avaliações de uma org.
- * Exportado do módulo HistoryContent para que HistoryPage possa reexportar
- * ou usar internamente sem duplicação.
+ * Hook interno para buscar o histórico de avaliações de uma org.
+ * Não exportado — encapsulado dentro do módulo HistoryContent.
+ * HistoryPage delega todo o render para HistoryContent, sem precisar do hook diretamente.
  */
-export function useAssessmentHistory(orgId: string) {
+function useAssessmentHistory(orgId: string) {
   return useQuery({
     queryKey: ['assessments', orgId],
     queryFn: async () => {
