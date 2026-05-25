@@ -30,7 +30,7 @@ Não adiciona nenhuma funcionalidade nova de negócio. Depende das Phases 10 + 1
 ### Claude's Discretion
 
 - Targets de performance prescritos pelo ROADMAP: FCP < 1.5s, Lighthouse Performance ≥ 85 — implementador executa sem nova decisão.
-- Configuração exata de `manualChunks` (vendor vs supabase vs react-router) — implementador segue prescrição do ROADMAP Plan 3.
+- Configuração exata de bundle splitting (vendor vs supabase vs react-router) — implementador usa `build.rolldownOptions.output.codeSplitting.groups` (API Vite 8 / Rolldown). `manualChunks` e `rollupOptions` foram removidos/depreciados no Vite 8.
 - Configuração `vercel.json` com SPA rewrites — implementador segue prescrição do ROADMAP Plan 5.
 - Breakpoint 768px (responsividade) e escopo da auditoria de acessibilidade — não discutidos; implementador segue a lista de ROADMAP Plans 1 e 2 como guia completo.
 
@@ -48,7 +48,7 @@ Não adiciona nenhuma funcionalidade nova de negócio. Depende das Phases 10 + 1
 - `.planning/REQUIREMENTS.md` §UX (UX-01 a UX-06) — verificação final como sistema completo
 
 ### Stack e config existente
-- `roteiro-unificado/vite.config.ts` — config atual sem rollupOptions (base para Plan 3: adicionar manualChunks)
+- `roteiro-unificado/vite.config.ts` — config atual sem bundle splitting (base para Plan 3: adicionar `build.rolldownOptions.output.codeSplitting.groups` com Vite 8 / Rolldown API)
 - `roteiro-unificado/.env.local` — variáveis de dev existentes (referência para criar .env.production)
 - `roteiro-unificado/package.json` — scripts build/test que CI vai executar
 

@@ -2,8 +2,8 @@
 phase: 12
 slug: polimento-ux-performance-deploy
 status: draft
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-05-25
 ---
 
@@ -42,11 +42,11 @@ created: 2026-05-25
 | 12-01-02 | 01 | 1 | UX-02 | — | N/A | manual | Browser resize + visual check | N/A | ⬜ pending |
 | 12-02-01 | 02 | 1 | UX-01 | — | N/A | manual | DevTools Accessibility panel + contrast calc | N/A | ⬜ pending |
 | 12-02-02 | 02 | 1 | UX-01 | — | N/A | unit | `npm test -- --run` (existing suite) | ✅ | ⬜ pending |
-| 12-03-01 | 03 | 2 | UX-03 | — | N/A | unit | `npm test -- --run` | ✅ | ⬜ pending |
-| 12-03-02 | 03 | 2 | UX-05 | — | N/A | manual | Lighthouse CLI: `npx lighthouse <url> --only-categories=performance` | N/A | ⬜ pending |
-| 12-04-01 | 04 | 2 | — | T-12-01 | Credenciais de prod nunca no bundle (sem VITE_SUPABASE_* de dev) | manual | `grep -r "SUPABASE" dist/` deve retornar vazio ou valores de prod | N/A | ⬜ pending |
-| 12-05-01 | 05 | 3 | — | T-12-02 | Deploy SPA — rotas não quebram em refresh direto | manual | Navegar diretamente para `/dashboard`, `/form/:id` em produção | N/A | ⬜ pending |
-| 12-05-02 | 05 | 3 | — | — | N/A | manual | CI verde antes de merge para main | N/A | ⬜ pending |
+| 12-03-01 | 03 | 1 | UX-03 | — | N/A | unit | `npm test -- --run` | ✅ | ⬜ pending |
+| 12-03-02 | 03 | 1 | UX-05 | — | N/A | manual | Lighthouse CLI: `npx lighthouse <url> --only-categories=performance` | N/A | ⬜ pending |
+| 12-04-01 | 04 | 1 | — | T-12-01 | Credenciais de prod nunca no bundle (sem VITE_SUPABASE_* de dev) | manual | `grep -r "SUPABASE" dist/` deve retornar vazio ou valores de prod | N/A | ⬜ pending |
+| 12-05-01 | 05 | 2 | — | T-12-02 | Deploy SPA — rotas não quebram em refresh direto | manual | Navegar diretamente para `/dashboard`, `/form/:id` em produção | N/A | ⬜ pending |
+| 12-05-02 | 05 | 2 | — | — | N/A | manual | CI verde antes de merge para main | N/A | ⬜ pending |
 | 12-06-01 | 06 | 3 | UX-04, UX-06 | — | N/A | manual | Smoke test completo em produção (ver checklist) | N/A | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*

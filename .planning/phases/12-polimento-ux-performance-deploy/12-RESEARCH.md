@@ -529,22 +529,16 @@ grep -r "dev-project.supabase.co" dist/ || echo "OK — sem credenciais de dev n
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Vitest `--run` flag via npm test**
-   - O que sabemos: `npm test` executa `vitest`. O CI precisa rodar sem watch mode.
-   - O que é incerto: Se `npm test -- --run` passa o flag corretamente ou se precisa de script separado (`"test:ci": "vitest --run"`)
-   - Recomendação: Verificar localmente com `npm test -- --run` antes de commitar o CI workflow. Alternativa: adicionar script `"test:ci": "vitest --run"` ao package.json e usar `npm run test:ci` no CI.
+1. **Vitest `--run` flag via npm test** — RESOLVED ✓
+   - `npm test` script = `vitest` (sem flags). `npm test -- --run` passa `--run` corretamente ao vitest via npm arg passthrough. Verificado no package.json: `"test": "vitest"`. O CI pode usar `npm test -- --run` sem script adicional.
 
-2. **Vercel Root Directory vs projeto monorepo**
-   - O que sabemos: O `package.json` do app está em `roteiro-unificado/`, não na raiz do repo.
-   - O que é incerto: Se o Vercel detecta automaticamente o subdiretório ou precisa configuração manual.
-   - Recomendação: Configurar explicitamente Root Directory = `roteiro-unificado` na primeira conexão do repo no Vercel Dashboard.
+2. **Vercel Root Directory vs projeto monorepo** — RESOLVED ✓
+   - Vercel NÃO detecta automaticamente o subdiretório em monorepos sem framework reconhecido. Root Directory = `roteiro-unificado` deve ser configurado manualmente no Vercel Dashboard ao conectar o repo. Plan 05 inclui este passo como checkpoint obrigatório.
 
-3. **Estado atual das Phases 10 e 11 (PDF + Excel)**
-   - O que sabemos: Phase 12 depende de Phases 10 + 11 estarem completas. O STATE.md indica 11 phases completas mas o ROADMAP mostra Phases 9-11 ainda com planos incompletos.
-   - O que é incerto: Se PDF e Excel export já estão implementados quando esta fase for executada.
-   - Recomendação: O planner deve incluir verificação de pré-condição no Plan 6 (smoke tests) para confirmar que PDF e Excel funcionam antes de testar.
+3. **Estado atual das Phases 10 e 11 (PDF + Excel)** — RESOLVED ✓
+   - Fases 10 e 11 NÃO estão implementadas (diretórios `.planning/phases/10-*` e `.planning/phases/11-*` inexistentes). Os smoke tests de PDF/Excel no Plan 06 são condicionais — executar apenas após Phases 10 e 11 estiverem completas. O plano já inclui nota de pré-condição para este caso.
 
 ---
 
