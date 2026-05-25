@@ -11,4 +11,29 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            {
+              name: 'react-vendor',
+              test: /node_modules[\\/]react(-dom)?[\\/]/,
+              priority: 30,
+            },
+            {
+              name: 'supabase',
+              test: /node_modules[\\/]@supabase[\\/]/,
+              priority: 20,
+            },
+            {
+              name: 'router',
+              test: /node_modules[\\/]react-router(-dom)?[\\/]/,
+              priority: 10,
+            },
+          ],
+        },
+      },
+    },
+  },
 })
