@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import type { Grade } from '@/components/ui/badge'
 import { useNewRevision } from './useNewRevision'
 import { ExportPdfButton } from './ExportPdfButton'
+import { ExportJsonButton } from './ExportJsonButton'
 import { useOrgInfo } from './useOrgInfo'
 
 type AssessmentRow = {
@@ -181,6 +182,11 @@ export function HistoryContent({ orgId, showHeading = true }: HistoryContentProp
                         orgName={orgName ?? '—'}
                         cnpj={cnpj}
                         grade={row.readiness_level_mgmt}
+                      />
+                      <ExportJsonButton
+                        assessmentId={row.id}
+                        version={row.version}
+                        orgName={orgName ?? '—'}
                       />
                     </>
                   )}
