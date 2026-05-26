@@ -116,6 +116,7 @@ None.
 | ---- | ---- | ----------- |
 | sidebar-scroll-icons-fix | 2026-05-24 | Sidebar sticky fix (self-start + flex-1) + step number badges matching sketch 002 |
 | sticky-readiness-bar | 2026-05-25 | ReadinessClassification bar sticky top-1 z-30 — visible while scrolling form |
+| export-json-respostas | 2026-05-26 | Botão Exportar JSON no histórico — download de form_data por versão enviada |
 
 ## Session Continuity
 
