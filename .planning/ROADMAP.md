@@ -567,7 +567,7 @@ Phase 1 (Scaffolding)
 **Goal:** Admin interno consegue redefinir a senha de qualquer membro com role company pelo painel de detalhe da organização; usuário company consegue alterar sua própria senha via modal no FormLayout sem depender do fluxo de recuperação por email.
 **Requirements:** D-01, D-02, D-03, D-04, D-05, D-06, D-07
 **Depends on:** Phase 12
-**Plans:** 5/6 plans executed
+**Plans:** 6/6 plans complete
 
 Plans:
 
@@ -590,7 +590,7 @@ Plans:
 
 **Wave 4** *(checkpoint blocking — depende de Wave 3)*
 
-- [ ] 13-05-PLAN.md — Deploy da Edge Function + suite completa de testes + smoke tests manuais N-01..N-05
+- [x] 13-05-PLAN.md — Deploy da Edge Function + suite completa de testes + smoke tests manuais N-01..N-05
 
 **Wave structure:**
 
