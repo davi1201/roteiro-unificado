@@ -567,7 +567,7 @@ Phase 1 (Scaffolding)
 **Goal:** Admin interno consegue redefinir a senha de qualquer membro com role company pelo painel de detalhe da organização; usuário company consegue alterar sua própria senha via modal no FormLayout sem depender do fluxo de recuperação por email.
 **Requirements:** D-01, D-02, D-03, D-04, D-05, D-06, D-07
 **Depends on:** Phase 12
-**Plans:** 1/6 plans executed
+**Plans:** 2/6 plans executed
 
 Plans:
 
@@ -577,7 +577,7 @@ Plans:
 
 **Wave 1** *(paralelo — Edge Function + schemas sem overlap de arquivos)*
 
-- [ ] 13-01-PLAN.md — Edge Function reset-user-password (Deno, service_role) + schemas Zod resetPassword e changePassword + testes de schema
+- [x] 13-01-PLAN.md — Edge Function reset-user-password (Deno, service_role) + schemas Zod resetPassword e changePassword + testes de schema
 
 **Wave 2** *(depende de Wave 1 — dois modais paralelos, sem overlap de arquivos)*
 
