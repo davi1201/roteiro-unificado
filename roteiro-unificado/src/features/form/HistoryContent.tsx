@@ -117,8 +117,25 @@ export function HistoryContent({ orgId, showHeading = true }: HistoryContentProp
         </>
       )}
 
+      {/* Banner de desfazer envio — sempre visível quando última versão está enviada e não há draft ativo */}
+      {mostRecentIsSubmitted && (
+        <div className="flex items-center justify-between rounded-lg border border-blue-200 bg-blue-50 px-4 py-3">
+          <p className="text-sm text-blue-800">
+            Deseja continuar editando? Seus dados serão recuperados.
+          </p>
+          <Button
+            variant="secondary"
+            size="sm"
+            isLoading={newRevisionMutation.isPending}
+            onClick={() => newRevisionMutation.mutate()}
+          >
+            Desfazer Envio
+          </Button>
+        </div>
+      )}
+
       {/* Lista de versões */}
-      <div className="mt-8 space-y-4">
+      <div className="mt-4 space-y-4">
         {history.map((row, index) => {
           const isSubmitted = row.status === 'submitted'
           const formattedDate = row.submitted_at

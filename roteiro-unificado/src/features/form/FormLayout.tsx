@@ -350,8 +350,8 @@ export function FormLayout() {
         </DialogHeader>
         <DialogContent>
           <DialogDescription>
-            Após o envio, esta versão ficará imutável. Você poderá iniciar uma nova revisão a partir
-            dela.
+            Esta versão ficará salva no histórico. Se precisar continuar editando após o envio, use
+            o botão "Retomar Edição" que aparece no histórico.
           </DialogDescription>
         </DialogContent>
         <DialogFooter>
