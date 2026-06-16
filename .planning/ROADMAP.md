@@ -567,7 +567,7 @@ Phase 1 (Scaffolding)
 **Goal:** Admin interno consegue redefinir a senha de qualquer membro com role company pelo painel de detalhe da organização; usuário company consegue alterar sua própria senha via modal no FormLayout sem depender do fluxo de recuperação por email.
 **Requirements:** D-01, D-02, D-03, D-04, D-05, D-06, D-07
 **Depends on:** Phase 12
-**Plans:** 3/6 plans executed
+**Plans:** 5/6 plans executed
 
 Plans:
 
@@ -585,8 +585,8 @@ Plans:
 
 **Wave 3** *(paralelo — dois wirings independentes, sem overlap de arquivos)*
 
-- [ ] 13-03-PLAN.md — Wiring admin: MemberTable (coluna Ações + prop onResetPassword) + OrgDetail (estado resetPasswordMemberId + modal condicional)
-- [ ] 13-04-PLAN.md — Wiring company: FormLayout (botão "Alterar senha" no sidebar footer + estado isChangePasswordOpen + modal condicional)
+- [x] 13-03-PLAN.md — Wiring admin: MemberTable (coluna Ações + prop onResetPassword) + OrgDetail (estado resetPasswordMemberId + modal condicional)
+- [x] 13-04-PLAN.md — Wiring company: FormLayout (botão "Alterar senha" no sidebar footer + estado isChangePasswordOpen + modal condicional)
 
 **Wave 4** *(checkpoint blocking — depende de Wave 3)*
 
