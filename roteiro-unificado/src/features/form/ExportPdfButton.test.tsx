@@ -33,10 +33,6 @@ const defaultProps = {
 describe('ExportPdfButton', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    // Simula dynamic import retornando o módulo mockado
-    vi.doMock('@/lib/pdf/index', () => ({
-      generateAndOpenPDF: mockGenerateAndOpenPDF,
-    }))
   })
 
   it('Test 1: renderiza em estado IDLE com texto e aria-label corretos', () => {
