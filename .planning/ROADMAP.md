@@ -562,6 +562,55 @@ Phase 1 (Scaffolding)
 │                           └── Phase 12 (Polish + Deploy)
 ```
 
+### Phase 13: Admin pode alterar senha de acesso dos usuários das organizações
+
+**Goal:** Admin interno consegue redefinir a senha de qualquer membro com role company pelo painel de detalhe da organização; usuário company consegue alterar sua própria senha via modal no FormLayout sem depender do fluxo de recuperação por email.
+**Requirements:** D-01, D-02, D-03, D-04, D-05, D-06, D-07
+**Depends on:** Phase 12
+**Plans:** 6 plans
+
+Plans:
+
+**Wave 0** *(stubs de teste — pré-requisito para verify automatizado)*
+
+- [ ] 13-00-PLAN.md — Criar stubs de teste RTL para MemberTable, ResetPasswordModal e ChangePasswordModal (Wave 0 Nyquist)
+
+**Wave 1** *(paralelo — Edge Function + schemas sem overlap de arquivos)*
+
+- [ ] 13-01-PLAN.md — Edge Function reset-user-password (Deno, service_role) + schemas Zod resetPassword e changePassword + testes de schema
+
+**Wave 2** *(depende de Wave 1 — dois modais paralelos, sem overlap de arquivos)*
+
+- [ ] 13-02-PLAN.md — ResetPasswordModal (Fluxo A) + ChangePasswordModal (Fluxo B) com Dialog + useForm + useMutation
+
+**Wave 3** *(paralelo — dois wirings independentes, sem overlap de arquivos)*
+
+- [ ] 13-03-PLAN.md — Wiring admin: MemberTable (coluna Ações + prop onResetPassword) + OrgDetail (estado resetPasswordMemberId + modal condicional)
+- [ ] 13-04-PLAN.md — Wiring company: FormLayout (botão "Alterar senha" no sidebar footer + estado isChangePasswordOpen + modal condicional)
+
+**Wave 4** *(checkpoint blocking — depende de Wave 3)*
+
+- [ ] 13-05-PLAN.md — Deploy da Edge Function + suite completa de testes + smoke tests manuais N-01..N-05
+
+**Wave structure:**
+
+- Wave 0: 13-00 (stubs — pré-requisito Nyquist para verify automatizado)
+- Wave 1: 13-01 (Edge Function + schemas — sem dependências entre si)
+- Wave 2: 13-02 (modais — consomem schemas de Wave 1)
+- Wave 3: 13-03 (wiring admin) + 13-04 (wiring company) — paralelos, sem overlap de arquivos
+- Wave 4: 13-05 (deploy + checkpoint humano — requer Waves 1–3 completas)
+
+**UAT:**
+
+- [ ] Admin acessa OrgDetail → coluna "Ações" exibe botão "Redefinir senha" apenas para membros company
+- [ ] Admin clica "Redefinir senha" → modal abre com email do membro no subtítulo → digita nova senha → salva → toast success
+- [ ] Membro company consegue logar com a nova senha redefinida pelo admin
+- [ ] Usuário company vê botão "Alterar senha" no footer da sidebar do FormLayout
+- [ ] Usuário company tenta alterar senha com senha atual incorreta → toast "Senha atual incorreta."
+- [ ] Usuário company altera senha com todos os campos corretos → toast success → consegue logar com nova senha
+- [ ] Membros com role='admin' na MemberTable NÃO exibem o botão "Redefinir senha"
+- [ ] `supabase functions list` exibe `reset-user-password` após deploy
+
 ---
 
 _Roadmap criado: 2026-05-22_
