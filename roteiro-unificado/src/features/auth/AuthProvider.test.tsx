@@ -26,7 +26,8 @@ vi.mock('@/stores/formStore', () => ({
 }))
 
 import { renderHook, act, waitFor } from '@testing-library/react'
-import { type ReactNode } from 'react'
+import { createElement, type ReactNode } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider } from './AuthProvider'
 import { useAuth } from './useAuth'
 import { supabase } from '@/lib/supabase'
@@ -56,8 +57,16 @@ function setupMocks() {
   } as unknown as ReturnType<typeof supabase.from>)
 }
 
-function wrapper({ children }: { children: ReactNode }) {
-  return <AuthProvider>{children}</AuthProvider>
+function makeWrapper() {
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
+  function wrapper({ children }: { children: ReactNode }) {
+    return createElement(
+      QueryClientProvider,
+      { client: queryClient },
+      createElement(AuthProvider, null, children)
+    )
+  }
+  return wrapper
 }
 
 describe('AuthProvider — isLoading lifecycle', () => {
@@ -66,12 +75,12 @@ describe('AuthProvider — isLoading lifecycle', () => {
   })
 
   it('isLoading starts as true before any auth event fires', () => {
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuth(), { wrapper: makeWrapper() })
     expect(result.current.isLoading).toBe(true)
   })
 
   it('isLoading becomes false after SIGNED_OUT event', async () => {
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuth(), { wrapper: makeWrapper() })
 
     expect(result.current.isLoading).toBe(true)
 
@@ -91,7 +100,7 @@ describe('AuthProvider — SIGNED_OUT clears state', () => {
   })
 
   it('SIGNED_OUT sets user, session, role, and orgId to null', async () => {
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuth(), { wrapper: makeWrapper() })
 
     act(() => {
       capturedAuthCallback!('SIGNED_OUT', null)
@@ -126,7 +135,7 @@ describe('AuthProvider — org_members fetch sets role and orgId', () => {
       }),
     } as unknown as ReturnType<typeof supabase.from>)
 
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuth(), { wrapper: makeWrapper() })
 
     act(() => {
       capturedAuthCallback!('SIGNED_IN', fakeSession)
@@ -155,7 +164,7 @@ describe('AuthProvider — org_members fetch sets role and orgId', () => {
       }),
     } as unknown as ReturnType<typeof supabase.from>)
 
-    const { result } = renderHook(() => useAuth(), { wrapper })
+    const { result } = renderHook(() => useAuth(), { wrapper: makeWrapper() })
 
     act(() => {
       capturedAuthCallback!('SIGNED_IN', fakeSession)

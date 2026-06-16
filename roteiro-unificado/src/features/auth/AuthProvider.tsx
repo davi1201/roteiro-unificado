@@ -1,6 +1,7 @@
 import { createContext, useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Session, User } from '@supabase/supabase-js'
+import { useQueryClient } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import type { Enums } from '@/types/database'
 import { clearFormStore } from '@/stores/formStore'
@@ -32,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // isLoading stays true until both the auth session AND the org_members
   // lookup have resolved. Starts as true so ProtectedRoute always waits.
   const [isLoading, setIsLoading] = useState(true)
+  const queryClient = useQueryClient()
 
   // onAuthStateChange MUST remain synchronous — calling supabase.from(...)
   // inside the callback deadlocks the Supabase JS v2 client because the
@@ -48,6 +50,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
           clearFormStore(currentOrgIdRef.current)
           currentOrgIdRef.current = null
         }
+        // Limpa o cache do React Query para que re-login sempre busque dados
+        // frescos do Supabase — evita o bug "form-data-stale-after-relogin"
+        // onde draftQuery retorna dados em cache sem re-fetch e hydrateFromAssessment
+        // não é acionado porque draftQuery.data não muda de referência.
+        queryClient.clear()
         setUser(null)
         setSession(null)
         setRole(null)
@@ -64,7 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     return () => {
       subscription.subscription.unsubscribe()
     }
-  }, [])
+  }, [queryClient])
 
   // Fetch org membership whenever the authenticated user changes.
   // Runs outside the onAuthStateChange lock, so the supabase client is free.

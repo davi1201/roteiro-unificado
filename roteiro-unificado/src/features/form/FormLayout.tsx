@@ -119,6 +119,15 @@ export function FormLayout() {
     enabled: !!tenantId,
   })
 
+  // Derivado de draftQuery + store.sectionData (sem estado extra).
+  // false apenas enquanto query resolveu com dados mas Zustand ainda não foi hidratado.
+  // Torna-se true automaticamente quando hydrateFromAssessment popula sectionData, porque
+  // useFormStore subscreve o store e dispara re-render — sem setState em efeito.
+  // Garante que section components montem DEPOIS da hidratação (useForm lê defaultValues
+  // uma única vez no mount) — resolve o bug "re-login form-data-not-shown".
+  const hasHydrated =
+    !draftQuery.isSuccess || !draftQuery.data || Object.keys(store.sectionData).length > 0
+
   // Hidratação do store com dados do draft — TanStack v5 sem onSuccess em useQuery
   // CRÍTICO: createFormStore(tenantId).getState() acessa o store sem criar subscription React
   // — evita loop infinito (Armadilha 2 do RESEARCH.md)
@@ -244,7 +253,7 @@ export function FormLayout() {
           ) : (
             <>
               <ReadinessClassification tenantId={tenantId} />
-              {draftQuery.isLoading ? (
+              {draftQuery.isLoading || !hasHydrated ? (
                 <div className="mt-4 space-y-4" aria-busy="true">
                   <Skeleton className="h-10 w-full" />
                   <Skeleton className="h-10 w-3/4" />
@@ -273,7 +282,7 @@ export function FormLayout() {
               )}
 
               {/* Footer universal — exibido apenas na view 'form', nunca no histórico */}
-              {!draftQuery.isLoading && !draftQuery.isError && (
+              {!draftQuery.isLoading && hasHydrated && !draftQuery.isError && (
                 <div className="sticky bottom-0 z-10 -mx-6 mt-auto flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 md:-mx-8 md:px-6">
                   <Button
                     variant="ghost"
