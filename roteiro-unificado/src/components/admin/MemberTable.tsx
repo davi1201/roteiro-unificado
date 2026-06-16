@@ -1,12 +1,13 @@
-import { Skeleton } from '@/components/ui'
+import { Button, Skeleton } from '@/components/ui'
 import type { OrgMemberWithEmail } from '@/types/database'
 
 interface MemberTableProps {
   members: OrgMemberWithEmail[] | undefined
   isLoading: boolean
+  onResetPassword?: (userId: string) => void
 }
 
-export function MemberTable({ members, isLoading }: MemberTableProps) {
+export function MemberTable({ members, isLoading, onResetPassword }: MemberTableProps) {
   if (!isLoading && members && members.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
@@ -34,6 +35,9 @@ export function MemberTable({ members, isLoading }: MemberTableProps) {
           >
             Adicionado em
           </th>
+          <th scope="col" className="w-36 px-4 py-3 text-left text-sm font-semibold text-gray-600">
+            Ações
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -47,6 +51,9 @@ export function MemberTable({ members, isLoading }: MemberTableProps) {
                   <Skeleton className="h-4 w-20" />
                 </td>
                 <td className="hidden px-4 py-3 md:table-cell">
+                  <Skeleton className="h-4 w-24" />
+                </td>
+                <td className="px-4 py-3">
                   <Skeleton className="h-4 w-24" />
                 </td>
               </tr>
@@ -67,6 +74,17 @@ export function MemberTable({ members, isLoading }: MemberTableProps) {
                 </td>
                 <td className="hidden px-4 py-3 md:table-cell">
                   {new Date(member.created_at).toLocaleDateString('pt-BR')}
+                </td>
+                <td className="px-4 py-3">
+                  {member.role === 'company' && onResetPassword && (
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => onResetPassword(member.user_id)}
+                    >
+                      Redefinir senha
+                    </Button>
+                  )}
                 </td>
               </tr>
             ))}
