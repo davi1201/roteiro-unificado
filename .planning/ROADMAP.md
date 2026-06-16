@@ -567,7 +567,7 @@ Phase 1 (Scaffolding)
 **Goal:** Admin interno consegue redefinir a senha de qualquer membro com role company pelo painel de detalhe da organização; usuário company consegue alterar sua própria senha via modal no FormLayout sem depender do fluxo de recuperação por email.
 **Requirements:** D-01, D-02, D-03, D-04, D-05, D-06, D-07
 **Depends on:** Phase 12
-**Plans:** 2/6 plans executed
+**Plans:** 3/6 plans executed
 
 Plans:
 
@@ -581,7 +581,7 @@ Plans:
 
 **Wave 2** *(depende de Wave 1 — dois modais paralelos, sem overlap de arquivos)*
 
-- [ ] 13-02-PLAN.md — ResetPasswordModal (Fluxo A) + ChangePasswordModal (Fluxo B) com Dialog + useForm + useMutation
+- [x] 13-02-PLAN.md — ResetPasswordModal (Fluxo A) + ChangePasswordModal (Fluxo B) com Dialog + useForm + useMutation
 
 **Wave 3** *(paralelo — dois wirings independentes, sem overlap de arquivos)*
 
