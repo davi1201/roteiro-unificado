@@ -48,7 +48,7 @@ describe('ChangePasswordModal', () => {
       wrapper: makeWrapper(),
     })
     expect(screen.getByLabelText(/senha atual/i)).toBeDefined()
-    expect(screen.getByLabelText(/nova senha/i)).toBeDefined()
+    expect(screen.getByLabelText(/^nova senha$/i)).toBeDefined()
     expect(screen.getByLabelText(/confirmar nova senha/i)).toBeDefined()
   })
 
