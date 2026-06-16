@@ -6,12 +6,14 @@ import { MemberTable } from '@/components/admin/MemberTable'
 import { AddMemberModal } from '@/components/admin/AddMemberModal'
 import { ArchiveOrgDialog } from '@/components/admin/ArchiveOrgDialog'
 import { AssessmentSection } from '@/components/admin/AssessmentSection'
+import { ResetPasswordModal } from '@/components/admin/ResetPasswordModal'
 
 export function OrgDetail() {
   const { orgId } = useParams<{ orgId: string }>()
   const { org, members, isLoading } = useOrgDetail(orgId)
   const [isAddMemberOpen, setIsAddMemberOpen] = useState(false)
   const [isArchiveOpen, setIsArchiveOpen] = useState(false)
+  const [resetPasswordMemberId, setResetPasswordMemberId] = useState<string | null>(null)
 
   if (isLoading) {
     return (
@@ -76,7 +78,11 @@ export function OrgDetail() {
           </Button>
         </CardHeader>
         <CardContent>
-          <MemberTable members={members} isLoading={false} />
+          <MemberTable
+            members={members}
+            isLoading={false}
+            onResetPassword={(userId) => setResetPasswordMemberId(userId)}
+          />
         </CardContent>
       </Card>
 
@@ -97,6 +103,14 @@ export function OrgDetail() {
         orgName={org.name}
         onClose={() => setIsArchiveOpen(false)}
       />
+      {resetPasswordMemberId && (
+        <ResetPasswordModal
+          userId={resetPasswordMemberId}
+          memberEmail={members?.find((m) => m.user_id === resetPasswordMemberId)?.email}
+          open={!!resetPasswordMemberId}
+          onClose={() => setResetPasswordMemberId(null)}
+        />
+      )}
     </div>
   )
 }
