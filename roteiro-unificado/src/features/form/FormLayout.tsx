@@ -34,6 +34,7 @@ import { HabResponsaveisSection } from './sections/HabResponsaveisSection'
 import { HabClassificacaoSection } from './sections/HabClassificacaoSection'
 import { NdaSection } from './sections/NdaSection'
 import { ReadinessClassification } from './ReadinessClassification'
+import { ChangePasswordModal } from '@/features/form/ChangePasswordModal'
 
 /**
  * Renderiza o Section component correto para a aba ativa.
@@ -91,6 +92,9 @@ export function FormLayout() {
 
   // Estado local para controlar abertura do dialog de confirmação de submissão
   const [isSubmitOpen, setIsSubmitOpen] = useState(false)
+
+  // Estado local para controlar abertura do modal de alteração de senha (Fluxo B — company self-service)
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false)
 
   // Estado local de view: 'form' renderiza as seções do formulário; 'historico' renderiza HistoryContent
   // onSelectStep em TabNavigation usa setView('form') — abordagem com callback explícito é à prova de loop
@@ -193,7 +197,15 @@ export function FormLayout() {
             onSelectStep={() => setView('form')}
           />
         </div>
-        <div className="border-primary-800 mt-auto border-t p-3">
+        <div className="border-primary-800 mt-auto flex flex-col gap-2 border-t p-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="hover:bg-primary-800 w-full justify-start text-white"
+            onClick={() => setIsChangePasswordOpen(true)}
+          >
+            Alterar senha
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -313,6 +325,14 @@ export function FormLayout() {
           )}
         </main>
       </div>
+
+      {/* Modal de alteração de senha (Fluxo B — company self-service, per D-03) */}
+      {isChangePasswordOpen && (
+        <ChangePasswordModal
+          open={isChangePasswordOpen}
+          onClose={() => setIsChangePasswordOpen(false)}
+        />
+      )}
 
       {/* Dialog de confirmação de submissão (per UI-SPEC §Dialog de Confirmação) */}
       <Dialog open={isSubmitOpen} onClose={() => setIsSubmitOpen(false)}>

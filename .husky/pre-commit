@@ -1,1 +1,9 @@
+# Ensure node_modules are accessible in git worktrees (symlink to main checkout if needed)
+GIT_MAIN_DIR="$(git rev-parse --git-common-dir 2>/dev/null)"
+MAIN_CHECKOUT="$(dirname "$GIT_MAIN_DIR")"
+WORKTREE_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"
+if [ ! -d "$WORKTREE_ROOT/roteiro-unificado/node_modules" ] && [ -d "$MAIN_CHECKOUT/roteiro-unificado/node_modules" ]; then
+  ln -sf "$MAIN_CHECKOUT/roteiro-unificado/node_modules" "$WORKTREE_ROOT/roteiro-unificado/node_modules"
+fi
+export PATH="$MAIN_CHECKOUT/roteiro-unificado/node_modules/.bin:$PATH"
 cd roteiro-unificado && npx lint-staged
