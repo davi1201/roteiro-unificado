@@ -668,3 +668,127 @@ const { data, error } = await supabase.auth.updateUser({
 
 **Data da pesquisa:** 2026-06-16
 **Válido até:** 2026-07-16 (stack estável; mudanças na API Supabase são raras)
+
+---
+
+## Validation Architecture
+
+### Dimensões de Teste
+
+Esta fase produz dois fluxos distintos. Cada um tem comportamentos que precisam ser verificados de forma independente.
+
+**Fluxo Admin — Edge Function `reset-user-password`:**
+
+| Dimensão | Comportamento esperado | Tipo de verificação |
+|----------|----------------------|---------------------|
+| Happy path | Edge Function invocada com `userId` válido (role `company`) e senha >= 8 chars retorna `{ success: true }` e o usuário consegue logar com a nova senha | Smoke manual |
+| `userId` inválido | `userId` que não pertence à org retorna status 400/404 com mensagem de erro | Smoke manual (curl ou Supabase dashboard) |
+| Senha abaixo do mínimo | Senha com menos de 8 chars → Edge Function retorna 400 antes de chamar `updateUserById` | Unit (schema Zod) |
+| Chamada sem `service_role` | Tentativa de chamar `auth.admin.updateUserById` fora do contexto Deno com service_role falha por design — não é possível replicar esse erro via client anon | Confiança na arquitetura (não testável via RTL) |
+| Botão oculto para `admin` | Membro com `role === 'admin'` na tabela não exibe o botão "Redefinir senha" | Unit (RTL — `MemberTable`) |
+| Feedback visual de sucesso | Após mutation bem-sucedida, `toast.success` é chamado e o modal fecha | Unit (RTL — `ResetPasswordModal`) |
+| Feedback visual de erro | Após mutation falhar, `toast.error` é chamado e o modal permanece aberto | Unit (RTL — `ResetPasswordModal`) |
+
+**Fluxo Company — Self-service `supabase.auth.updateUser()`:**
+
+| Dimensão | Comportamento esperado | Tipo de verificação |
+|----------|----------------------|---------------------|
+| Happy path | Usuário preenche senha atual + nova + confirmação (correspondentes) → `updateUser` chamado → toast success → modal fecha | Smoke manual |
+| Senhas não coincidem | `confirmPassword !== newPassword` → erro inline no campo `confirmPassword` sem submeter | Unit (schema Zod + RTL — `ChangePasswordModal`) |
+| Nova senha abaixo do mínimo | `newPassword.length < 8` → erro inline no campo `newPassword` sem submeter | Unit (schema Zod) |
+| Senha atual incorreta (Opção B) | `signInWithPassword` com senha atual errada retorna erro → exibe "Senha atual incorreta" no campo `currentPassword` | Smoke manual |
+| Campo senha atual vazio | Erro de validação "Senha atual é obrigatória" sem submeter | Unit (schema Zod) |
+| Feedback visual de sucesso | Toast success + modal fecha após `updateUser` bem-sucedido | Unit (RTL — `ChangePasswordModal`) |
+
+---
+
+### Estratégia de Amostragem
+
+Nem todas as dimensões têm o mesmo custo/benefício. A tabela abaixo classifica a prioridade de cobertura:
+
+| Dimensão | Prioridade | Justificativa |
+|----------|------------|---------------|
+| Happy path — fluxo admin (reset + login com nova senha) | MUST — verificar | Comportamento central da feature; falha aqui invalida toda a fase |
+| Happy path — fluxo company (self-service + login com nova senha) | MUST — verificar | Segundo comportamento central; mesma justificativa |
+| Botão "Redefinir senha" oculto para `role === 'admin'` | ALTA — verificar | Fronteira de autorização visível; regressão silenciosa expõe risco de segurança |
+| Erro inline — senhas não coincidem (company) | MÉDIA — verificar | Validação Zod com `.refine()` tem edge case; vale confirmar que o erro aparece no campo correto (`confirmPassword`) |
+| Erro inline — senha abaixo de 8 chars (ambos os fluxos) | MÉDIA — coberto por unit | Schema Zod testa isso diretamente; RTL é redundante mas recomendado para o modal admin |
+| Edge Function retorna 400 para `userId` inválido | BAIXA — smoke opcional | Requer chamada real à Edge Function deployada; custo alto, risco baixo no piloto controlado |
+| Erro de rede / timeout na invocação da Edge Function | BAIXA — confiar no framework | `useMutation` + `onError` é padrão estabelecido; não adiciona valor testar falhas de rede simuladas |
+| Senha atual incorreta rejeita antes de `updateUser` (Opção B) | MÉDIA — smoke manual | Depende de decisão de implementação (Opção A vs B); se Opção B for escolhida, vale smoke manual |
+
+**Regra geral:** Happy paths e fronteiras de autorização exigem verificação ativa. Validações de input são cobertas por testes de schema unitários. Tratamento de erros de rede confia no padrão existente (`AddMemberModal` já testado implicitamente em fases anteriores).
+
+---
+
+### Comandos de Verificação
+
+**Infraestrutura da Edge Function:**
+
+```bash
+# Verificar que a função foi criada e está listada localmente
+ls roteiro-unificado/supabase/functions/reset-user-password/index.ts
+
+# Deploy da função (sem verificação de JWT pois o contexto de autenticação é do admin logado)
+cd roteiro-unificado && supabase functions deploy reset-user-password --no-verify-jwt
+
+# Confirmar que a função aparece no projeto remoto
+supabase functions list
+```
+
+**Testes automatizados (Vitest):**
+
+```bash
+# Schemas — rápido, sem dependências externas
+cd roteiro-unificado && npm test -- --run src/schemas/resetPassword.test.ts
+cd roteiro-unificado && npm test -- --run src/schemas/changePassword.test.ts
+
+# Componentes — RTL, sem dependências externas
+cd roteiro-unificado && npm test -- --run src/components/admin/MemberTable.test.tsx
+cd roteiro-unificado && npm test -- --run src/components/admin/ResetPasswordModal.test.tsx
+
+# Suite completa da fase
+cd roteiro-unificado && npm test -- --run
+```
+
+**Smoke tests manuais — Fluxo Admin:**
+
+1. Logar como admin no painel `/admin/org/:orgId`
+2. Verificar que membros com `role === 'company'` exibem o botão "Redefinir senha" na coluna Ações
+3. Verificar que membros com `role === 'admin'` NÃO exibem o botão
+4. Clicar em "Redefinir senha" para um membro company → modal abre
+5. Digitar nova senha (ex.: `NovaSenha123`) → clicar "Salvar"
+6. Verificar toast de sucesso e fechamento do modal
+7. Abrir aba anônima → logar com as credenciais do membro company usando a nova senha → deve autenticar com sucesso
+
+**Smoke tests manuais — Fluxo Company:**
+
+1. Logar como usuário company no FormLayout
+2. Verificar que o botão "Alterar senha" aparece no footer da sidebar
+3. Clicar no botão → modal abre com três campos
+4. Preencher senha atual incorreta → clicar "Salvar" → deve exibir erro "Senha atual incorreta" (se Opção B implementada)
+5. Preencher senha atual correta, nova senha e confirmação divergentes → deve exibir erro "As senhas não coincidem" inline
+6. Preencher todos os campos corretamente → clicar "Salvar" → toast de sucesso + modal fecha
+7. Fazer logout → logar com a nova senha → deve autenticar com sucesso
+
+---
+
+### Conjunto Nyquist Mínimo
+
+O conjunto mínimo de verificações que, se todas passarem, conferem confiança razoável de que a fase está correta:
+
+| # | Verificação | Método | Critério de Aceite |
+|---|-------------|--------|-------------------|
+| N-01 | Happy path admin — reset + login com nova senha | Smoke manual | Usuário company loga com nova senha após reset pelo admin |
+| N-02 | Happy path company — self-service + login com nova senha | Smoke manual | Usuário company loga com nova senha após alterar via modal |
+| N-03 | Botão "Redefinir senha" oculto para membros `admin` | Unit RTL (`MemberTable.test.tsx`) | Render com membro `role='admin'` → botão ausente no DOM |
+| N-04 | Erro inline quando senhas não coincidem (company) | Unit RTL (`ChangePasswordModal.test.tsx`) | Submit com `newPassword !== confirmPassword` → mensagem "As senhas não coincidem" visível no campo `confirmPassword` |
+| N-05 | Edge Function listada e deployada sem erros | CLI (`supabase functions list`) | `reset-user-password` aparece na listagem após deploy |
+
+**Interpretação do conjunto Nyquist:**
+- N-01 e N-02 cobrem os caminhos felizes de ambos os fluxos — se falharem, a feature não existe.
+- N-03 cobre a fronteira de autorização visível — se falhar, o risco de segurança mais obvio está exposto.
+- N-04 cobre a validação Zod com `.refine()` — o único ponto onde o schema desta fase diverge do padrão simples de `min()`.
+- N-05 confirma que a infraestrutura está deployada — sem isso, N-01 nunca pode passar em produção.
+
+Se os cinco passarem, a fase pode ser considerada funcionalmente correta para o piloto. Dimensões adicionais (erros de rede, `userId` inválido na Edge Function, verificação de senha atual incorreta) são melhorias de robustez, não pré-requisitos para entrega.
