@@ -7,6 +7,7 @@ import { AdminRoute } from '@/components/routing/AdminRoute'
 import { AdminLayout } from '@/components/layouts/AdminLayout'
 import { AdminDashboard } from '@/pages/admin/AdminDashboard'
 import { OrgDetail } from '@/pages/admin/OrgDetail'
+import { AssessmentView } from '@/pages/admin/AssessmentView'
 import { FormLayout } from '@/features/form/FormLayout'
 import { HistoryPage } from '@/features/form/HistoryPage'
 import { CompanyDashboard } from '@/features/form/CompanyDashboard'
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
         children: [
           { path: '/admin/dashboard', element: <AdminDashboard /> },
           { path: '/admin/orgs/:orgId', element: <OrgDetail /> },
+          {
+            path: '/admin/orgs/:orgId/assessments/:assessmentId',
+            element: <AssessmentView />,
+          },
         ],
       },
     ],

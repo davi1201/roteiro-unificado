@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/lib/supabase'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -143,14 +144,12 @@ export function AssessmentSection({ orgId }: AssessmentSectionProps) {
                     </div>
                   </div>
 
-                  {/* Botão exportação — reservado para Phase 10/11 */}
-                  <button
-                    disabled
-                    title="Em breve"
-                    className="shrink-0 rounded-md border border-gray-200 px-3 py-1.5 text-xs text-gray-400 disabled:pointer-events-none disabled:opacity-50"
+                  <Link
+                    to={`/admin/orgs/${orgId}/assessments/${row.id}`}
+                    className="shrink-0 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
                   >
-                    Exportar
-                  </button>
+                    Ver formulário
+                  </Link>
                 </div>
               </article>
             )
